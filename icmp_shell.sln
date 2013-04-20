@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.txt = readme.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "proto", "proto.cpp\proto.cpp.vcxproj", "{AEC4E684-C49F-4DEC-BF35-B2C14D0CAF73}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E537D5CE-7DD6-4C8C-9474-2C7F08B599A6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "linux_pipe", "linux_pipe\linux_pipe.vcxproj", "{F44BF18F-3AC7-4A3A-96E2-8901BB2E9B73}"
@@ -34,10 +32,6 @@ Global
 		{4117E0A1-D0F7-4353-9387-6FA4D8559F81}.Debug|Win32.Build.0 = Debug|Win32
 		{4117E0A1-D0F7-4353-9387-6FA4D8559F81}.Release|Win32.ActiveCfg = Release|Win32
 		{4117E0A1-D0F7-4353-9387-6FA4D8559F81}.Release|Win32.Build.0 = Release|Win32
-		{AEC4E684-C49F-4DEC-BF35-B2C14D0CAF73}.Debug|Win32.ActiveCfg = Debug|Win32
-		{AEC4E684-C49F-4DEC-BF35-B2C14D0CAF73}.Debug|Win32.Build.0 = Debug|Win32
-		{AEC4E684-C49F-4DEC-BF35-B2C14D0CAF73}.Release|Win32.ActiveCfg = Release|Win32
-		{AEC4E684-C49F-4DEC-BF35-B2C14D0CAF73}.Release|Win32.Build.0 = Release|Win32
 		{F44BF18F-3AC7-4A3A-96E2-8901BB2E9B73}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F44BF18F-3AC7-4A3A-96E2-8901BB2E9B73}.Debug|Win32.Build.0 = Debug|Win32
 		{F44BF18F-3AC7-4A3A-96E2-8901BB2E9B73}.Release|Win32.ActiveCfg = Release|Win32
