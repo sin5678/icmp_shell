@@ -2,5 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="ShellClient.cpp" />
+    <ClCompile Include="shelldlg.cpp" />
+    <ClCompile Include="Buffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shelldlg.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
   </ItemGroup>
 </Project>
