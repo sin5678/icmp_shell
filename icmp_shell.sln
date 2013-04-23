@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "recv_icmp", "recv_icmp\recv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sendicmp", "sendicmp\sendicmp.vcxproj", "{B968E1C5-8784-4F49-9EC0-914E494A1DE4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "des_test", "des_test\des_test.vcxproj", "{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -44,6 +46,10 @@ Global
 		{B968E1C5-8784-4F49-9EC0-914E494A1DE4}.Debug|Win32.Build.0 = Debug|Win32
 		{B968E1C5-8784-4F49-9EC0-914E494A1DE4}.Release|Win32.ActiveCfg = Release|Win32
 		{B968E1C5-8784-4F49-9EC0-914E494A1DE4}.Release|Win32.Build.0 = Release|Win32
+		{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC}.Debug|Win32.Build.0 = Debug|Win32
+		{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC}.Release|Win32.ActiveCfg = Release|Win32
+		{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{F44BF18F-3AC7-4A3A-96E2-8901BB2E9B73} = {E537D5CE-7DD6-4C8C-9474-2C7F08B599A6}
 		{96A37B6F-10C5-4337-919C-0224A8CD0D78} = {E537D5CE-7DD6-4C8C-9474-2C7F08B599A6}
 		{B968E1C5-8784-4F49-9EC0-914E494A1DE4} = {E537D5CE-7DD6-4C8C-9474-2C7F08B599A6}
+		{F08F8BE0-198D-4D38-AC3E-B885AE7A28AC} = {E537D5CE-7DD6-4C8C-9474-2C7F08B599A6}
 	EndGlobalSection
 EndGlobal

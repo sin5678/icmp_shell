@@ -1,16 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ShellClient.cpp" />
-    <ClCompile Include="shelldlg.cpp" />
-    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="..\zlib\adler32.c" />
+    <ClCompile Include="..\zlib\compress.c" />
+    <ClCompile Include="..\zlib\crc32.c" />
+    <ClCompile Include="..\zlib\deflate.c" />
+    <ClCompile Include="..\zlib\gzclose.c" />
+    <ClCompile Include="..\zlib\gzlib.c" />
+    <ClCompile Include="..\zlib\gzread.c" />
+    <ClCompile Include="..\zlib\gzwrite.c" />
+    <ClCompile Include="..\zlib\infback.c" />
+    <ClCompile Include="..\zlib\inffast.c" />
+    <ClCompile Include="..\zlib\inflate.c" />
+    <ClCompile Include="..\zlib\inftrees.c" />
+    <ClCompile Include="..\zlib\trees.c" />
+    <ClCompile Include="..\zlib\uncompr.c" />
+    <ClCompile Include="..\zlib\zutil.c" />
+    <ClCompile Include="ShellClient.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shelldlg.h" />
-    <ClInclude Include="Buffer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\zlib\crc32.h" />
+    <ClInclude Include="..\zlib\deflate.h" />
+    <ClInclude Include="..\zlib\gzguts.h" />
+    <ClInclude Include="..\zlib\inffast.h" />
+    <ClInclude Include="..\zlib\inffixed.h" />
+    <ClInclude Include="..\zlib\inflate.h" />
+    <ClInclude Include="..\zlib\inftrees.h" />
+    <ClInclude Include="..\zlib\trees.h" />
+    <ClInclude Include="..\zlib\zconf.h" />
+    <ClInclude Include="..\zlib\zlib.h" />
+    <ClInclude Include="..\zlib\zutil.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\zlib\ChangeLog" />
+    <None Include="..\zlib\configure" />
+    <None Include="..\zlib\FAQ" />
+    <None Include="..\zlib\INDEX" />
+    <None Include="..\zlib\make_vms.com" />
+    <None Include="..\zlib\Makefile" />
+    <None Include="..\zlib\Makefile.in" />
+    <None Include="..\zlib\README" />
+    <None Include="..\zlib\zconf.h.cmakein" />
+    <None Include="..\zlib\zconf.h.in" />
+    <None Include="..\zlib\zlib.3" />
+    <None Include="..\zlib\zlib.3.pdf" />
+    <None Include="..\zlib\zlib.map" />
+    <None Include="..\zlib\zlib.pc.cmakein" />
+    <None Include="..\zlib\zlib.pc.in" />
+    <None Include="..\zlib\zlib2ansi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\zlib\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\zlib\treebuild.xml" />
   </ItemGroup>
 </Project>
