@@ -1,0 +1,22 @@
+#!/bin/sh
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;
+find . -name '*.log'  -exec rm {} \;

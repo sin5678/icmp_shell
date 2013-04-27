@@ -8,7 +8,6 @@ echo ----------------------------------------------------
 del /F /Q /S *.aps *.idb *.ncp *.obj *.ipch  *.log *.pch *.sbr *.tmp *.pdb *.bsc  *.map *.ilk *.res *.ncb *.opt *.suo *.manifest *.dep *.tlog *.sdf  *.plg  *.unsuccessfulbuild  *.successfulbuild *.exp 
 
 rmdir /S /Q ipch
-
 rmdir /S /Q release
 rmdir /S /Q debug
 

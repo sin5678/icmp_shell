@@ -27,9 +27,11 @@ void SReplace(BYTE s_bit[8]);
 *     key 8个字节的加密或解密的密码。 
 *     type 是对数据进行加密还是解密 
 *         0 表示加密 1 表示解密 
+by: sincoder 函数成功 返回 输出缓冲区中的字节数
 */ 
-BOOL DesEnter(LPCBYTE in, LPBYTE out, int datalen, const BYTE key[8], BOOL type) 
+int DesEnter(LPCBYTE in, LPBYTE out, int datalen, const BYTE key[8], BOOL type) 
 { 
+    int output_len  = 0;
     //判断输入参数是否正确，失败的情况为： 
     //!in： in指针（输入缓冲）无效 
     //!out： out指针（输出缓冲）无效 
@@ -37,8 +39,7 @@ BOOL DesEnter(LPCBYTE in, LPBYTE out, int datalen, const BYTE key[8], BOOL type)
     //!key： 加/解密密码无效 
     //type && ((datalen % 8) !=0：选择解密方式但是输入密文不为8的倍数 
     if((!in) || (!out) || (datalen<1) || (!key) || (type && ((datalen % 8) !=0))) 
-        return FALSE; 
-
+        return 0; 
 
     if(type==0) //选择的模式是加密 
     { 
@@ -74,7 +75,8 @@ BOOL DesEnter(LPCBYTE in, LPBYTE out, int datalen, const BYTE key[8], BOOL type)
         for(i = 0; i < datalen; i += 8) 
             undes(in + i, key, out + i); 
     } 
-    return TRUE; 
+    output_len =  datalen / 8 * 8;
+    return output_len; 
 } 
 
 /* 

