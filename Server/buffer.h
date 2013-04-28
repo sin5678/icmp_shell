@@ -20,7 +20,10 @@ void   buffer_init(buffer_context *); //buffer 初始化
 void   buffer_clean(buffer_context *);
 ULONG  buffer_get_length(buffer_context *);
 ULONG  buffer_write(buffer_context *,LPBYTE ,ULONG);
-
+/*
+read from buffer retuen num of bytes read
+*/
+ULONG  buffer_read(buffer_context *,LPBYTE,ULONG);
 ULONG  buffer_get_memsize(buffer_context *);
 void   buffer_free(buffer_context *);
 LPBYTE buffer_getat(buffer_context *,ULONG );

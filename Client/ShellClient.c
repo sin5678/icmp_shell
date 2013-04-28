@@ -55,6 +55,7 @@ Copyright (C) 2013   sincoder
 #if _MSC_VER <= 1200
 void dbg_msg(char *fmt,...)
 {
+#ifdef _DEBUG
 	va_list args;
 	int n;
 	char TempBuf[8192];
@@ -62,6 +63,7 @@ void dbg_msg(char *fmt,...)
 	n = vsprintf(TempBuf, fmt, args);
 	printf("%s",TempBuf);
     va_end(args);
+#endif
 }
 #else  //使用宏来定义 
 #define dbg_msg(fmt,...) do{\
@@ -342,7 +344,7 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
 						memcpy(buff,pdata,nbytes);
 						buff[nbytes] = 0;
 						dbg_msg("recv %d bytes : %s \n",nbytes ,buff);
-						
+						printf("%s",buff);
 						//下面发送 回复 
 						//收到这个请求的时候 我们应该发送本地的数据  不管有木有 
 						lock_lock(&g_input_lock);
@@ -374,7 +376,7 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
 
 void Loop_recv_cmd()
 { 
-    static PSTR delims = " \t";
+    //static PSTR delims = " \n";
     char line[201];
     ULONG inputLength;
     PSTR command;
@@ -391,16 +393,16 @@ void Loop_recv_cmd()
         if (inputLength != 0)
             line[inputLength - 1] = 0;
 		
-        command = strtok(line, delims);
+        //command = strtok(line, delims);
 		
-        if (!command)
-        {
-            continue;
-        }
+        //if (!command)
+        //{
+        //    continue;
+        //}
         //send command 
 		//printf("%s\n",command);
         lock_lock(&g_input_lock);
-        strcat(g_input_buffer,command);
+        strcat(g_input_buffer,line);
         lock_unlock(&g_input_lock);
     }
 }
@@ -482,7 +484,7 @@ BOOL ping_remote_host(char *ip)
     if(INVALID_HANDLE_VALUE == hIcmp)
         return FALSE;
     request_buff[0] = TYPE_REQUEST;
-	strcpy(&request_buff[1],"sincoder");
+	//strcpy(&request_buff[1],"sincoder");
 	if(pf_IcmpSendEcho(hIcmp,inet_addr(ip),&request_buff[0],strlen(&request_buff[1]) + 1,NULL,replybuff,1024,3000))  //等待3s
     {
         PICMP_ECHO_REPLY pReply = (PICMP_ECHO_REPLY)replybuff;
