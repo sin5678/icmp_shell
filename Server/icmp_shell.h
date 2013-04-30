@@ -21,4 +21,6 @@
 #include <netinet/ip.h>
 #include <arpa/inet.h>
 
+#include <zlib.h>
+
 

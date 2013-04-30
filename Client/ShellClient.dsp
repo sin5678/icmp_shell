@@ -82,7 +82,111 @@ LINK32=link.exe
 # Name "ShellClient - Win32 Debug"
 # Begin Source File
 
+SOURCE=.\zlib\adler32.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\compress.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\crc32.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\crc32.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\deflate.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\deflate.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\gzclose.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\gzguts.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\gzlib.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\gzread.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\gzwrite.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\infback.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inffast.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inffast.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inffixed.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inflate.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inflate.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inftrees.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\inftrees.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\ShellClient.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\trees.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\trees.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\uncompr.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\zconf.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\zlib.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\zutil.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\zlib\zutil.h
 # End Source File
 # End Target
 # End Project

