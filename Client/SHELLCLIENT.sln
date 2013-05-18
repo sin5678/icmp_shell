@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "Server", "..\Server\Server.dsp", "{07B7F7C8-EC21-45BA-9971-6019DFC3D6EA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShellClient", "ShellClient.vcproj", "{12802A9E-A883-4429-B7C3-01A7EF8FCC7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12802A9E-A883-4429-B7C3-01A7EF8FCC7E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{12802A9E-A883-4429-B7C3-01A7EF8FCC7E}.Debug|Win32.Build.0 = Debug|Win32
+		{12802A9E-A883-4429-B7C3-01A7EF8FCC7E}.Release|Win32.ActiveCfg = Release|Win32
+		{12802A9E-A883-4429-B7C3-01A7EF8FCC7E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
